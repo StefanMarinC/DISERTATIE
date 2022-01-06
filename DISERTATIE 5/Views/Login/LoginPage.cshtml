@@ -1,0 +1,70 @@
+﻿@model DISERTATIE_5.Models.UserLogin
+
+@{
+    Layout = "";
+}
+
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>LoginPage</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body style="padding: 0 0 0 0; height:100%; margin:0 0 0 0 ">
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <div style="width:100%; height:100%">
+        @using (Html.BeginForm("LoginPage", "Login", FormMethod.Post, new { style = "height:100%; margin-bottom:0" }))
+        {
+            @Html.AntiForgeryToken()
+            <div style="height:100%">
+                <div style="font-size:xx-large; color:aliceblue; width:100%; text-align:center; height:16%; background-color:#9c301a; display:block; padding-top:4%">
+                    KOLLECTOR
+                </div>
+                <div class="form-horizontal" style="background-color:#3a3a3c; height:84%;">
+                    <div style="text-align:center; padding-bottom:20px; padding-top:20px">Login</div>
+                    <div style="display:flex; justify-content:center; width:100%">
+                        <div style="width:inherit">
+                            <div style="display:flex; flex-direction:column; justify-content:center; align-items:center">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group" style="margin-left:0; margin-right:0; padding-bottom:20px">
+                                    <div class="col-md-10" style="width:100%">
+                                        @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", placeholder = "Username", style = "width:300px" } })
+                                        @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger", @style = "color:white" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group" style="margin-left:0; margin-right:0; padding-bottom:20px">
+                                    <div class="col-md-10" style="width:100%">
+                                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = "Password", style = "width:300px" } })
+                                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger", @style = "color:white" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="text-align:center; padding:0 0 0 0; margin-right:0;">
+                                <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0; width:100%; margin-right:0;">
+                                    <input type="submit" value="Login" class="btn btn-primary" style="background-color:#9c301a" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if (@ViewBag.Message != null)
+                    {
+                        <div style="display:flex; justify-content:center">
+                            <div class="alert alert-warning" role="alert">
+                                @ViewBag.Message
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+    </div>
+</body>
+</html>

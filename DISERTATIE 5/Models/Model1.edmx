@@ -1,0 +1,360 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="12.1" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BANK_ACCOUNTS">
+          <Key>
+            <PropertyRef Name="BANK_ACCOUNT_ID" />
+          </Key>
+          <Property Name="BANK_ACCOUNT_ID" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="ACCOUNT" Type="varchar2" MaxLength="50" />
+          <Property Name="BANK_NAME" Type="varchar2" MaxLength="250" />
+          <Property Name="BANK_CODE" Type="varchar2" MaxLength="15" />
+          <Property Name="DESCRIPTION" Type="varchar2" MaxLength="300" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="date" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="LAST_UPDATE_DATE" Type="date" />
+          <Property Name="CURRENCY" Type="varchar2" MaxLength="5" />
+        </EntityType>
+        <EntityType Name="CASES">
+          <Key>
+            <PropertyRef Name="CASE_ID" />
+          </Key>
+          <Property Name="CASE_ID" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="CLIENT_ID" Type="number" Precision="13" Scale="0" />
+          <Property Name="BATCH_NUMBER" Type="number" Precision="38" Scale="0" />
+          <Property Name="BATCH_CODE" Type="varchar2" MaxLength="50" />
+          <Property Name="CUSTOMER_ID" Type="varchar2" MaxLength="50" />
+          <Property Name="ZONE" Type="varchar2" MaxLength="1" />
+          <Property Name="OWNER" Type="number" Precision="38" Scale="0" />
+          <Property Name="STATUS_PA" Type="varchar2" MaxLength="2" />
+          <Property Name="NR_PA_MADE" Type="number" Precision="13" Scale="0" />
+          <Property Name="NR_PA_KEPT" Type="number" Precision="13" Scale="0" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="date" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar2" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CLIENTS">
+          <Key>
+            <PropertyRef Name="CLIENT_ID" />
+          </Key>
+          <Property Name="CLIENT_ID" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="CUI" Type="varchar2" MaxLength="50" />
+          <Property Name="ADDRESS" Type="varchar2" MaxLength="300" />
+          <Property Name="EMAIL" Type="varchar2" MaxLength="50" />
+          <Property Name="CONTRACT_NUMBER" Type="varchar2" MaxLength="50" />
+          <Property Name="CONTRACT_DATE" Type="date" />
+          <Property Name="MAX_PA_PERIOD" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="date" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="LAST_UPDATE_DATE" Type="date" />
+          <Property Name="BANK_ACCOUNT_ID" Type="number" Precision="13" Scale="0" />
+          <Property Name="PA_AFTER_DAYS" Type="number" Precision="38" Scale="0" />
+          <Property Name="ZIP_CODE" Type="varchar2" MaxLength="50" />
+          <Property Name="CITY" Type="varchar2" MaxLength="50" />
+          <Property Name="COUNTRY" Type="varchar2" MaxLength="50" />
+          <Property Name="PHONE" Type="varchar2" MaxLength="50" />
+          <Property Name="MAX_COUNT_OF_INST" Type="number" Precision="38" Scale="0" />
+          <Property Name="MIN_COUNT_OF_INST" Type="number" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="SEC_USERS">
+          <Key>
+            <PropertyRef Name="SEC_USER_ID" />
+          </Key>
+          <Property Name="SEC_USER_ID" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="USERNAME" Type="varchar2" MaxLength="50" />
+          <Property Name="FULL_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="SEC_PASSWORD" Type="varchar2" MaxLength="50" />
+          <Property Name="ACTIVE" Type="number" Precision="38" Scale="0" />
+          <Property Name="ISADMIN" Type="number" Precision="38" Scale="0" />
+          <Property Name="START_ACTIVE_DATE" Type="date" />
+          <Property Name="END_ACTIVE_DATE" Type="date" />
+          <Property Name="PASSWORD_EXPIRATION_DATE" Type="date" />
+          <Property Name="BLOCKED" Type="number" Precision="38" Scale="0" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="date" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="LAST_UPDATE_DATE" Type="date" />
+          <Property Name="FAILED_ATTEMPTS" Type="number" Precision="38" Scale="0" />
+        </EntityType>
+        <Association Name="CE_CLIENT_FK">
+          <End Role="CLIENTS" Type="Self.CLIENTS" Multiplicity="0..1" />
+          <End Role="CASES" Type="Self.CASES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENTS">
+              <PropertyRef Name="CLIENT_ID" />
+            </Principal>
+            <Dependent Role="CASES">
+              <PropertyRef Name="CLIENT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CLIENTS_CLIENT_BANK_ACC_FK">
+          <End Role="BANK_ACCOUNTS" Type="Self.BANK_ACCOUNTS" Multiplicity="0..1" />
+          <End Role="CLIENTS" Type="Self.CLIENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BANK_ACCOUNTS">
+              <PropertyRef Name="BANK_ACCOUNT_ID" />
+            </Principal>
+            <Dependent Role="CLIENTS">
+              <PropertyRef Name="BANK_ACCOUNT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="BANK_ACCOUNTS" EntityType="Self.BANK_ACCOUNTS" Schema="C##STEFAN" store:Type="Tables" />
+          <EntitySet Name="CASES" EntityType="Self.CASES" Schema="C##STEFAN" store:Type="Tables" />
+          <EntitySet Name="CLIENTS" EntityType="Self.CLIENTS" Schema="C##STEFAN" store:Type="Tables" />
+          <EntitySet Name="SEC_USERS" EntityType="Self.SEC_USERS" Schema="C##STEFAN" store:Type="Tables" />
+          <AssociationSet Name="CE_CLIENT_FK" Association="Self.CE_CLIENT_FK">
+            <End Role="CLIENTS" EntitySet="CLIENTS" />
+            <End Role="CASES" EntitySet="CASES" />
+          </AssociationSet>
+          <AssociationSet Name="CLIENTS_CLIENT_BANK_ACC_FK" Association="Self.CLIENTS_CLIENT_BANK_ACC_FK">
+            <End Role="BANK_ACCOUNTS" EntitySet="BANK_ACCOUNTS" />
+            <End Role="CLIENTS" EntitySet="CLIENTS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BANK_ACCOUNTS">
+          <Key>
+            <PropertyRef Name="BANK_ACCOUNT_ID" />
+          </Key>
+          <Property Name="BANK_ACCOUNT_ID" Type="Int64" Nullable="false" />
+          <Property Name="ACCOUNT" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BANK_NAME" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="BANK_CODE" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CREATION_DATE" Type="DateTime" />
+          <Property Name="LAST_UPDATED_BY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_UPDATE_DATE" Type="DateTime" />
+          <Property Name="CURRENCY" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CLIENTS" Relationship="Self.CLIENTS_CLIENT_BANK_ACC_FK" FromRole="BANK_ACCOUNTS" ToRole="CLIENTS" />
+        </EntityType>
+        <EntityType Name="CASES">
+          <Key>
+            <PropertyRef Name="CASE_ID" />
+          </Key>
+          <Property Name="CASE_ID" Type="Int64" Nullable="false" />
+          <Property Name="CLIENT_ID" Type="Int64" />
+          <Property Name="BATCH_NUMBER" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="BATCH_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CUSTOMER_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ZONE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="OWNER" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="STATUS_PA" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="NR_PA_MADE" Type="Int64" />
+          <Property Name="NR_PA_KEPT" Type="Int64" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CREATION_DATE" Type="DateTime" />
+          <Property Name="LAST_UPDATED_BY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CLIENTS" Relationship="Self.CE_CLIENT_FK" FromRole="CASES" ToRole="CLIENTS" />
+        </EntityType>
+        <EntityType Name="CLIENTS">
+          <Key>
+            <PropertyRef Name="CLIENT_ID" />
+          </Key>
+          <Property Name="CLIENT_ID" Type="Int64" Nullable="false" />
+          <Property Name="NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CUI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ADDRESS" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="EMAIL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CONTRACT_NUMBER" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CONTRACT_DATE" Type="DateTime" />
+          <Property Name="MAX_PA_PERIOD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CREATION_DATE" Type="DateTime" />
+          <Property Name="LAST_UPDATED_BY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_UPDATE_DATE" Type="DateTime" />
+          <Property Name="BANK_ACCOUNT_ID" Type="Int64" />
+          <Property Name="PA_AFTER_DAYS" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="ZIP_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CITY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="COUNTRY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PHONE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MAX_COUNT_OF_INST" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="MIN_COUNT_OF_INST" Type="Decimal" Precision="38" Scale="0" />
+          <NavigationProperty Name="BANK_ACCOUNTS" Relationship="Self.CLIENTS_CLIENT_BANK_ACC_FK" FromRole="CLIENTS" ToRole="BANK_ACCOUNTS" />
+          <NavigationProperty Name="CASES" Relationship="Self.CE_CLIENT_FK" FromRole="CLIENTS" ToRole="CASES" />
+        </EntityType>
+        <EntityType Name="SEC_USERS">
+          <Key>
+            <PropertyRef Name="SEC_USER_ID" />
+          </Key>
+          <Property Name="SEC_USER_ID" Type="Decimal" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="USERNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FULL_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SEC_PASSWORD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ACTIVE" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="ISADMIN" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="START_ACTIVE_DATE" Type="DateTime" />
+          <Property Name="END_ACTIVE_DATE" Type="DateTime" />
+          <Property Name="PASSWORD_EXPIRATION_DATE" Type="DateTime" />
+          <Property Name="BLOCKED" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CREATION_DATE" Type="DateTime" />
+          <Property Name="LAST_UPDATED_BY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_UPDATE_DATE" Type="DateTime" />
+          <Property Name="FAILED_ATTEMPTS" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <Association Name="CLIENTS_CLIENT_BANK_ACC_FK">
+          <End Role="BANK_ACCOUNTS" Type="Self.BANK_ACCOUNTS" Multiplicity="0..1" />
+          <End Role="CLIENTS" Type="Self.CLIENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BANK_ACCOUNTS">
+              <PropertyRef Name="BANK_ACCOUNT_ID" />
+            </Principal>
+            <Dependent Role="CLIENTS">
+              <PropertyRef Name="BANK_ACCOUNT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CE_CLIENT_FK">
+          <End Role="CLIENTS" Type="Self.CLIENTS" Multiplicity="0..1" />
+          <End Role="CASES" Type="Self.CASES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENTS">
+              <PropertyRef Name="CLIENT_ID" />
+            </Principal>
+            <Dependent Role="CASES">
+              <PropertyRef Name="CLIENT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BANK_ACCOUNTS" EntityType="Self.BANK_ACCOUNTS" />
+          <EntitySet Name="CASES" EntityType="Self.CASES" />
+          <EntitySet Name="CLIENTS" EntityType="Self.CLIENTS" />
+          <EntitySet Name="SEC_USERS" EntityType="Self.SEC_USERS" />
+          <AssociationSet Name="CLIENTS_CLIENT_BANK_ACC_FK" Association="Self.CLIENTS_CLIENT_BANK_ACC_FK">
+            <End Role="BANK_ACCOUNTS" EntitySet="BANK_ACCOUNTS" />
+            <End Role="CLIENTS" EntitySet="CLIENTS" />
+          </AssociationSet>
+          <AssociationSet Name="CE_CLIENT_FK" Association="Self.CE_CLIENT_FK">
+            <End Role="CLIENTS" EntitySet="CLIENTS" />
+            <End Role="CASES" EntitySet="CASES" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="BANK_ACCOUNTS">
+            <EntityTypeMapping TypeName="Model.BANK_ACCOUNTS">
+              <MappingFragment StoreEntitySet="BANK_ACCOUNTS">
+                <ScalarProperty Name="BANK_ACCOUNT_ID" ColumnName="BANK_ACCOUNT_ID" />
+                <ScalarProperty Name="ACCOUNT" ColumnName="ACCOUNT" />
+                <ScalarProperty Name="BANK_NAME" ColumnName="BANK_NAME" />
+                <ScalarProperty Name="BANK_CODE" ColumnName="BANK_CODE" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CREATION_DATE" ColumnName="CREATION_DATE" />
+                <ScalarProperty Name="LAST_UPDATED_BY" ColumnName="LAST_UPDATED_BY" />
+                <ScalarProperty Name="LAST_UPDATE_DATE" ColumnName="LAST_UPDATE_DATE" />
+                <ScalarProperty Name="CURRENCY" ColumnName="CURRENCY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CASES">
+            <EntityTypeMapping TypeName="Model.CASES">
+              <MappingFragment StoreEntitySet="CASES">
+                <ScalarProperty Name="CASE_ID" ColumnName="CASE_ID" />
+                <ScalarProperty Name="CLIENT_ID" ColumnName="CLIENT_ID" />
+                <ScalarProperty Name="BATCH_NUMBER" ColumnName="BATCH_NUMBER" />
+                <ScalarProperty Name="BATCH_CODE" ColumnName="BATCH_CODE" />
+                <ScalarProperty Name="CUSTOMER_ID" ColumnName="CUSTOMER_ID" />
+                <ScalarProperty Name="ZONE" ColumnName="ZONE" />
+                <ScalarProperty Name="OWNER" ColumnName="OWNER" />
+                <ScalarProperty Name="STATUS_PA" ColumnName="STATUS_PA" />
+                <ScalarProperty Name="NR_PA_MADE" ColumnName="NR_PA_MADE" />
+                <ScalarProperty Name="NR_PA_KEPT" ColumnName="NR_PA_KEPT" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CREATION_DATE" ColumnName="CREATION_DATE" />
+                <ScalarProperty Name="LAST_UPDATED_BY" ColumnName="LAST_UPDATED_BY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CLIENTS">
+            <EntityTypeMapping TypeName="Model.CLIENTS">
+              <MappingFragment StoreEntitySet="CLIENTS">
+                <ScalarProperty Name="CLIENT_ID" ColumnName="CLIENT_ID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="CUI" ColumnName="CUI" />
+                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="CONTRACT_NUMBER" ColumnName="CONTRACT_NUMBER" />
+                <ScalarProperty Name="CONTRACT_DATE" ColumnName="CONTRACT_DATE" />
+                <ScalarProperty Name="MAX_PA_PERIOD" ColumnName="MAX_PA_PERIOD" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CREATION_DATE" ColumnName="CREATION_DATE" />
+                <ScalarProperty Name="LAST_UPDATED_BY" ColumnName="LAST_UPDATED_BY" />
+                <ScalarProperty Name="LAST_UPDATE_DATE" ColumnName="LAST_UPDATE_DATE" />
+                <ScalarProperty Name="BANK_ACCOUNT_ID" ColumnName="BANK_ACCOUNT_ID" />
+                <ScalarProperty Name="PA_AFTER_DAYS" ColumnName="PA_AFTER_DAYS" />
+                <ScalarProperty Name="ZIP_CODE" ColumnName="ZIP_CODE" />
+                <ScalarProperty Name="CITY" ColumnName="CITY" />
+                <ScalarProperty Name="COUNTRY" ColumnName="COUNTRY" />
+                <ScalarProperty Name="PHONE" ColumnName="PHONE" />
+                <ScalarProperty Name="MAX_COUNT_OF_INST" ColumnName="MAX_COUNT_OF_INST" />
+                <ScalarProperty Name="MIN_COUNT_OF_INST" ColumnName="MIN_COUNT_OF_INST" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SEC_USERS">
+            <EntityTypeMapping TypeName="Model.SEC_USERS">
+              <MappingFragment StoreEntitySet="SEC_USERS">
+                <ScalarProperty Name="SEC_USER_ID" ColumnName="SEC_USER_ID" />
+                <ScalarProperty Name="USERNAME" ColumnName="USERNAME" />
+                <ScalarProperty Name="FULL_NAME" ColumnName="FULL_NAME" />
+                <ScalarProperty Name="SEC_PASSWORD" ColumnName="SEC_PASSWORD" />
+                <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+                <ScalarProperty Name="ISADMIN" ColumnName="ISADMIN" />
+                <ScalarProperty Name="START_ACTIVE_DATE" ColumnName="START_ACTIVE_DATE" />
+                <ScalarProperty Name="END_ACTIVE_DATE" ColumnName="END_ACTIVE_DATE" />
+                <ScalarProperty Name="PASSWORD_EXPIRATION_DATE" ColumnName="PASSWORD_EXPIRATION_DATE" />
+                <ScalarProperty Name="BLOCKED" ColumnName="BLOCKED" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CREATION_DATE" ColumnName="CREATION_DATE" />
+                <ScalarProperty Name="LAST_UPDATED_BY" ColumnName="LAST_UPDATED_BY" />
+                <ScalarProperty Name="LAST_UPDATE_DATE" ColumnName="LAST_UPDATE_DATE" />
+                <ScalarProperty Name="FAILED_ATTEMPTS" ColumnName="FAILED_ATTEMPTS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,156 @@
+﻿@model IEnumerable<DISERTATIE_5.Models.AdminClients>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AdminClients</title>
+</head>
+<body>
+    <div>
+        <dl class="dl-horizontal">
+            @foreach (var client in Model)
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.CLIENT_ID)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => client.CLIENT_ID)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.NAME)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => client.NAME)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CUI)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => client.CUI)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ADDRESS)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => client.ADDRESS)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.EMAIL)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => client.EMAIL)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CONTRACT_NUMBER)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => client.CONTRACT_NUMBER)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CONTRACT_DATE)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => client.CONTRACT_DATE)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.MAX_PA_PERIOD)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => client.MAX_PA_PERIOD)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.BANK_ACCOUNT_ID)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => client.BANK_ACCOUNT_ID)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.PA_AFTER_DAYS)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => client.PA_AFTER_DAYS)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ZIP_CODE)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => client.ZIP_CODE)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CITY)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => client.CITY)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.COUNTRY)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => client.COUNTRY)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.PHONE)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => client.PHONE)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.MAX_COUNT_OF_INST)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => client.MAX_COUNT_OF_INST)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.MIN_COUNT_OF_INST)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => client.MIN_COUNT_OF_INST)
+                </dd>
+
+            }
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

@@ -1,0 +1,169 @@
+﻿@using DISERTATIE_5.Models
+@model IEnumerable<UserSecurity>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Users</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body style="padding: 0 0 0 0; background-color:#3a3a3c">
+
+    <div style="background-color:#9c301a; height:75px">
+        <div style="display:flex; padding-left:20px;">
+            <img src="~/Resources/Logo.png" style="height:75px; width:180px; cursor:pointer" onclick="@("window.location.href='" + @Url.Action("Home", "Home") + "'")" />
+            <div style="width:75%; text-align:center; height:75px">
+                <div style="font-size:large; font-family:Arial sans-serif; font-weight:bold; color:white; padding-top:20px">
+                    SECURITY
+                </div>
+            </div>
+            <div style="width:220px; height:75px; display:flex; justify-content:space-around">
+                <div style="font-size:large; font-family:Arial sans-serif; color:white; padding-top:20px;">
+                    @Session["Username"].ToString()
+                </div>
+                <div class="form-group" style="text-align:center; padding:20px 0 0 0">
+                    <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
+                        <input value="Logout" class="btn btn-primary" style="background-color:lightslategray; border-color:lightslategray; width:100px" onclick="@("window.location.href='" + @Url.Action("Logout", "Login") + "'")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        @using (Html.BeginForm("Users", "Security", FormMethod.Post))
+        {
+            <div style="display:flex; justify-content:center!important; padding-top:20px; padding-left:20px">
+                <div class="form-group col-sm-3">
+                    <label class="badge">
+                        Search by name
+                    </label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <em aria-hidden="true" class="fa fa-search">
+                                </em>
+                            </span>
+                        </div>
+                        <input type="text" id="searchName" class="form-control" placeholder="Type to search..." name="name" />
+                    </div>
+                </div>
+                <div class="form-group col-sm-3">
+                    <label class="badge">
+                        Search by username
+                    </label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <em aria-hidden="true" class="fa fa-search">
+                                </em>
+                            </span>
+                        </div>
+                        <input type="text" id="searchUsername" class="form-control" placeholder="Type to search..." name="username" />
+                    </div>
+                </div>
+                <div style="padding-top:22px; margin-right:20%">
+                    <div class="form-group" style="text-align:center; padding:0 0 0 0; margin-right:0;">
+                        <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0; width:100%; margin-right:0;">
+                            <button class="btn btn-primary" style="background-color:#9c301a; width:100px" id="search" type="submit">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding-top:22px">
+                    <div class="form-group" style="text-align:center; padding:0 0 0 0; margin-right:0;">
+                        <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0; width:100%; margin-right:0;">
+                            <input class="btn btn-primary" style="background-color:#9c301a; width:100px" value="Add user" onclick="@("window.location.href='" + @Url.Action("AddUser", "Security") + "'")">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+    <div style="padding: 20px 20px 20px 20px; overflow:auto;">
+        <div style="background-color:white">
+            <table style="padding:10px 10px 10px 10px; width:100%; border-collapse:collapse;">
+                <thead style="background-color:burlywood; height:30px">
+                    <tr>
+                        <th style="padding-left:5px">
+                            User ID
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Username
+                        </th>
+                        <th style="text-align:center">
+                            Admin
+                        </th>
+                        <th style="text-align: center">
+                            Active
+                        </th>
+                        <th style="text-align: center">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr class="tr_users">
+                            <td style="padding-left:5px">
+                                @user.SEC_USER_ID
+                            </td>
+                            <td>
+                                @user.FULL_NAME
+                            </td>
+                            <td>
+                                @user.USERNAME
+                            </td>
+                            <td style="text-align:center!important">
+                                @if (user.ISADMIN == 1)
+                                {
+                                    <img src="~/Resources/Yes.png" style="width:25px; height:25px" />
+                                }
+                                else
+                                {
+                                    <img src="~/Resources/No.png" style="width:25px; height:25px" />
+                                }
+                            </td>
+                            <td style="text-align:center!important">
+                                @if (user.ACTIVE == 1)
+                                {
+                                    <img src="~/Resources/Yes.png" style="width:25px; height:25px" />
+                                }
+                                else
+                                {
+                                    <img src="~/Resources/No.png" style="width:25px; height:25px" />
+                                }
+                            </td>
+                            <td style="text-align:center!important">
+                                @if (user.BLOCKED == 1)
+                                {
+                                    <img src="~/Resources/Lock.png" style="width:25px; height:25px; cursor:pointer" onclick="@("window.location.href='" + @Url.Action("ChangeBlockedUser", "Security", new { block = 0, sec_user_id = user.SEC_USER_ID }) + "'");" />
+                                }
+                                else
+                                {
+                                    <img src="~/Resources/Unlock.png" style="width:25px; height:25px; cursor:pointer" onclick="@("window.location.href='" + @Url.Action("ChangeBlockedUser", "Security", new { block = 1, sec_user_id = user.SEC_USER_ID }) + "'");" />
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>

@@ -1,0 +1,81 @@
+﻿@{
+    Layout = "";
+}
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body style="background-color:#3a3a3c; height:100%">
+    <div style="height:100px">
+        <div style="display:flex; justify-content:flex-end">
+            <div class="form-group" style="text-align:center; padding:0 0 0 0">
+                <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0; width:100%">
+                    <input value="Logout" class="btn btn-primary" style="background-color:#9c301a; width:100px" onclick="@("window.location.href='" + @Url.Action("Logout", "Login") + "'")" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display:flex; justify-content:center!important; padding-left:100px; padding-right:100px; flex-wrap:wrap">
+        @switch (Session["IsAdmin"])
+        {
+            case null:
+                break;
+            case 1:
+                Session["IsAdmin"] = null;
+                break;
+            case 0:
+                <div class="modal" tabindex="-1" role="dialog" style="display:block" id="modal">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title">Access denied!</h3>
+                            </div>
+                            <div class="modal-body">
+                                <h4>You are not allowed to access this module!</h4>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="buttonclose" style="background-color:#9c301a; color:white">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                Session["IsAdmin"] = null;
+                break;
+            default:
+                break;
+        }
+        <div class="applications">
+            <img src="~/Resources/Cases Logo.png" style="width:150px; height:auto" />
+            <div style="text-align:center; padding-top:20px; font-size:large; color:#9c301a">CASES</div>
+        </div>
+        <div class="applications" onclick="@("window.location.href='" + @Url.Action("AdminClients", "Admin") + "'");">
+            <img src="~/Resources/Admin Logo.png" style=" width: 150px; height: auto;" />
+            <div style="text-align:center; padding-top:20px; font-size:large; color:#9c301a">ADMIN</div>
+        </div>
+        <div class="applications" onclick="@("window.location.href='" + @Url.Action("Users", "Security") + "'");">
+            <img src="~/Resources/Security Logo.png" style=" width: 150px; height: auto;" />
+            <div style="text-align:center; padding-top:20px; font-size:large; color:#9c301a">SECURITY</div>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>
+<script>
+    var modal = document.getElementById("modal");
+    var btn = document.getElementById("buttonclose");
+
+    btn.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
