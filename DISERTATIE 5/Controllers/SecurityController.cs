@@ -31,7 +31,7 @@ namespace DISERTATIE_5.Controllers
                 conn = new OracleConnection();
                 conn.ConnectionString = tns;
                 conn.Open();
-                statement = "SELECT ISADMIN FROM SEC_USERS WHERE USERNAME = '" + Session["Username"].ToString() + "'";
+                statement = "SELECT ISADMIN FROM ADMIN_SEC_USERS_V WHERE USERNAME = '" + Session["Username"].ToString() + "'";
                 sql = new OracleCommand(statement, conn);
                 Decimal result = (decimal)sql.ExecuteScalar();
                 conn.Close();
@@ -43,7 +43,7 @@ namespace DISERTATIE_5.Controllers
                 }
                 Session["IsAdmin"] = 1;
             }
-            statement = "SELECT SEC_USER_ID, USERNAME, FULL_NAME, ISADMIN, ACTIVE, BLOCKED FROM SEC_USERS";
+            statement = "SELECT * FROM ADMIN_SEC_USERS_V";
             sql = new OracleCommand(statement, conn);
             List<UserSecurity> usersList = new List<UserSecurity>();
             conn.Open();
@@ -100,7 +100,7 @@ namespace DISERTATIE_5.Controllers
             string tns = Utils.TNS.tns;
             OracleConnection conn = new OracleConnection();
             conn.ConnectionString = tns;
-            string statement = "SELECT SEC_USER_ID, USERNAME, FULL_NAME, ISADMIN, ACTIVE, BLOCKED FROM SEC_USERS WHERE ";
+            string statement = "SELECT * FROM ADMIN_SEC_USERS_V WHERE ";
             if (name != "" && username == "")
             {
                 statement += " NAME LIKE '%" + name + "%'";

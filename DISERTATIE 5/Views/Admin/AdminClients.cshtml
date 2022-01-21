@@ -9,148 +9,116 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>AdminClients</title>
+    <title>Users</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
 </head>
-<body>
-    <div>
-        <dl class="dl-horizontal">
+<body style="padding: 0 0 0 0; background-color:#3a3a3c">
+
+    <div style="background-color:#9c301a; height:75px">
+        <div style="display:flex; padding-left:20px;">
+            <img src="~/Resources/Logo.png" style="height:75px; width:180px; cursor:pointer" onclick="@("window.location.href='" + @Url.Action("Home", "Home") + "'")" />
+            <div style="width:75%; text-align:center; height:75px">
+                <div style="font-size:large; font-family:Arial sans-serif; font-weight:bold; color:white; padding-top:20px">
+                    ADMIN
+                </div>
+            </div>
+            <div style="width:220px; height:75px; display:flex; justify-content:space-around">
+                <div style="font-size:large; font-family:Arial sans-serif; color:white; padding-top:20px;">
+                    @Session["Username"].ToString()
+                </div>
+                <div class="form-group" style="text-align:center; padding:20px 0 0 0">
+                    <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
+                        <input value="Logout" class="btn btn-primary" style="background-color:lightslategray; border-color:lightslategray; width:100px" onclick="@("window.location.href='" + @Url.Action("Logout", "Login") + "'")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display:flex; justify-content:space-around; margin-top:20px; width:100%">
+        <div style="width:15%;  margin-left:10px; display:flex; flex-direction:column !important; flex-wrap:wrap; -webkit-text-size-adjust: 100%">
+            <div style="color:white; padding: 5px 0 5px 0; border: 1px solid white; padding-left:10px; cursor:pointer; background-color:#a0341c">
+                Clients
+            </div>
+            <div style="color:white; padding: 5px 0 5px 0; border: 1px solid white; padding-left:10px; cursor:pointer; background-color:#605c5c;">
+                Bank accounts
+            </div>
+        </div>
+        <div style="background-color: white; width:35%; margin-left:10px">
+            <div style="display:flex; justify-content:space-evenly; padding:10px 10px 10px 10px; border-bottom:2px solid black; background-color:antiquewhite">
+                <div style="font-size:x-large">
+                    Clients (@Model.LongCount())
+                </div>
+                <button style="background-color :#a0341c; color:white;" onclick="">
+                    Add
+                </button>
+            </div>
+
             @foreach (var client in Model)
             {
-                <dt>
-                    @Html.DisplayNameFor(model => model.CLIENT_ID)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => client.CLIENT_ID)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.NAME)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => client.NAME)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.CUI)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => client.CUI)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.ADDRESS)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => client.ADDRESS)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.EMAIL)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => client.EMAIL)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.CONTRACT_NUMBER)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => client.CONTRACT_NUMBER)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.CONTRACT_DATE)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => client.CONTRACT_DATE)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.MAX_PA_PERIOD)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => client.MAX_PA_PERIOD)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.BANK_ACCOUNT_ID)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => client.BANK_ACCOUNT_ID)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.PA_AFTER_DAYS)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => client.PA_AFTER_DAYS)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.ZIP_CODE)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => client.ZIP_CODE)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.CITY)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => client.CITY)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.COUNTRY)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => client.COUNTRY)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.PHONE)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => client.PHONE)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.MAX_COUNT_OF_INST)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => client.MAX_COUNT_OF_INST)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.MIN_COUNT_OF_INST)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => client.MIN_COUNT_OF_INST)
-                </dd>
+                <div style="display:flex; justify-content:space-around; border-bottom:2px solid black; background-color:white" id="client">
+                    <div style="padding: 10px 0 10px 20px;">
+                        NAME: @client.NAME
+                    </div>
+                    <div style="padding-top:5px">
+                        <button style="background-color :#a0341c; color:white;" onclick="@("window.location.href='" + @Url.Action("AdminClientsDetails", "Admin", new { client_id = client.CLIENT_ID }) + "'");">
+                            Details
+                        </button>
+                        <button style="background-color :#a0341c; color:white;">
+                            Delete
+                        </button>
+                    </div>
+                </div>
 
             }
 
-        </dl>
+            @{
+                var show = "";
+                if ((int)Session["Admin_client_id"] > 0)
+                {
+                    show = "display:flex;";
+                }
+                else
+                {
+                    show = "display:none;";
+                }
+            }
+
+        </div>
+        <div id="client_info" style="@show; background-color:white; margin-left:20px; width:45%">
+            @foreach (var client in Model)
+            {
+                if (client.CLIENT_ID == (int)Session["Admin_client_id"])
+                {
+                    <div style="display:flex; justify-content:space-around; border-bottom:2px solid black; background-color:white" id="client">
+                        <div style="padding: 10px 0 10px 20px;">
+                            NAME: @client.NAME
+                        </div>
+                        <div style="padding: 10px 0 10px 20px;">
+                            NAME: @client.CLIENT_ID
+                        </div>
+                        <div style="padding: 10px 0 10px 20px;">
+                            NAME: @client.BANK_ACCOUNT_ID
+                        </div>
+                        <div style="padding: 10px 0 10px 20px;">
+                            NAME: @client.CITY
+                        </div>
+                        <div style="padding: 10px 0 10px 20px;">
+                            NAME: @client.CONTRACT_DATE
+                        </div>
+                        <div style="padding: 10px 0 10px 20px;">
+                            NAME: @client.COUNTRY
+                        </div>
+                        <div style="padding: 10px 0 10px 20px;">
+                            NAME: @client.EMAIL
+                        </div>
+                    </div>
+                }
+            }
+        </div>
     </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
 </body>
 </html>

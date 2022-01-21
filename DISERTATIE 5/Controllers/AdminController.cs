@@ -12,17 +12,21 @@ namespace DISERTATIE_5.Controllers
     public class AdminController : Controller
     {
         // GET: Admin
+        [HttpGet]
         public ActionResult AdminClients()
         {
             if (Session["Sec_user_id"] == null)
             {
                 return RedirectToAction("LoginPage", "Login");
             }
+            if (Session["Admin_client_id"] == null) {
+                Session["Admin_client_id"] = 0;
+            }
             string tns = TNS.tns;
             OracleConnection conn = new OracleConnection();
             conn.ConnectionString = tns;
             conn.Open();
-            string statement = "SELECT CLIENT_ID, NAME, CUI, ADDRESS, EMAIL, CONTRACT_NUMBER, CONTRACT_DATE, MAX_PA_PERIOD, BANK_ACCOUNT_ID, PA_AFTER_DAYS, ZIP_CODE, CITY, COUNTRY, PHONE, MAX_COUNT_OF_INST, MIN_COUNT_OF_INST FROM CLIENTS";
+            string statement = "SELECT * FROM ADMIN_CLIENTS";
             OracleCommand sql = new OracleCommand(statement, conn);
             List<AdminClients> adminClients = new List<AdminClients>();
             OracleDataReader reader = sql.ExecuteReader();
@@ -57,6 +61,12 @@ namespace DISERTATIE_5.Controllers
                 conn.Close();
             }
             return View(adminClients);
+        }
+
+        public ActionResult AdminClientsDetails(int client_id)
+        {
+            Session["Admin_client_id"] = client_id;
+            return RedirectToAction("AdminClients");
         }
     }
 }
