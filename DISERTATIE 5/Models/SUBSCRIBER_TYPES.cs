@@ -12,29 +12,20 @@ namespace DISERTATIE_5.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CASES
+    public partial class SUBSCRIBER_TYPES
     {
-        public CASES()
+        public SUBSCRIBER_TYPES()
         {
-            this.ACCOUNTS = new HashSet<ACCOUNTS>();
+            this.ACC_SUBS_INT = new HashSet<ACC_SUBS_INT>();
         }
     
-        public long CASE_ID { get; set; }
-        public Nullable<long> CLIENT_ID { get; set; }
-        public Nullable<decimal> BATCH_NUMBER { get; set; }
-        public string BATCH_CODE { get; set; }
-        public string CUSTOMER_ID { get; set; }
-        public string ZONE { get; set; }
-        public Nullable<decimal> OWNER { get; set; }
-        public string STATUS_PA { get; set; }
-        public Nullable<long> NR_PA_MADE { get; set; }
-        public Nullable<long> NR_PA_KEPT { get; set; }
+        public long SUBSCRIBER_TYPE_ID { get; set; }
+        public string SUBSCRIBER_NAME { get; set; }
         public string CREATED_BY { get; set; }
         public Nullable<System.DateTime> CREATION_DATE { get; set; }
         public string LAST_UPDATED_BY { get; set; }
         public Nullable<System.DateTime> LAST_UPDATE_DATE { get; set; }
     
-        public virtual ICollection<ACCOUNTS> ACCOUNTS { get; set; }
-        public virtual CLIENTS CLIENTS { get; set; }
+        public virtual ICollection<ACC_SUBS_INT> ACC_SUBS_INT { get; set; }
     }
 }

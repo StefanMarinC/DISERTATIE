@@ -12,14 +12,8 @@ namespace DISERTATIE_5.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CLIENTS
+    public partial class ADMIN_CLIENTS
     {
-        public CLIENTS()
-        {
-            this.ACCOUNTS = new HashSet<ACCOUNTS>();
-            this.CASES = new HashSet<CASES>();
-        }
-    
         public long CLIENT_ID { get; set; }
         public string NAME { get; set; }
         public string CUI { get; set; }
@@ -28,10 +22,6 @@ namespace DISERTATIE_5.Models
         public string CONTRACT_NUMBER { get; set; }
         public Nullable<System.DateTime> CONTRACT_DATE { get; set; }
         public string MAX_PA_PERIOD { get; set; }
-        public string CREATED_BY { get; set; }
-        public Nullable<System.DateTime> CREATION_DATE { get; set; }
-        public string LAST_UPDATED_BY { get; set; }
-        public Nullable<System.DateTime> LAST_UPDATE_DATE { get; set; }
         public Nullable<long> BANK_ACCOUNT_ID { get; set; }
         public Nullable<decimal> PA_AFTER_DAYS { get; set; }
         public string ZIP_CODE { get; set; }
@@ -40,9 +30,5 @@ namespace DISERTATIE_5.Models
         public string PHONE { get; set; }
         public Nullable<decimal> MAX_COUNT_OF_INST { get; set; }
         public Nullable<decimal> MIN_COUNT_OF_INST { get; set; }
-    
-        public virtual ICollection<ACCOUNTS> ACCOUNTS { get; set; }
-        public virtual BANK_ACCOUNTS BANK_ACCOUNTS { get; set; }
-        public virtual ICollection<CASES> CASES { get; set; }
     }
 }

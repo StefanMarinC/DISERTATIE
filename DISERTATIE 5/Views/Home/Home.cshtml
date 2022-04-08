@@ -47,7 +47,7 @@
             default:
                 break;
         }
-        <div class="applications">
+        <div class="applications" onclick="@("window.location.href='" + @Url.Action("Search", "Cases") + "'");">
             <img src="~/Resources/Cases Logo.png" style="width:150px; height:auto" />
             <div style="text-align:center; padding-top:20px; font-size:large; color:#9c301a">CASES</div>
         </div>

@@ -25,9 +25,16 @@ namespace DISERTATIE_5.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public DbSet<ACC_SUBS_INT> ACC_SUBS_INT { get; set; }
+        public DbSet<ACCOUNTS> ACCOUNTS { get; set; }
         public DbSet<BANK_ACCOUNTS> BANK_ACCOUNTS { get; set; }
         public DbSet<CASES> CASES { get; set; }
         public DbSet<CLIENTS> CLIENTS { get; set; }
         public DbSet<SEC_USERS> SEC_USERS { get; set; }
+        public DbSet<SUBSCRIBER_TYPES> SUBSCRIBER_TYPES { get; set; }
+        public DbSet<SUBSCRIBERS> SUBSCRIBERS { get; set; }
+        public DbSet<ADMIN_CLIENTS> ADMIN_CLIENTS { get; set; }
+        public DbSet<ADMIN_SEC_USERS_V> ADMIN_SEC_USERS_V { get; set; }
+        public DbSet<CASES_SEARCH> CASES_SEARCH { get; set; }
     }
 }

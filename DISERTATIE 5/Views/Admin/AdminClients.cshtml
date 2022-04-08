@@ -85,7 +85,7 @@
             }
 
         </div>
-        <div id="client_info" style="@show; background-color:white; margin-left:20px; width:45%">
+        <div id="client_info" style="@show background-color:white; margin-left:20px; width:45%">
             @foreach (var client in Model)
             {
                 if (client.CLIENT_ID == (int)Session["Admin_client_id"])
@@ -119,6 +119,5 @@
     </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-</body>
 </body>
 </html>

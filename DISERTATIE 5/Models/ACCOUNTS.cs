@@ -12,29 +12,31 @@ namespace DISERTATIE_5.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CASES
+    public partial class ACCOUNTS
     {
-        public CASES()
+        public ACCOUNTS()
         {
-            this.ACCOUNTS = new HashSet<ACCOUNTS>();
+            this.ACC_SUBS_INT = new HashSet<ACC_SUBS_INT>();
         }
     
-        public long CASE_ID { get; set; }
+        public long ACCOUNT_ID { get; set; }
         public Nullable<long> CLIENT_ID { get; set; }
-        public Nullable<decimal> BATCH_NUMBER { get; set; }
-        public string BATCH_CODE { get; set; }
-        public string CUSTOMER_ID { get; set; }
+        public Nullable<long> CASE_ID { get; set; }
         public string ZONE { get; set; }
+        public string CUSTOMER_ID { get; set; }
+        public string CONTRACT_NUMBER { get; set; }
+        public Nullable<System.DateTime> CONTRACT_DATE { get; set; }
+        public Nullable<decimal> BATCH_NUMBER { get; set; }
         public Nullable<decimal> OWNER { get; set; }
-        public string STATUS_PA { get; set; }
-        public Nullable<long> NR_PA_MADE { get; set; }
-        public Nullable<long> NR_PA_KEPT { get; set; }
         public string CREATED_BY { get; set; }
         public Nullable<System.DateTime> CREATION_DATE { get; set; }
         public string LAST_UPDATED_BY { get; set; }
         public Nullable<System.DateTime> LAST_UPDATE_DATE { get; set; }
+        public string CLIENT_TYPE { get; set; }
+        public Nullable<System.DateTime> INTEREST_LAST_CALCULATION_DATE { get; set; }
     
-        public virtual ICollection<ACCOUNTS> ACCOUNTS { get; set; }
+        public virtual ICollection<ACC_SUBS_INT> ACC_SUBS_INT { get; set; }
+        public virtual CASES CASES { get; set; }
         public virtual CLIENTS CLIENTS { get; set; }
     }
 }

@@ -5,12 +5,24 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="5558f26b43a741248b16aea01d134981" Name="Diagram1">
-        <EntityTypeShape EntityType="Model.BANK_ACCOUNTS" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.CASES" Width="1.5" PointX="5.25" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.CLIENTS" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.SEC_USERS" Width="1.5" PointX="5.75" PointY="6.75" IsExpanded="true" />
-        <AssociationConnector Association="Model.CLIENTS_CLIENT_BANK_ACC_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.CE_CLIENT_FK" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Model.ACC_SUBS_INT" Width="1.5" PointX="9.75" PointY="6.5" />
+        <EntityTypeShape EntityType="Model.ACCOUNTS" Width="1.5" PointX="7.5" PointY="6" />
+        <EntityTypeShape EntityType="Model.BANK_ACCOUNTS" Width="1.5" PointX="0.75" PointY="4.375" />
+        <EntityTypeShape EntityType="Model.CASES" Width="1.5" PointX="5.25" PointY="9.125" />
+        <EntityTypeShape EntityType="Model.CLIENTS" Width="1.5" PointX="3" PointY="3.25" />
+        <EntityTypeShape EntityType="Model.SEC_USERS" Width="1.5" PointX="9.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Model.SUBSCRIBER_TYPES" Width="1.5" PointX="7.5" PointY="2.375" />
+        <EntityTypeShape EntityType="Model.SUBSCRIBERS" Width="1.5" PointX="7.5" PointY="11.5" />
+        <EntityTypeShape EntityType="Model.ADMIN_CLIENTS" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="Model.ADMIN_SEC_USERS_V" Width="1.5" PointX="9.75" PointY="10.75" />
+        <EntityTypeShape EntityType="Model.CASES_SEARCH" Width="1.5" PointX="11.75" PointY="0.75" />
+        <AssociationConnector Association="Model.ACCOUNT_ACC_SUBS_INT_FK" />
+        <AssociationConnector Association="Model.SUBSCRIB_TYP_ACC_SUBS_FK" />
+        <AssociationConnector Association="Model.SUBSCRIBERS_ACC_SUBS_INT_FK" />
+        <AssociationConnector Association="Model.ACC_CE_FK" />
+        <AssociationConnector Association="Model.ACC_CLIENT_FK" />
+        <AssociationConnector Association="Model.CLIENTS_CLIENT_BANK_ACC_FK" />
+        <AssociationConnector Association="Model.CE_CLIENT_FK" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
