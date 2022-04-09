@@ -22,7 +22,6 @@ namespace DISERTATIE_5.Controllers
             OracleCommand sql;
             if (Session["Sec_user_id"] == null)
             {
-
                 return RedirectToAction("LoginPage", "Login");
             }
             if (Session["IsAdmin"] == null)

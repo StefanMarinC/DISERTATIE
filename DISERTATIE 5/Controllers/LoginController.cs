@@ -44,7 +44,6 @@ namespace DISERTATIE_5.Controllers
                     sec_user.ISADMIN = (decimal)dr.GetValue(5);
                     sec_user.START_ACTIVE_DATE = (DateTime)dr.GetValue(6);
                     sec_user.END_ACTIVE_DATE = (DateTime)dr.GetValue(7);
-                    sec_user.PASSWORD_EXPIRATION_DATE = (DateTime)dr.GetValue(8);
                     sec_user.BLOCKED = (decimal)dr.GetValue(9);
                     sec_user.CREATED_BY = (string)dr.GetValue(10);
                     sec_user.CREATION_DATE = (DateTime)dr.GetValue(11);
@@ -85,7 +84,7 @@ namespace DISERTATIE_5.Controllers
                 sql = new OracleCommand(statement, conn);
                 sql.BindByName = true;
                 sql.CommandType = CommandType.StoredProcedure;
-                sql.Parameters.Add("USER_ID", OracleDbType.Decimal, sec_user.SEC_USER_ID, ParameterDirection.Input);
+                sql.Parameters.Add("P_USER_ID", OracleDbType.Decimal, sec_user.SEC_USER_ID, ParameterDirection.Input);
                 sql.ExecuteNonQuery();
                 conn.Close();
                 return View();

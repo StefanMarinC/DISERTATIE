@@ -22,7 +22,6 @@ namespace DISERTATIE_5.Models
         public Nullable<decimal> ISADMIN { get; set; }
         public Nullable<System.DateTime> START_ACTIVE_DATE { get; set; }
         public Nullable<System.DateTime> END_ACTIVE_DATE { get; set; }
-        public Nullable<System.DateTime> PASSWORD_EXPIRATION_DATE { get; set; }
         public Nullable<decimal> BLOCKED { get; set; }
         public string CREATED_BY { get; set; }
         public Nullable<System.DateTime> CREATION_DATE { get; set; }

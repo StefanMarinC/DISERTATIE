@@ -1,4 +1,6 @@
-﻿<html>
+﻿@using DISERTATIE_5.Models;
+@model IEnumerable<DISERTATIE_5.Models.CasesSearch>
+<html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -6,147 +8,353 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body style="padding: 0 0 0 0; background-color:#3a3a3c">
-    <div style="background-color:#9c301a; height:75px">
-        <div style="display:flex; padding-left:20px;">
-            <img src="~/Resources/Logo.png" style="height:75px; width:180px; cursor:pointer" onclick="@("window.location.href='" + @Url.Action("Home", "Home") + "'")" />
-            <div style="width:75%; text-align:center; height:75px">
-                <div style="font-size:large; font-family:Arial sans-serif; font-weight:bold; color:white; padding-top:20px">
-                    Cases
+    <div>
+        <div style="background-color:#9c301a; height:75px;">
+            <div style="display:flex; padding-left:20px;">
+                <img src="~/Resources/Logo.png" style="height:75px; width:180px; cursor:pointer" onclick="@("window.location.href='" + @Url.Action("Home", "Home") + "'")" />
+                <div style="width:75%; text-align:center; height:75px">
+                    <div style="font-size:large; font-family:Arial sans-serif; font-weight:bold; color:white; padding-top:20px">
+                        Cases
+                    </div>
                 </div>
-            </div>
-            <div style="width:220px; height:75px; display:flex; justify-content:space-around">
-                <div style="font-size:large; font-family:Arial sans-serif; color:white; padding-top:20px;">
-                    @Session["Username"].ToString()
-                </div>
-                <div class="form-group" style="text-align:center; padding:20px 0 0 0">
-                    <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
-                        <input value="Logout" class="btn btn-primary" style="background-color:lightslategray; border-color:lightslategray; width:100px" onclick="@("window.location.href='" + @Url.Action("Logout", "Login") + "'")" />
+                <div style="width:220px; height:75px; display:flex; justify-content:space-around">
+                    <div style="font-size:large; font-family:Arial sans-serif; color:white; padding-top:20px;">
+                        @Session["Username"].ToString()
+                    </div>
+                    <div class="form-group" style="text-align:center; padding:20px 0 0 0">
+                        <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
+                            <input value="Logout" class="btn btn-primary" style="background-color:lightslategray; border-color:lightslategray; width:100px" onclick="@("window.location.href='" + @Url.Action("Logout", "Login") + "'")" />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div style="margin:10px 20px 10px 20px; background-color:#3a3a3c;">
-        <div style="display:flex; justify-content:space-between; flex-wrap:wrap">
-            <div style="padding:20px">
-                <label style="color:white; font-size:larger; font:bold">
-                    Client name
-                </label>
-                <select class="form-control" id="ClientID" name="client_id">
-                    <option value="" selected disabled hidden></option>
-                    @foreach (var client in ViewBag.CasesSearchClient)
-                    {
-                        <option>@client.Name</option>
-                    }
-                </select>
-            </div>
-            <div style="padding:20px">
-                <label style="color:white; font-size:larger; font:bold">
-                    Zone
-                </label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <em aria-hidden="true" class="fa fa-search">
-                            </em>
-                        </span>
+        <div style="margin:10px 40px 10px 20px; background-color:#3a3a3c;">
+            @if (TempData["AccessError"] != null)
+            {
+                if (TempData["AccessError"].ToString() == "AccessError")
+                {
+                    <div class="modal" tabindex="-1" role="dialog" style="display:block" id="modal">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title">Access denied!</h3>
+                                </div>
+                                <div class="modal-body">
+                                    <h4>You are not allowed to access this case!</h4>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="buttonclose" style="background-color:#9c301a; color:white">Close</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <input type="text" id="searchZone" class="form-control" placeholder="Zone" name="zone">
-                </div>
-            </div>
-            <div style="padding:20px">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <em aria-hidden="true" class="fa fa-search">
-                            </em>
-                        </span>
+                }
+            }
+
+            @using (Html.BeginForm("SearchCases", "Cases", FormMethod.Post))
+            {
+                <div style="display:flex; justify-content:flex-start; flex-wrap:wrap;">
+                    <div style="padding:20px">
+                        <label style="color:white; font-size:larger; font:bold">
+                            Client name
+                        </label>
+                        <select class="form-control" name="client_name">
+                            <option value="" selected disabled hidden>None</option>
+                            @foreach (var client in ViewBag.CasesSearchClient)
+                            {
+                                <option>@client.Name</option>
+                            }
+                        </select>
                     </div>
-                    <input type="text" id="searchOwner" class="form-control" placeholder="Owner" name="owner">
-                </div>
-            </div>
-            <div style="padding:20px">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <em aria-hidden="true" class="fa fa-search">
-                            </em>
-                        </span>
+                    <div style="padding:20px">
+                        <label style="color:white; font-size:larger; font:bold">
+                            Zone
+                        </label>
+                        <select class="form-control" name="zone_name">
+                            <option value="" selected disabled hidden>None</option>
+                            @foreach (var zone in ViewBag.CasesSearchZone)
+                            {
+                                <option>@zone.Name</option>
+                            }
+                        </select>
                     </div>
-                    <input type="text" id="searchCaseID" class="form-control" placeholder="Case id" name="case_id">
-                </div>
-            </div>
-            <div style="padding:20px">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <em aria-hidden="true" class="fa fa-search">
-                            </em>
-                        </span>
+                    <div style="padding:20px">
+                        <label style="color:white; font-size:larger; font:bold">
+                            Owner
+                        </label>
+                        <select class="form-control" name="owner">
+                            <option value="" selected disabled hidden>None</option>
+                            @foreach (var owner in ViewBag.CasesSearchOwner)
+                            {
+                                <option id="@owner.Owner_id">@owner.Name</option>
+                            }
+                        </select>
                     </div>
-                    <input type="text" id="searchAccountID" class="form-control" placeholder="Account id" name="account_id">
-                </div>
-            </div>
-            <div style="padding:20px">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <em aria-hidden="true" class="fa fa-search">
-                            </em>
-                        </span>
+                    <div style="padding:20px">
+                        <label style="color:white; font-size:larger; font:bold">
+                            Case id
+                        </label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <em aria-hidden="true" class="fa fa-search">
+                                    </em>
+                                </span>
+                            </div>
+                            <input type="text" id="searchCaseID" class="form-control" placeholder="" name="case_id">
+                        </div>
                     </div>
-                    <input type="text" id="searchCustomerID" class="form-control" placeholder="Customer id" name="customer_id">
-                </div>
-            </div>
-            <div style="padding:20px">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <em aria-hidden="true" class="fa fa-search">
-                            </em>
-                        </span>
+                    <div style="padding:20px">
+                        <label style="color:white; font-size:larger; font:bold">
+                            Account id
+                        </label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <em aria-hidden="true" class="fa fa-search">
+                                    </em>
+                                </span>
+                            </div>
+                            <input type="text" id="searchAccountID" class="form-control" placeholder="" name="account_id">
+                        </div>
                     </div>
-                    <input type="text" id="searchSSN" class="form-control" placeholder="SSN" name="ssn">
-                </div>
-            </div>
-            <div style="padding:20px">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <em aria-hidden="true" class="fa fa-search">
-                            </em>
-                        </span>
+                    <div style="padding:20px">
+                        <label style="color:white; font-size:larger; font:bold">
+                            Customer id
+                        </label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <em aria-hidden="true" class="fa fa-search">
+                                    </em>
+                                </span>
+                            </div>
+                            <input type="text" id="searchCustomerID" class="form-control" placeholder="" name="customer_id">
+                        </div>
                     </div>
-                    <input type="text" id="searchSubscriberName" class="form-control" placeholder="Subscriber name" name="subscriber_name">
-                </div>
-            </div>
-            <div style="padding:20px">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <em aria-hidden="true" class="fa fa-search">
-                            </em>
-                        </span>
+                    <div style="padding:20px">
+                        <label style="color:white; font-size:larger; font:bold">
+                            SSN
+                        </label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <em aria-hidden="true" class="fa fa-search">
+                                    </em>
+                                </span>
+                            </div>
+                            <input type="text" id="searchSSN" class="form-control" placeholder="" name="ssn">
+                        </div>
                     </div>
-                    <input type="text" id="searchSubscriberType" class="form-control" placeholder="Subscriber type" name="subscriber_type">
-                </div>
-            </div>
-            <div style="padding:20px">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <em aria-hidden="true" class="fa fa-search">
-                            </em>
-                        </span>
+                    <div style="padding:20px">
+                        <label style="color:white; font-size:larger; font:bold">
+                            Name
+                        </label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <em aria-hidden="true" class="fa fa-search">
+                                    </em>
+                                </span>
+                            </div>
+                            <input type="text" id="searchSubscriberName" class="form-control" placeholder="" name="subscriber_name">
+                        </div>
                     </div>
-                    <input type="text" id="searchContractNumber" class="form-control" placeholder="Contract number" name="contract_number">
+                    <div style="padding:20px">
+                        <label style="color:white; font-size:larger; font:bold">
+                            Subscriber type
+                        </label>
+                        <select class="form-control" name="subs_type">
+                            <option value="" selected disabled hidden>None</option>
+                            @foreach (var subs_type in ViewBag.CasesSearchSubsType)
+                            {
+                                <option id="@subs_type.Subs_type_id">@subs_type.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div style="padding:20px">
+                        <label style="color:white; font-size:larger; font:bold">
+                            Contract number
+                        </label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <em aria-hidden="true" class="fa fa-search">
+                                    </em>
+                                </span>
+                            </div>
+                            <input type="text" id="searchContractNumber" class="form-control" placeholder="" name="contract_number">
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <div style="display:flex; justify-content:flex-end; margin:0px 20px 0px 20px; background-color:#3a3a3c;">
+                    <div class="form-group" style="text-align:center; padding:20px 0 0 0">
+                        <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
+                            <input value="Reset" class="btn btn-primary" style="background-color:#9c301a; border-color:lightslategray; width:100px" onclick="@("window.location.href='" + @Url.Action("Search", "Cases") + "'")" />
+                        </div>
+                    </div>
+                    <div style="padding-top:22px;">
+                        <div class="form-group" style="text-align:center; padding:0 0 0 0; margin-right:0;">
+                            <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0; width:100%; margin-right:0;">
+                                <button class="btn btn-primary" style="background-color:#9c301a; width:100px" id="search" type="submit">
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
+        <div style="margin: 0px 20px 10px 20px; color:#9c301a; font-weight:bold; font-size:larger">
+            @if (TempData["Cases_nr"] != null)
+            {
+                <div>
+                    RESULTS: @TempData["Cases_nr"].ToString()
+                </div>
+
+            }
+            else
+            {
+                <div>
+                    RESULTS: 0
+                </div>
+            }
+
+        </div>
+        <div style="overflow-y:scroll; height:500px; margin:0px 20px 10px 20px; background-color:#3a3a3c;">
+            <table style="border: 1px solid #dee2e6; width: 99%; margin-bottom: 1rem; color: #212529; border-collapse: collapse; box-sizing: border-box; display: table; text-indent: initial; border-spacing: 2px; background-color:white; margin-left:0.5%; margin-right:0.5%">
+                <thead>
+                    <tr style="border: solid; border-width: 3px 0;">
+                        <th>
+
+                        </th>
+                        <th>
+                            Case ID
+                        </th>
+                        <th>
+                            Account ID
+                        </th>
+                        <th>
+                            Customer ID
+                        </th>
+                        <th>
+                            Subscriber ID
+                        </th>
+                        <th>
+                            Person type
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            SSN
+                        </th>
+                        <th>
+                            Client
+                        </th>
+                        <th>
+                            Owner
+                        </th>
+                        <th>
+                            Zone
+                        </th>
+                        <th>
+                            Contract no
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (TempData["CASES"] != null)
+                    {
+                        foreach (CasesSearch cases in (IEnumerable<CasesSearch>)TempData["CASES"])
+                        {
+                            <tr>
+                                <td style="padding:3px 3px 3px">
+                                    @{
+                                        int admin = 0;
+                                        int owner = 0;
+                                        foreach (var id in (List<decimal>)TempData["Cases_users"])
+                                        {
+                                            if (id == (decimal)Session["Sec_user_id"])
+                                            {
+                                                admin = 1;
+                                                break;
+                                            }
+                                        }
+                                        if (cases.owner_id == (decimal)Session["Sec_user_id"])
+                                        {
+                                            owner = 1;
+                                        }
+                                        if (owner == 1 || admin == 1)
+                                        {
+                                            <img src="~/Resources/Access case.png" style="width:15px; height:15px" />
+                                        }
+                                        else
+                                        {
+                                            <img src="~/Resources/Decline case.png" style="width:15px; height:15px" />
+                                        }
+                                    }
+                                </td>
+                                <td style="cursor:pointer; text-decoration:underline; color:darkred" onclick="@("window.location.href='" + @Url.Action("Case", "Cases", new { case_id = cases.case_id}) + "'")">
+                                    @cases.case_id
+                                </td>
+                                <td>
+                                    @cases.account_id
+                                </td>
+                                <td>
+                                    @cases.customer_id
+                                </td>
+                                <td>
+                                    @cases.subscriber_id
+                                </td>
+                                <td>
+                                    @cases.subscriber_type
+                                </td>
+                                <td>
+                                    @cases.name
+                                </td>
+                                <td>
+                                    @cases.ssn
+                                </td>
+                                <td>
+                                    @cases.client_name
+                                </td>
+                                <td>
+                                    @cases.owner
+                                </td>
+                                <td>
+                                    @cases.zone
+                                </td>
+                                <td>
+                                    @cases.contract_number
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
 </body>
 </html>
+<script>
+    var modal = document.getElementById("modal");
+    var btn = document.getElementById("buttonclose");
+
+    btn.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>

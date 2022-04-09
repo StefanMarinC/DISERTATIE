@@ -185,7 +185,11 @@
     <Compile Include="Models\CASES.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CasesSearch.cs" />
     <Compile Include="Models\CasesSearchClient.cs" />
+    <Compile Include="Models\CasesSearchOwner.cs" />
+    <Compile Include="Models\CasesSearchSubsType.cs" />
+    <Compile Include="Models\CasesSearchZone.cs" />
     <Compile Include="Models\CASES_SEARCH.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -241,8 +245,10 @@
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
+    <Content Include="Resources\Access case.png" />
     <Content Include="Resources\Admin Logo.png" />
     <Content Include="Resources\Cases Logo.png" />
+    <Content Include="Resources\Decline case.png" />
     <Content Include="Resources\Lock.png" />
     <Content Include="Resources\Logo.png" />
     <Content Include="Resources\No.png" />
@@ -292,6 +298,7 @@
     <Content Include="Views\Security\AddUser.cshtml" />
     <Content Include="Views\Admin\AdminClients.cshtml" />
     <Content Include="Views\Cases\Search.cshtml" />
+    <Content Include="Views\Cases\Case.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
