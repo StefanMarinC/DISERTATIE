@@ -1,8 +1,88 @@
-﻿@model DISERTATIE_5.Models.CasesSearch
-    <html>
-    <body>
+﻿@model DISERTATIE_5.Models.CaseInfo
+<html>
+<body>
+    <div>
+        case details
         <div>
-            @Model.case_id
+            @Model.caseDetails.case_id
         </div>
-    </body>
+        <div>
+            @Model.caseDetails.zone
+        </div>
+        <div>
+            @Model.caseDetails.client_name
+        </div>
+        <div>
+            @Model.caseDetails.balance
+        </div>
+        <div>
+            @Model.caseDetails.pa_status
+        </div>
+        <div>
+            @Model.caseDetails.pa_made
+        </div>
+        <div>
+            @Model.caseDetails.pa_broken
+        </div>
+        <div>
+            @Model.caseDetails.pa_kept
+        </div>
+        <div>
+            @Model.caseDetails.pa_cancelled
+        </div>
+    </div>
+    <div>
+        subscribers data
+        @foreach (var subs in Model.subscriberDatas)
+        {
+            <div>
+                @subs.first_name @subs.last_name
+            </div>
+            <div>
+                @subs.subscriber_type
+            </div>
+            <div>
+                @subs.main
+            </div>
+            <div>
+                @subs.SSN
+            </div>
+
+            <div>
+                subscriber_addresses
+                @foreach (var subs_add in Model.subscriberAddresses)
+                {
+                    if (subs_add.subscriber_id == subs.subscriber_id)
+                    {
+                        <div>
+                            @subs_add.address_type
+                        </div>
+                        <div>
+                            @subs_add.main_address
+                        </div>
+                        <div>
+                            @subs_add.street
+                        </div>
+                        <div>
+                            @subs_add.street_number
+                        </div>
+                        <div>
+                            @subs_add.building
+                        </div>
+                        <div>
+                            @subs_add.source_type
+                        </div>
+                        <div>
+                            @subs_add.created_by
+                        </div>
+                        <div>
+                            @subs_add.creation_date
+                        </div>
+                    }
+                }
+            </div>
+        }
+    </div>
+
+</body>
 </html>

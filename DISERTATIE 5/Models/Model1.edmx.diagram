@@ -14,7 +14,7 @@
         <EntityTypeShape EntityType="Model.SUBSCRIBER_TYPES" Width="1.5" PointX="7.5" PointY="2.375" />
         <EntityTypeShape EntityType="Model.SUBSCRIBERS" Width="1.5" PointX="7.5" PointY="11.5" />
         <EntityTypeShape EntityType="Model.ADMIN_CLIENTS" Width="1.5" PointX="0.75" PointY="9.75" />
-        <EntityTypeShape EntityType="Model.ADMIN_SEC_USERS_V" Width="1.5" PointX="9.75" PointY="10.75" />
+        <EntityTypeShape EntityType="Model.ADMIN_SEC_USERS_V" Width="1.5" PointX="0.75" PointY="14.75" />
         <EntityTypeShape EntityType="Model.CASES_SEARCH" Width="1.5" PointX="11.75" PointY="0.75" />
         <AssociationConnector Association="Model.ACCOUNT_ACC_SUBS_INT_FK" />
         <AssociationConnector Association="Model.SUBSCRIB_TYP_ACC_SUBS_FK" />
@@ -23,6 +23,18 @@
         <AssociationConnector Association="Model.ACC_CLIENT_FK" />
         <AssociationConnector Association="Model.CLIENTS_CLIENT_BANK_ACC_FK" />
         <AssociationConnector Association="Model.CE_CLIENT_FK" />
+        <EntityTypeShape EntityType="Model.ADDRESS_TYPES" Width="1.5" PointX="7.5" PointY="17.875" />
+        <EntityTypeShape EntityType="Model.SOURCE_TYPES" Width="1.5" PointX="7.5" PointY="21" />
+        <EntityTypeShape EntityType="Model.SUBSCRIBER_ADDRESSES" Width="1.5" PointX="9.75" PointY="11.125" />
+        <EntityTypeShape EntityType="Model.ZONE_TYPES" Width="1.5" PointX="3" PointY="9.375" />
+        <EntityTypeShape EntityType="Model.CASE_DETAILS_V" Width="1.5" PointX="12.375" PointY="5.75" />
+        <EntityTypeShape EntityType="Model.SUBSCRIBER_ADDRESSES_V" Width="1.5" PointX="12.375" PointY="9.75" />
+        <EntityTypeShape EntityType="Model.SUBSCRIBER_DATA_V" Width="1.5" PointX="14.375" PointY="0.75" />
+        <AssociationConnector Association="Model.ACCOUNTS_ZONE_FK" />
+        <AssociationConnector Association="Model.ADDR_TYP_SUBSCRIB_ADDR_FK" />
+        <AssociationConnector Association="Model.CASES_ZONE_FK" />
+        <AssociationConnector Association="Model.SOURCE_TYP_SUBSCRIB_ADDR_FK" />
+        <AssociationConnector Association="Model.SUBSCRIB_SUBSCRIB_ADDRESSES_FK" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

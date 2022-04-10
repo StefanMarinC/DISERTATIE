@@ -12,22 +12,22 @@ namespace DISERTATIE_5.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SEC_USERS
+    public partial class ZONE_TYPES
     {
-        public decimal SEC_USER_ID { get; set; }
-        public string USERNAME { get; set; }
-        public string FULL_NAME { get; set; }
-        public string SEC_PASSWORD { get; set; }
-        public Nullable<decimal> ACTIVE { get; set; }
-        public Nullable<decimal> ISADMIN { get; set; }
-        public Nullable<System.DateTime> START_ACTIVE_DATE { get; set; }
-        public Nullable<System.DateTime> END_ACTIVE_DATE { get; set; }
-        public Nullable<System.DateTime> PASSWORD_EXPIRATION_DATE { get; set; }
-        public Nullable<decimal> BLOCKED { get; set; }
+        public ZONE_TYPES()
+        {
+            this.ACCOUNTS = new HashSet<ACCOUNTS>();
+            this.CASES = new HashSet<CASES>();
+        }
+    
+        public string ZONE_ID { get; set; }
+        public string NAME { get; set; }
         public string CREATED_BY { get; set; }
         public Nullable<System.DateTime> CREATION_DATE { get; set; }
         public string LAST_UPDATED_BY { get; set; }
         public Nullable<System.DateTime> LAST_UPDATE_DATE { get; set; }
-        public Nullable<decimal> FAILED_ATTEMPTS { get; set; }
+    
+        public virtual ICollection<ACCOUNTS> ACCOUNTS { get; set; }
+        public virtual ICollection<CASES> CASES { get; set; }
     }
 }

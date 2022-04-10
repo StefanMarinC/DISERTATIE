@@ -219,7 +219,7 @@ namespace DISERTATIE_5.Controllers
             return RedirectToAction("Search", "Cases");
         }
 
-        public ActionResult Case(int case_id)
+        public ActionResult Case(int? case_id)
         {
             if (Session["Sec_user_id"] == null)
             {
@@ -246,27 +246,24 @@ namespace DISERTATIE_5.Controllers
                 TempData["AccessError"] = "AccessError";
                 return RedirectToAction("Search", "Cases");
             }
-            statement = "SELECT * FROM CASES_SEARCH CS WHERE CS.CASE_ID=" + case_id;
+            CaseInfo caseInfo = new CaseInfo();
+            statement = "SELECT * FROM CASE_DETAILS_V C WHERE C.CASE_ID=" + case_id;
             sql = new OracleCommand(statement, conn);
             OracleDataReader reader = sql.ExecuteReader();
-            CasesSearch cl = new CasesSearch();
+            CaseDetails cl = new CaseDetails();
             try
             {
                 while (reader.Read())
                 {
-                    cl.unique_id = (decimal)reader.GetValue(0);
-                    cl.client_name = (string)reader.GetValue(1);
-                    cl.zone = (string)reader.GetValue(2);
-                    cl.zone_name = (string)reader.GetValue(3);
-                    cl.owner = (string)reader.GetValue(4);
-                    cl.case_id = (long)reader.GetValue(5);
-                    cl.account_id = (long)reader.GetValue(6);
-                    cl.customer_id = (string)reader.GetValue(7);
-                    cl.ssn = (string)reader.GetValue(8);
-                    cl.name = (string)reader.GetValue(9);
-                    cl.subscriber_type = (string)reader.GetValue(10);
-                    cl.contract_number = (string)reader.GetValue(11);
-                    cl.subscriber_id = (long)reader.GetValue(12);
+                    cl.case_id = (long)reader.GetValue(0);
+                    cl.zone = (string)reader.GetValue(1);
+                    cl.client_name = (string)reader.GetValue(2);
+                    cl.balance = (float)reader.GetFloat(3);
+                    cl.pa_status = (string)reader.GetValue(4);
+                    cl.pa_made = (decimal)reader.GetValue(5);
+                    cl.pa_broken = (decimal)reader.GetValue(6);
+                    cl.pa_kept = (decimal)reader.GetValue(7);
+                    cl.pa_cancelled = (decimal)reader.GetValue(8);
                 }
             }
             finally
@@ -274,8 +271,68 @@ namespace DISERTATIE_5.Controllers
                 reader.Close();
                 conn.Close();
             }
+            caseInfo.caseDetails = cl;
+            conn.Open();
+            statement = "SELECT * FROM SUBSCRIBER_DATA_V SD WHERE SD.CASE_ID=" + case_id +" ORDER BY SD.MAIN DESC";
+            sql = new OracleCommand(statement, conn);
+            List<SubscriberData> subs_list = new List<SubscriberData>();
+            List<SubscriberAddress> subs_address = new List<SubscriberAddress>();
+            reader = sql.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    SubscriberData subs = new SubscriberData();
+                    subs.case_id= (long)reader.GetValue(0);
+                    subs.subscriber_id= (long)reader.GetValue(1);
+                    subs.first_name = (string)reader.GetValue(2);
+                    subs.last_name = (string)reader.GetValue(3);
+                    subs.subscriber_type = (string)reader.GetValue(4);
+                    subs.main = (decimal)reader.GetDecimal(5);
+                    subs.SSN = (string)reader.GetValue(6);
+                    subs_list.Add(subs);
 
-            return View(cl);
+                    string statement2 = "SELECT * FROM SUBSCRIBER_ADDRESSES_V SA WHERE SA.SUBSCRIBER_ID=" + subs.subscriber_id+" ORDER BY SA.MAIN_ADDRESS DESC, SA.CREATION_DATE DESC";
+                    OracleCommand sql2 = new OracleCommand(statement2, conn);
+                    OracleDataReader reader2 = sql2.ExecuteReader();
+                    try
+                    {
+                        while (reader2.Read())
+                        {
+                            SubscriberAddress subs_add = new SubscriberAddress();
+                            subs_add.subscriber_id= (long)reader2.GetValue(0);
+                            subs_add.address_type = (string)reader2.GetValue(1);
+                            subs_add.main_address = reader2.GetDecimal(2);
+                            subs_add.street = (string)reader2.GetValue(3);
+                            subs_add.street_number = (string)reader2.GetValue(4);
+                            subs_add.building = (string)reader2.GetValue(5);
+                            subs_add.stair = (string)reader2.GetValue(6);
+                            subs_add.floor = (string)reader2.GetValue(7);
+                            subs_add.apartment = (string)reader2.GetValue(8);
+                            subs_add.city = (string)reader2.GetValue(9);
+                            subs_add.distrinct = (string)reader2.GetValue(10);
+                            subs_add.country = (string)reader2.GetValue(11);
+                            subs_add.source_type = (string)reader2.GetValue(12);
+                            subs_add.created_by = (string)reader2.GetValue(13);
+                            subs_add.creation_date = (DateTime)reader2.GetValue(14);
+                            subs_address.Add(subs_add);
+                        }
+                    }
+                    finally
+                    {
+                        reader2.Close();
+                    }
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            caseInfo.subscriberDatas = subs_list;
+            caseInfo.subscriberAddresses = subs_address;
+
+            return View(caseInfo);
         }
     }
 }

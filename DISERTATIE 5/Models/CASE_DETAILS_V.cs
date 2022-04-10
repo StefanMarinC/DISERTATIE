@@ -12,13 +12,16 @@ namespace DISERTATIE_5.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ADMIN_SEC_USERS_V
+    public partial class CASE_DETAILS_V
     {
-        public decimal SEC_USER_ID { get; set; }
-        public string USERNAME { get; set; }
-        public Nullable<decimal> ISADMIN { get; set; }
-        public Nullable<decimal> ACTIVE { get; set; }
-        public Nullable<decimal> BLOCKED { get; set; }
-        public string NAME { get; set; }
+        public long CASE_ID { get; set; }
+        public string ZONE { get; set; }
+        public string CLIENT_NAME { get; set; }
+        public Nullable<decimal> BALANCE { get; set; }
+        public string PA_STATUS { get; set; }
+        public Nullable<decimal> PA_MADE { get; set; }
+        public Nullable<decimal> PA_BROKEN { get; set; }
+        public Nullable<decimal> PA_KEPT { get; set; }
+        public Nullable<decimal> PA_CANCELLED { get; set; }
     }
 }

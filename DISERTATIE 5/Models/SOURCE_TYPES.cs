@@ -12,22 +12,22 @@ namespace DISERTATIE_5.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SEC_USERS
+    public partial class SOURCE_TYPES
     {
-        public decimal SEC_USER_ID { get; set; }
-        public string USERNAME { get; set; }
-        public string FULL_NAME { get; set; }
-        public string SEC_PASSWORD { get; set; }
-        public Nullable<decimal> ACTIVE { get; set; }
-        public Nullable<decimal> ISADMIN { get; set; }
-        public Nullable<System.DateTime> START_ACTIVE_DATE { get; set; }
-        public Nullable<System.DateTime> END_ACTIVE_DATE { get; set; }
-        public Nullable<System.DateTime> PASSWORD_EXPIRATION_DATE { get; set; }
-        public Nullable<decimal> BLOCKED { get; set; }
+        public SOURCE_TYPES()
+        {
+            this.SUBSCRIBER_ADDRESSES = new HashSet<SUBSCRIBER_ADDRESSES>();
+        }
+    
+        public long CONTACT_SOURCE_TYPE_ID { get; set; }
+        public string NAME { get; set; }
+        public Nullable<short> ACTIVE { get; set; }
         public string CREATED_BY { get; set; }
         public Nullable<System.DateTime> CREATION_DATE { get; set; }
         public string LAST_UPDATED_BY { get; set; }
         public Nullable<System.DateTime> LAST_UPDATE_DATE { get; set; }
-        public Nullable<decimal> FAILED_ATTEMPTS { get; set; }
+        public short IS_OFFICIAL { get; set; }
+    
+        public virtual ICollection<SUBSCRIBER_ADDRESSES> SUBSCRIBER_ADDRESSES { get; set; }
     }
 }

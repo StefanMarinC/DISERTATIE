@@ -17,6 +17,7 @@ namespace DISERTATIE_5.Models
         public SUBSCRIBERS()
         {
             this.ACC_SUBS_INT = new HashSet<ACC_SUBS_INT>();
+            this.SUBSCRIBER_ADDRESSES = new HashSet<SUBSCRIBER_ADDRESSES>();
         }
     
         public long SUBSCRIBER_ID { get; set; }
@@ -38,5 +39,6 @@ namespace DISERTATIE_5.Models
         public string GENDER { get; set; }
     
         public virtual ICollection<ACC_SUBS_INT> ACC_SUBS_INT { get; set; }
+        public virtual ICollection<SUBSCRIBER_ADDRESSES> SUBSCRIBER_ADDRESSES { get; set; }
     }
 }

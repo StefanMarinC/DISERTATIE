@@ -38,5 +38,6 @@ namespace DISERTATIE_5.Models
         public virtual ICollection<ACC_SUBS_INT> ACC_SUBS_INT { get; set; }
         public virtual CASES CASES { get; set; }
         public virtual CLIENTS CLIENTS { get; set; }
+        public virtual ZONE_TYPES ZONE_TYPES { get; set; }
     }
 }

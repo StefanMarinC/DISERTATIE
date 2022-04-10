@@ -15,7 +15,6 @@ namespace DISERTATIE_5.Models
     public partial class CASES_SEARCH
     {
         public Nullable<decimal> UNIQUE_ID { get; set; }
-        public Nullable<long> CLIENT_ID { get; set; }
         public string ZONE { get; set; }
         public string OWNER { get; set; }
         public Nullable<long> CASE_ID { get; set; }
@@ -25,5 +24,9 @@ namespace DISERTATIE_5.Models
         public string NAME { get; set; }
         public string SUBSCRIBER_TYPE { get; set; }
         public string CONTRACT_NUMBER { get; set; }
+        public string CLIENT_NAME { get; set; }
+        public string ZONE_NAME { get; set; }
+        public long SUBSCRIBER_ID { get; set; }
+        public decimal SEC_USER_ID { get; set; }
     }
 }

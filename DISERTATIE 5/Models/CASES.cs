@@ -36,5 +36,6 @@ namespace DISERTATIE_5.Models
     
         public virtual ICollection<ACCOUNTS> ACCOUNTS { get; set; }
         public virtual CLIENTS CLIENTS { get; set; }
+        public virtual ZONE_TYPES ZONE_TYPES { get; set; }
     }
 }

@@ -40,6 +40,17 @@
           <Property Name="CLIENT_TYPE" Type="varchar2" MaxLength="100" />
           <Property Name="INTEREST_LAST_CALCULATION_DATE" Type="date" />
         </EntityType>
+        <EntityType Name="ADDRESS_TYPES">
+          <Key>
+            <PropertyRef Name="ADDRESS_TYPE_ID" />
+          </Key>
+          <Property Name="ADDRESS_TYPE_ID" Type="number" Precision="13" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="date" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="LAST_UPDATE_DATE" Type="date" />
+        </EntityType>
         <EntityType Name="BANK_ACCOUNTS">
           <Key>
             <PropertyRef Name="BANK_ACCOUNT_ID" />
@@ -119,6 +130,44 @@
           <Property Name="LAST_UPDATE_DATE" Type="date" />
           <Property Name="FAILED_ATTEMPTS" Type="number" Precision="38" Scale="0" />
         </EntityType>
+        <EntityType Name="SOURCE_TYPES">
+          <Key>
+            <PropertyRef Name="CONTACT_SOURCE_TYPE_ID" />
+          </Key>
+          <Property Name="CONTACT_SOURCE_TYPE_ID" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="50" />
+          <Property Name="ACTIVE" Type="number" Precision="1" Scale="0" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="date" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="LAST_UPDATE_DATE" Type="date" />
+          <Property Name="IS_OFFICIAL" Type="number" Precision="1" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SUBSCRIBER_ADDRESSES">
+          <Key>
+            <PropertyRef Name="SUBSCRIBER_ADDRESS_ID" />
+          </Key>
+          <Property Name="SUBSCRIBER_ADDRESS_ID" Type="number" Precision="13" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ADDRESS_TYPE_ID" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="SUBSCRIBER_ID" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="MAIN_ADDRESS" Type="number" Precision="1" Scale="0" />
+          <Property Name="STREET" Type="varchar2" MaxLength="500" />
+          <Property Name="STREET_NUMBER" Type="varchar2" MaxLength="150" />
+          <Property Name="BUILDING" Type="varchar2" MaxLength="150" />
+          <Property Name="STAIR" Type="varchar2" MaxLength="50" />
+          <Property Name="FLOOR" Type="varchar2" MaxLength="50" />
+          <Property Name="APARTMENT" Type="varchar2" MaxLength="50" />
+          <Property Name="CITY" Type="varchar2" MaxLength="150" />
+          <Property Name="DISTRICT" Type="varchar2" MaxLength="150" />
+          <Property Name="COUNTRY" Type="varchar2" MaxLength="150" />
+          <Property Name="BATCH_NUMBER" Type="number" Precision="38" Scale="0" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="date" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="LAST_UPDATE_DATE" Type="date" />
+          <Property Name="SOURCE" Type="number" Precision="13" Scale="0" />
+          <Property Name="COMMENTS" Type="varchar2" MaxLength="250" />
+        </EntityType>
         <EntityType Name="SUBSCRIBER_TYPES">
           <Key>
             <PropertyRef Name="SUBSCRIBER_TYPE_ID" />
@@ -152,6 +201,17 @@
           <Property Name="MOTHER_NAME" Type="varchar2" MaxLength="200" />
           <Property Name="GENDER" Type="varchar2" MaxLength="1" />
         </EntityType>
+        <EntityType Name="ZONE_TYPES">
+          <Key>
+            <PropertyRef Name="ZONE_ID" />
+          </Key>
+          <Property Name="ZONE_ID" Type="varchar2" MaxLength="1" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="date" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="LAST_UPDATE_DATE" Type="date" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'STEFAN.ADMIN_CLIENTS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ADMIN_CLIENTS">
@@ -183,20 +243,39 @@ warning 6002: The table/view 'STEFAN.ADMIN_SEC_USERS_V' does not have a primary 
           </Key>
           <Property Name="SEC_USER_ID" Type="number" Precision="38" Scale="0" Nullable="false" />
           <Property Name="USERNAME" Type="varchar2" MaxLength="50" />
-          <Property Name="FULL_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="NAME" Type="varchar2" MaxLength="100" />
           <Property Name="ISADMIN" Type="number" Precision="38" Scale="0" />
           <Property Name="ACTIVE" Type="number" Precision="38" Scale="0" />
           <Property Name="BLOCKED" Type="number" Precision="38" Scale="0" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'STEFAN.CASE_DETAILS_V' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CASE_DETAILS_V">
+          <Key>
+            <PropertyRef Name="CASE_ID" />
+          </Key>
+          <Property Name="CASE_ID" Type="number" Precision="13" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ZONE" Type="varchar2" MaxLength="1" />
+          <Property Name="CLIENT_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="BALANCE" Type="number" Precision="38" Scale="0" />
+          <Property Name="PA_STATUS" Type="char" MaxLength="1" />
+          <Property Name="PA_MADE" Type="number" Precision="38" Scale="0" />
+          <Property Name="PA_BROKEN" Type="number" Precision="38" Scale="0" />
+          <Property Name="PA_KEPT" Type="number" Precision="38" Scale="0" />
+          <Property Name="PA_CANCELLED" Type="number" Precision="38" Scale="0" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'STEFAN.CASES_SEARCH' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="CASES_SEARCH">
           <Key>
             <PropertyRef Name="ACCOUNT_ID" />
+            <PropertyRef Name="SUBSCRIBER_ID" />
+            <PropertyRef Name="SEC_USER_ID" />
           </Key>
           <Property Name="UNIQUE_ID" Type="number" Precision="38" Scale="0" />
-          <Property Name="CLIENT_ID" Type="number" Precision="13" Scale="0" />
+          <Property Name="CLIENT_NAME" Type="varchar2" MaxLength="100" />
           <Property Name="ZONE" Type="varchar2" MaxLength="1" />
+          <Property Name="ZONE_NAME" Type="varchar2" MaxLength="50" />
           <Property Name="OWNER" Type="varchar2" MaxLength="100" />
           <Property Name="CASE_ID" Type="number" Precision="13" Scale="0" />
           <Property Name="ACCOUNT_ID" Type="number" Precision="13" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
@@ -205,6 +284,44 @@ warning 6002: The table/view 'STEFAN.CASES_SEARCH' does not have a primary key d
           <Property Name="NAME" Type="varchar2" MaxLength="501" />
           <Property Name="SUBSCRIBER_TYPE" Type="varchar2" MaxLength="70" />
           <Property Name="CONTRACT_NUMBER" Type="varchar2" MaxLength="50" />
+          <Property Name="SUBSCRIBER_ID" Type="number" Precision="13" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SEC_USER_ID" Type="number" Precision="38" Scale="0" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'STEFAN.SUBSCRIBER_ADDRESSES_V' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="SUBSCRIBER_ADDRESSES_V">
+          <Key>
+            <PropertyRef Name="SUBSCRIBER_ID" />
+          </Key>
+          <Property Name="SUBSCRIBER_ID" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="ADDRESS_TYPE" Type="varchar2" MaxLength="50" />
+          <Property Name="MAIN_ADDRESS" Type="number" Precision="1" Scale="0" />
+          <Property Name="STREET" Type="varchar2" MaxLength="500" />
+          <Property Name="STREET_NUMBER" Type="varchar2" MaxLength="150" />
+          <Property Name="BUILDING" Type="varchar2" MaxLength="150" />
+          <Property Name="STAIR" Type="varchar2" MaxLength="50" />
+          <Property Name="FLOOR" Type="varchar2" MaxLength="50" />
+          <Property Name="APARTMENT" Type="varchar2" MaxLength="50" />
+          <Property Name="CITY" Type="varchar2" MaxLength="150" />
+          <Property Name="DISTRICT" Type="varchar2" MaxLength="150" />
+          <Property Name="COUNTRY" Type="varchar2" MaxLength="150" />
+          <Property Name="SOURCE_TYPE" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="date" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'STEFAN.SUBSCRIBER_DATA_V' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="SUBSCRIBER_DATA_V">
+          <Key>
+            <PropertyRef Name="SUBSCRIBER_ID" />
+          </Key>
+          <Property Name="CASE_ID" Type="number" Precision="13" Scale="0" />
+          <Property Name="SUBSCRIBER_ID" Type="number" Precision="13" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FIRST_NAME" Type="varchar2" MaxLength="300" />
+          <Property Name="LAST_NAME" Type="varchar2" MaxLength="200" />
+          <Property Name="SUBSCRIBER_TYPE" Type="varchar2" MaxLength="70" />
+          <Property Name="MAIN" Type="number" Precision="1" Scale="0" />
+          <Property Name="SSN" Type="varchar2" MaxLength="50" />
         </EntityType>
         <Association Name="ACC_CE_FK">
           <End Role="CASES" Type="Self.CASES" Multiplicity="0..1" />
@@ -242,6 +359,42 @@ warning 6002: The table/view 'STEFAN.CASES_SEARCH' does not have a primary key d
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="ACCOUNTS_ZONE_FK">
+          <End Role="ZONE_TYPES" Type="Self.ZONE_TYPES" Multiplicity="0..1" />
+          <End Role="ACCOUNTS" Type="Self.ACCOUNTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZONE_TYPES">
+              <PropertyRef Name="ZONE_ID" />
+            </Principal>
+            <Dependent Role="ACCOUNTS">
+              <PropertyRef Name="ZONE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ADDR_TYP_SUBSCRIB_ADDR_FK">
+          <End Role="ADDRESS_TYPES" Type="Self.ADDRESS_TYPES" Multiplicity="1" />
+          <End Role="SUBSCRIBER_ADDRESSES" Type="Self.SUBSCRIBER_ADDRESSES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ADDRESS_TYPES">
+              <PropertyRef Name="ADDRESS_TYPE_ID" />
+            </Principal>
+            <Dependent Role="SUBSCRIBER_ADDRESSES">
+              <PropertyRef Name="ADDRESS_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CASES_ZONE_FK">
+          <End Role="ZONE_TYPES" Type="Self.ZONE_TYPES" Multiplicity="0..1" />
+          <End Role="CASES" Type="Self.CASES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZONE_TYPES">
+              <PropertyRef Name="ZONE_ID" />
+            </Principal>
+            <Dependent Role="CASES">
+              <PropertyRef Name="ZONE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="CE_CLIENT_FK">
           <End Role="CLIENTS" Type="Self.CLIENTS" Multiplicity="0..1" />
           <End Role="CASES" Type="Self.CASES" Multiplicity="*" />
@@ -263,6 +416,30 @@ warning 6002: The table/view 'STEFAN.CASES_SEARCH' does not have a primary key d
             </Principal>
             <Dependent Role="CLIENTS">
               <PropertyRef Name="BANK_ACCOUNT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SOURCE_TYP_SUBSCRIB_ADDR_FK">
+          <End Role="SOURCE_TYPES" Type="Self.SOURCE_TYPES" Multiplicity="0..1" />
+          <End Role="SUBSCRIBER_ADDRESSES" Type="Self.SUBSCRIBER_ADDRESSES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SOURCE_TYPES">
+              <PropertyRef Name="CONTACT_SOURCE_TYPE_ID" />
+            </Principal>
+            <Dependent Role="SUBSCRIBER_ADDRESSES">
+              <PropertyRef Name="SOURCE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SUBSCRIB_SUBSCRIB_ADDRESSES_FK">
+          <End Role="SUBSCRIBERS" Type="Self.SUBSCRIBERS" Multiplicity="1" />
+          <End Role="SUBSCRIBER_ADDRESSES" Type="Self.SUBSCRIBER_ADDRESSES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUBSCRIBERS">
+              <PropertyRef Name="SUBSCRIBER_ID" />
+            </Principal>
+            <Dependent Role="SUBSCRIBER_ADDRESSES">
+              <PropertyRef Name="SUBSCRIBER_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -290,18 +467,19 @@ warning 6002: The table/view 'STEFAN.CASES_SEARCH' does not have a primary key d
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        
-        
-        
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="ACC_SUBS_INT" EntityType="Self.ACC_SUBS_INT" Schema="STEFAN" store:Type="Tables" />
           <EntitySet Name="ACCOUNTS" EntityType="Self.ACCOUNTS" Schema="STEFAN" store:Type="Tables" />
+          <EntitySet Name="ADDRESS_TYPES" EntityType="Self.ADDRESS_TYPES" Schema="STEFAN" store:Type="Tables" />
           <EntitySet Name="BANK_ACCOUNTS" EntityType="Self.BANK_ACCOUNTS" Schema="STEFAN" store:Type="Tables" />
           <EntitySet Name="CASES" EntityType="Self.CASES" Schema="STEFAN" store:Type="Tables" />
           <EntitySet Name="CLIENTS" EntityType="Self.CLIENTS" Schema="STEFAN" store:Type="Tables" />
           <EntitySet Name="SEC_USERS" EntityType="Self.SEC_USERS" Schema="STEFAN" store:Type="Tables" />
+          <EntitySet Name="SOURCE_TYPES" EntityType="Self.SOURCE_TYPES" Schema="STEFAN" store:Type="Tables" />
+          <EntitySet Name="SUBSCRIBER_ADDRESSES" EntityType="Self.SUBSCRIBER_ADDRESSES" Schema="STEFAN" store:Type="Tables" />
           <EntitySet Name="SUBSCRIBER_TYPES" EntityType="Self.SUBSCRIBER_TYPES" Schema="STEFAN" store:Type="Tables" />
           <EntitySet Name="SUBSCRIBERS" EntityType="Self.SUBSCRIBERS" Schema="STEFAN" store:Type="Tables" />
+          <EntitySet Name="ZONE_TYPES" EntityType="Self.ZONE_TYPES" Schema="STEFAN" store:Type="Tables" />
           <EntitySet Name="ADMIN_CLIENTS" EntityType="Self.ADMIN_CLIENTS" store:Type="Views" store:Schema="STEFAN">
             <DefiningQuery>SELECT 
 "ADMIN_CLIENTS"."CLIENT_ID" AS "CLIENT_ID", 
@@ -326,17 +504,31 @@ FROM "STEFAN"."ADMIN_CLIENTS" "ADMIN_CLIENTS"</DefiningQuery>
             <DefiningQuery>SELECT 
 "ADMIN_SEC_USERS_V"."SEC_USER_ID" AS "SEC_USER_ID", 
 "ADMIN_SEC_USERS_V"."USERNAME" AS "USERNAME", 
-"ADMIN_SEC_USERS_V"."FULL_NAME" AS "FULL_NAME", 
+"ADMIN_SEC_USERS_V"."NAME" AS "NAME", 
 "ADMIN_SEC_USERS_V"."ISADMIN" AS "ISADMIN", 
 "ADMIN_SEC_USERS_V"."ACTIVE" AS "ACTIVE", 
 "ADMIN_SEC_USERS_V"."BLOCKED" AS "BLOCKED"
 FROM "STEFAN"."ADMIN_SEC_USERS_V" "ADMIN_SEC_USERS_V"</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="CASE_DETAILS_V" EntityType="Self.CASE_DETAILS_V" store:Type="Views" store:Schema="STEFAN">
+            <DefiningQuery>SELECT 
+"CASE_DETAILS_V"."CASE_ID" AS "CASE_ID", 
+"CASE_DETAILS_V"."ZONE" AS "ZONE", 
+"CASE_DETAILS_V"."CLIENT_NAME" AS "CLIENT_NAME", 
+"CASE_DETAILS_V"."BALANCE" AS "BALANCE", 
+"CASE_DETAILS_V"."PA_STATUS" AS "PA_STATUS", 
+"CASE_DETAILS_V"."PA_MADE" AS "PA_MADE", 
+"CASE_DETAILS_V"."PA_BROKEN" AS "PA_BROKEN", 
+"CASE_DETAILS_V"."PA_KEPT" AS "PA_KEPT", 
+"CASE_DETAILS_V"."PA_CANCELLED" AS "PA_CANCELLED"
+FROM "STEFAN"."CASE_DETAILS_V" "CASE_DETAILS_V"</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="CASES_SEARCH" EntityType="Self.CASES_SEARCH" store:Type="Views" store:Schema="STEFAN">
             <DefiningQuery>SELECT 
 "CASES_SEARCH"."UNIQUE_ID" AS "UNIQUE_ID", 
-"CASES_SEARCH"."CLIENT_ID" AS "CLIENT_ID", 
+"CASES_SEARCH"."CLIENT_NAME" AS "CLIENT_NAME", 
 "CASES_SEARCH"."ZONE" AS "ZONE", 
+"CASES_SEARCH"."ZONE_NAME" AS "ZONE_NAME", 
 "CASES_SEARCH"."OWNER" AS "OWNER", 
 "CASES_SEARCH"."CASE_ID" AS "CASE_ID", 
 "CASES_SEARCH"."ACCOUNT_ID" AS "ACCOUNT_ID", 
@@ -344,8 +536,40 @@ FROM "STEFAN"."ADMIN_SEC_USERS_V" "ADMIN_SEC_USERS_V"</DefiningQuery>
 "CASES_SEARCH"."SSN" AS "SSN", 
 "CASES_SEARCH"."NAME" AS "NAME", 
 "CASES_SEARCH"."SUBSCRIBER_TYPE" AS "SUBSCRIBER_TYPE", 
-"CASES_SEARCH"."CONTRACT_NUMBER" AS "CONTRACT_NUMBER"
+"CASES_SEARCH"."CONTRACT_NUMBER" AS "CONTRACT_NUMBER", 
+"CASES_SEARCH"."SUBSCRIBER_ID" AS "SUBSCRIBER_ID", 
+"CASES_SEARCH"."SEC_USER_ID" AS "SEC_USER_ID"
 FROM "STEFAN"."CASES_SEARCH" "CASES_SEARCH"</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="SUBSCRIBER_ADDRESSES_V" EntityType="Self.SUBSCRIBER_ADDRESSES_V" store:Type="Views" store:Schema="STEFAN">
+            <DefiningQuery>SELECT 
+"SUBSCRIBER_ADDRESSES_V"."SUBSCRIBER_ID" AS "SUBSCRIBER_ID", 
+"SUBSCRIBER_ADDRESSES_V"."ADDRESS_TYPE" AS "ADDRESS_TYPE", 
+"SUBSCRIBER_ADDRESSES_V"."MAIN_ADDRESS" AS "MAIN_ADDRESS", 
+"SUBSCRIBER_ADDRESSES_V"."STREET" AS "STREET", 
+"SUBSCRIBER_ADDRESSES_V"."STREET_NUMBER" AS "STREET_NUMBER", 
+"SUBSCRIBER_ADDRESSES_V"."BUILDING" AS "BUILDING", 
+"SUBSCRIBER_ADDRESSES_V"."STAIR" AS "STAIR", 
+"SUBSCRIBER_ADDRESSES_V"."FLOOR" AS "FLOOR", 
+"SUBSCRIBER_ADDRESSES_V"."APARTMENT" AS "APARTMENT", 
+"SUBSCRIBER_ADDRESSES_V"."CITY" AS "CITY", 
+"SUBSCRIBER_ADDRESSES_V"."DISTRICT" AS "DISTRICT", 
+"SUBSCRIBER_ADDRESSES_V"."COUNTRY" AS "COUNTRY", 
+"SUBSCRIBER_ADDRESSES_V"."SOURCE_TYPE" AS "SOURCE_TYPE", 
+"SUBSCRIBER_ADDRESSES_V"."CREATED_BY" AS "CREATED_BY", 
+"SUBSCRIBER_ADDRESSES_V"."CREATION_DATE" AS "CREATION_DATE"
+FROM "STEFAN"."SUBSCRIBER_ADDRESSES_V" "SUBSCRIBER_ADDRESSES_V"</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="SUBSCRIBER_DATA_V" EntityType="Self.SUBSCRIBER_DATA_V" store:Type="Views" store:Schema="STEFAN">
+            <DefiningQuery>SELECT 
+"SUBSCRIBER_DATA_V"."CASE_ID" AS "CASE_ID", 
+"SUBSCRIBER_DATA_V"."SUBSCRIBER_ID" AS "SUBSCRIBER_ID", 
+"SUBSCRIBER_DATA_V"."FIRST_NAME" AS "FIRST_NAME", 
+"SUBSCRIBER_DATA_V"."LAST_NAME" AS "LAST_NAME", 
+"SUBSCRIBER_DATA_V"."SUBSCRIBER_TYPE" AS "SUBSCRIBER_TYPE", 
+"SUBSCRIBER_DATA_V"."MAIN" AS "MAIN", 
+"SUBSCRIBER_DATA_V"."SSN" AS "SSN"
+FROM "STEFAN"."SUBSCRIBER_DATA_V" "SUBSCRIBER_DATA_V"</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="ACC_CE_FK" Association="Self.ACC_CE_FK">
             <End Role="CASES" EntitySet="CASES" />
@@ -359,6 +583,18 @@ FROM "STEFAN"."CASES_SEARCH" "CASES_SEARCH"</DefiningQuery>
             <End Role="ACCOUNTS" EntitySet="ACCOUNTS" />
             <End Role="ACC_SUBS_INT" EntitySet="ACC_SUBS_INT" />
           </AssociationSet>
+          <AssociationSet Name="ACCOUNTS_ZONE_FK" Association="Self.ACCOUNTS_ZONE_FK">
+            <End Role="ZONE_TYPES" EntitySet="ZONE_TYPES" />
+            <End Role="ACCOUNTS" EntitySet="ACCOUNTS" />
+          </AssociationSet>
+          <AssociationSet Name="ADDR_TYP_SUBSCRIB_ADDR_FK" Association="Self.ADDR_TYP_SUBSCRIB_ADDR_FK">
+            <End Role="ADDRESS_TYPES" EntitySet="ADDRESS_TYPES" />
+            <End Role="SUBSCRIBER_ADDRESSES" EntitySet="SUBSCRIBER_ADDRESSES" />
+          </AssociationSet>
+          <AssociationSet Name="CASES_ZONE_FK" Association="Self.CASES_ZONE_FK">
+            <End Role="ZONE_TYPES" EntitySet="ZONE_TYPES" />
+            <End Role="CASES" EntitySet="CASES" />
+          </AssociationSet>
           <AssociationSet Name="CE_CLIENT_FK" Association="Self.CE_CLIENT_FK">
             <End Role="CLIENTS" EntitySet="CLIENTS" />
             <End Role="CASES" EntitySet="CASES" />
@@ -366,6 +602,14 @@ FROM "STEFAN"."CASES_SEARCH" "CASES_SEARCH"</DefiningQuery>
           <AssociationSet Name="CLIENTS_CLIENT_BANK_ACC_FK" Association="Self.CLIENTS_CLIENT_BANK_ACC_FK">
             <End Role="BANK_ACCOUNTS" EntitySet="BANK_ACCOUNTS" />
             <End Role="CLIENTS" EntitySet="CLIENTS" />
+          </AssociationSet>
+          <AssociationSet Name="SOURCE_TYP_SUBSCRIB_ADDR_FK" Association="Self.SOURCE_TYP_SUBSCRIB_ADDR_FK">
+            <End Role="SOURCE_TYPES" EntitySet="SOURCE_TYPES" />
+            <End Role="SUBSCRIBER_ADDRESSES" EntitySet="SUBSCRIBER_ADDRESSES" />
+          </AssociationSet>
+          <AssociationSet Name="SUBSCRIB_SUBSCRIB_ADDRESSES_FK" Association="Self.SUBSCRIB_SUBSCRIB_ADDRESSES_FK">
+            <End Role="SUBSCRIBERS" EntitySet="SUBSCRIBERS" />
+            <End Role="SUBSCRIBER_ADDRESSES" EntitySet="SUBSCRIBER_ADDRESSES" />
           </AssociationSet>
           <AssociationSet Name="SUBSCRIB_TYP_ACC_SUBS_FK" Association="Self.SUBSCRIB_TYP_ACC_SUBS_FK">
             <End Role="SUBSCRIBER_TYPES" EntitySet="SUBSCRIBER_TYPES" />
@@ -420,6 +664,33 @@ FROM "STEFAN"."CASES_SEARCH" "CASES_SEARCH"</DefiningQuery>
             <End Role="CLIENTS" EntitySet="CLIENTS" />
             <End Role="CASES" EntitySet="CASES" />
           </AssociationSet>
+          <EntitySet Name="ADDRESS_TYPES" EntityType="Model.ADDRESS_TYPES" />
+          <EntitySet Name="SOURCE_TYPES" EntityType="Model.SOURCE_TYPES" />
+          <EntitySet Name="SUBSCRIBER_ADDRESSES" EntityType="Model.SUBSCRIBER_ADDRESSES" />
+          <EntitySet Name="ZONE_TYPES" EntityType="Model.ZONE_TYPES" />
+          <EntitySet Name="CASE_DETAILS_V" EntityType="Model.CASE_DETAILS_V" />
+          <EntitySet Name="SUBSCRIBER_ADDRESSES_V" EntityType="Model.SUBSCRIBER_ADDRESSES_V" />
+          <EntitySet Name="SUBSCRIBER_DATA_V" EntityType="Model.SUBSCRIBER_DATA_V" />
+          <AssociationSet Name="ACCOUNTS_ZONE_FK" Association="Model.ACCOUNTS_ZONE_FK">
+            <End Role="ZONE_TYPES" EntitySet="ZONE_TYPES" />
+            <End Role="ACCOUNTS" EntitySet="ACCOUNTS" />
+          </AssociationSet>
+          <AssociationSet Name="ADDR_TYP_SUBSCRIB_ADDR_FK" Association="Model.ADDR_TYP_SUBSCRIB_ADDR_FK">
+            <End Role="ADDRESS_TYPES" EntitySet="ADDRESS_TYPES" />
+            <End Role="SUBSCRIBER_ADDRESSES" EntitySet="SUBSCRIBER_ADDRESSES" />
+          </AssociationSet>
+          <AssociationSet Name="CASES_ZONE_FK" Association="Model.CASES_ZONE_FK">
+            <End Role="ZONE_TYPES" EntitySet="ZONE_TYPES" />
+            <End Role="CASES" EntitySet="CASES" />
+          </AssociationSet>
+          <AssociationSet Name="SOURCE_TYP_SUBSCRIB_ADDR_FK" Association="Model.SOURCE_TYP_SUBSCRIB_ADDR_FK">
+            <End Role="SOURCE_TYPES" EntitySet="SOURCE_TYPES" />
+            <End Role="SUBSCRIBER_ADDRESSES" EntitySet="SUBSCRIBER_ADDRESSES" />
+          </AssociationSet>
+          <AssociationSet Name="SUBSCRIB_SUBSCRIB_ADDRESSES_FK" Association="Model.SUBSCRIB_SUBSCRIB_ADDRESSES_FK">
+            <End Role="SUBSCRIBERS" EntitySet="SUBSCRIBERS" />
+            <End Role="SUBSCRIBER_ADDRESSES" EntitySet="SUBSCRIBER_ADDRESSES" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ACC_SUBS_INT">
           <Key>
@@ -461,6 +732,7 @@ FROM "STEFAN"."CASES_SEARCH" "CASES_SEARCH"</DefiningQuery>
           <NavigationProperty Name="ACC_SUBS_INT" Relationship="Model.ACCOUNT_ACC_SUBS_INT_FK" FromRole="ACCOUNTS" ToRole="ACC_SUBS_INT" />
           <NavigationProperty Name="CASES" Relationship="Model.ACC_CE_FK" FromRole="ACCOUNTS" ToRole="CASES" />
           <NavigationProperty Name="CLIENTS" Relationship="Model.ACC_CLIENT_FK" FromRole="ACCOUNTS" ToRole="CLIENTS" />
+          <NavigationProperty Name="ZONE_TYPES" Relationship="Model.ACCOUNTS_ZONE_FK" FromRole="ACCOUNTS" ToRole="ZONE_TYPES" />
         </EntityType>
         <EntityType Name="BANK_ACCOUNTS">
           <Key>
@@ -498,6 +770,7 @@ FROM "STEFAN"."CASES_SEARCH" "CASES_SEARCH"</DefiningQuery>
           <Property Name="LAST_UPDATE_DATE" Type="DateTime" />
           <NavigationProperty Name="ACCOUNTS" Relationship="Model.ACC_CE_FK" FromRole="CASES" ToRole="ACCOUNTS" />
           <NavigationProperty Name="CLIENTS" Relationship="Model.CE_CLIENT_FK" FromRole="CASES" ToRole="CLIENTS" />
+          <NavigationProperty Name="ZONE_TYPES" Relationship="Model.CASES_ZONE_FK" FromRole="CASES" ToRole="ZONE_TYPES" />
         </EntityType>
         <EntityType Name="CLIENTS">
           <Key>
@@ -581,6 +854,7 @@ FROM "STEFAN"."CASES_SEARCH" "CASES_SEARCH"</DefiningQuery>
           <Property Name="MOTHER_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="GENDER" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ACC_SUBS_INT" Relationship="Model.SUBSCRIBERS_ACC_SUBS_INT_FK" FromRole="SUBSCRIBERS" ToRole="ACC_SUBS_INT" />
+          <NavigationProperty Name="SUBSCRIBER_ADDRESSES" Relationship="Model.SUBSCRIB_SUBSCRIB_ADDRESSES_FK" FromRole="SUBSCRIBERS" ToRole="SUBSCRIBER_ADDRESSES" />
         </EntityType>
         <EntityType Name="ADMIN_CLIENTS">
           <Key>
@@ -609,17 +883,18 @@ FROM "STEFAN"."CASES_SEARCH" "CASES_SEARCH"</DefiningQuery>
           </Key>
           <Property Name="SEC_USER_ID" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
           <Property Name="USERNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FULL_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="ISADMIN" Type="Decimal" Precision="38" Scale="0" />
           <Property Name="ACTIVE" Type="Decimal" Precision="38" Scale="0" />
           <Property Name="BLOCKED" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="CASES_SEARCH">
           <Key>
             <PropertyRef Name="ACCOUNT_ID" />
+            <PropertyRef Name="SUBSCRIBER_ID" />
+            <PropertyRef Name="SEC_USER_ID" />
           </Key>
           <Property Name="UNIQUE_ID" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="CLIENT_ID" Type="Int64" />
           <Property Name="ZONE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="OWNER" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="CASE_ID" Type="Int64" />
@@ -629,6 +904,10 @@ FROM "STEFAN"."CASES_SEARCH" "CASES_SEARCH"</DefiningQuery>
           <Property Name="NAME" Type="String" MaxLength="501" FixedLength="false" Unicode="false" />
           <Property Name="SUBSCRIBER_TYPE" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
           <Property Name="CONTRACT_NUMBER" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CLIENT_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ZONE_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SUBSCRIBER_ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SEC_USER_ID" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
         </EntityType>
         <Association Name="ACCOUNT_ACC_SUBS_INT_FK">
           <End Type="Model.ACCOUNTS" Role="ACCOUNTS" Multiplicity="1" />
@@ -711,6 +990,179 @@ FROM "STEFAN"."CASES_SEARCH" "CASES_SEARCH"</DefiningQuery>
             </Principal>
             <Dependent Role="CASES">
               <PropertyRef Name="CLIENT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ADDRESS_TYPES">
+          <Key>
+            <PropertyRef Name="ADDRESS_TYPE_ID" />
+          </Key>
+          <Property Name="ADDRESS_TYPE_ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CREATION_DATE" Type="DateTime" />
+          <Property Name="LAST_UPDATED_BY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_UPDATE_DATE" Type="DateTime" />
+          <NavigationProperty Name="SUBSCRIBER_ADDRESSES" Relationship="Model.ADDR_TYP_SUBSCRIB_ADDR_FK" FromRole="ADDRESS_TYPES" ToRole="SUBSCRIBER_ADDRESSES" />
+        </EntityType>
+        <EntityType Name="SOURCE_TYPES">
+          <Key>
+            <PropertyRef Name="CONTACT_SOURCE_TYPE_ID" />
+          </Key>
+          <Property Name="CONTACT_SOURCE_TYPE_ID" Type="Int64" Nullable="false" />
+          <Property Name="NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ACTIVE" Type="Int16" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CREATION_DATE" Type="DateTime" />
+          <Property Name="LAST_UPDATED_BY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_UPDATE_DATE" Type="DateTime" />
+          <Property Name="IS_OFFICIAL" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="SUBSCRIBER_ADDRESSES" Relationship="Model.SOURCE_TYP_SUBSCRIB_ADDR_FK" FromRole="SOURCE_TYPES" ToRole="SUBSCRIBER_ADDRESSES" />
+        </EntityType>
+        <EntityType Name="SUBSCRIBER_ADDRESSES">
+          <Key>
+            <PropertyRef Name="SUBSCRIBER_ADDRESS_ID" />
+          </Key>
+          <Property Name="SUBSCRIBER_ADDRESS_ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ADDRESS_TYPE_ID" Type="Int64" Nullable="false" />
+          <Property Name="SUBSCRIBER_ID" Type="Int64" Nullable="false" />
+          <Property Name="MAIN_ADDRESS" Type="Int16" />
+          <Property Name="STREET" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="STREET_NUMBER" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="BUILDING" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="STAIR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FLOOR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="APARTMENT" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CITY" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="DISTRICT" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="COUNTRY" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="BATCH_NUMBER" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CREATION_DATE" Type="DateTime" />
+          <Property Name="LAST_UPDATED_BY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_UPDATE_DATE" Type="DateTime" />
+          <Property Name="SOURCE" Type="Int64" />
+          <Property Name="COMMENTS" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ADDRESS_TYPES" Relationship="Model.ADDR_TYP_SUBSCRIB_ADDR_FK" FromRole="SUBSCRIBER_ADDRESSES" ToRole="ADDRESS_TYPES" />
+          <NavigationProperty Name="SOURCE_TYPES" Relationship="Model.SOURCE_TYP_SUBSCRIB_ADDR_FK" FromRole="SUBSCRIBER_ADDRESSES" ToRole="SOURCE_TYPES" />
+          <NavigationProperty Name="SUBSCRIBERS" Relationship="Model.SUBSCRIB_SUBSCRIB_ADDRESSES_FK" FromRole="SUBSCRIBER_ADDRESSES" ToRole="SUBSCRIBERS" />
+        </EntityType>
+        <EntityType Name="ZONE_TYPES">
+          <Key>
+            <PropertyRef Name="ZONE_ID" />
+          </Key>
+          <Property Name="ZONE_ID" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CREATION_DATE" Type="DateTime" />
+          <Property Name="LAST_UPDATED_BY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_UPDATE_DATE" Type="DateTime" />
+          <NavigationProperty Name="ACCOUNTS" Relationship="Model.ACCOUNTS_ZONE_FK" FromRole="ZONE_TYPES" ToRole="ACCOUNTS" />
+          <NavigationProperty Name="CASES" Relationship="Model.CASES_ZONE_FK" FromRole="ZONE_TYPES" ToRole="CASES" />
+        </EntityType>
+        <EntityType Name="CASE_DETAILS_V">
+          <Key>
+            <PropertyRef Name="CASE_ID" />
+          </Key>
+          <Property Name="CASE_ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ZONE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CLIENT_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BALANCE" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="PA_STATUS" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="PA_MADE" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="PA_BROKEN" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="PA_KEPT" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="PA_CANCELLED" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="SUBSCRIBER_ADDRESSES_V">
+          <Key>
+            <PropertyRef Name="SUBSCRIBER_ID" />
+          </Key>
+          <Property Name="SUBSCRIBER_ID" Type="Int64" Nullable="false" />
+          <Property Name="ADDRESS_TYPE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MAIN_ADDRESS" Type="Int16" />
+          <Property Name="STREET" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="STREET_NUMBER" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="BUILDING" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="STAIR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FLOOR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="APARTMENT" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CITY" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="DISTRICT" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="COUNTRY" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="SOURCE_TYPE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CREATION_DATE" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="SUBSCRIBER_DATA_V">
+          <Key>
+            <PropertyRef Name="SUBSCRIBER_ID" />
+          </Key>
+          <Property Name="CASE_ID" Type="Int64" />
+          <Property Name="SUBSCRIBER_ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FIRST_NAME" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="SUBSCRIBER_TYPE" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Name="MAIN" Type="Int16" />
+          <Property Name="SSN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="ACCOUNTS_ZONE_FK">
+          <End Type="Model.ZONE_TYPES" Role="ZONE_TYPES" Multiplicity="0..1" />
+          <End Type="Model.ACCOUNTS" Role="ACCOUNTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZONE_TYPES">
+              <PropertyRef Name="ZONE_ID" />
+            </Principal>
+            <Dependent Role="ACCOUNTS">
+              <PropertyRef Name="ZONE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ADDR_TYP_SUBSCRIB_ADDR_FK">
+          <End Type="Model.ADDRESS_TYPES" Role="ADDRESS_TYPES" Multiplicity="1" />
+          <End Type="Model.SUBSCRIBER_ADDRESSES" Role="SUBSCRIBER_ADDRESSES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ADDRESS_TYPES">
+              <PropertyRef Name="ADDRESS_TYPE_ID" />
+            </Principal>
+            <Dependent Role="SUBSCRIBER_ADDRESSES">
+              <PropertyRef Name="ADDRESS_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CASES_ZONE_FK">
+          <End Type="Model.ZONE_TYPES" Role="ZONE_TYPES" Multiplicity="0..1" />
+          <End Type="Model.CASES" Role="CASES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZONE_TYPES">
+              <PropertyRef Name="ZONE_ID" />
+            </Principal>
+            <Dependent Role="CASES">
+              <PropertyRef Name="ZONE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SOURCE_TYP_SUBSCRIB_ADDR_FK">
+          <End Type="Model.SOURCE_TYPES" Role="SOURCE_TYPES" Multiplicity="0..1" />
+          <End Type="Model.SUBSCRIBER_ADDRESSES" Role="SUBSCRIBER_ADDRESSES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SOURCE_TYPES">
+              <PropertyRef Name="CONTACT_SOURCE_TYPE_ID" />
+            </Principal>
+            <Dependent Role="SUBSCRIBER_ADDRESSES">
+              <PropertyRef Name="SOURCE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SUBSCRIB_SUBSCRIB_ADDRESSES_FK">
+          <End Type="Model.SUBSCRIBERS" Role="SUBSCRIBERS" Multiplicity="1" />
+          <End Type="Model.SUBSCRIBER_ADDRESSES" Role="SUBSCRIBER_ADDRESSES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUBSCRIBERS">
+              <PropertyRef Name="SUBSCRIBER_ID" />
+            </Principal>
+            <Dependent Role="SUBSCRIBER_ADDRESSES">
+              <PropertyRef Name="SUBSCRIBER_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -900,10 +1352,10 @@ FROM "STEFAN"."CASES_SEARCH" "CASES_SEARCH"</DefiningQuery>
           <EntitySetMapping Name="ADMIN_SEC_USERS_V">
             <EntityTypeMapping TypeName="Model.ADMIN_SEC_USERS_V">
               <MappingFragment StoreEntitySet="ADMIN_SEC_USERS_V">
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
                 <ScalarProperty Name="BLOCKED" ColumnName="BLOCKED" />
                 <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
                 <ScalarProperty Name="ISADMIN" ColumnName="ISADMIN" />
-                <ScalarProperty Name="FULL_NAME" ColumnName="FULL_NAME" />
                 <ScalarProperty Name="USERNAME" ColumnName="USERNAME" />
                 <ScalarProperty Name="SEC_USER_ID" ColumnName="SEC_USER_ID" />
               </MappingFragment>
@@ -912,6 +1364,10 @@ FROM "STEFAN"."CASES_SEARCH" "CASES_SEARCH"</DefiningQuery>
           <EntitySetMapping Name="CASES_SEARCH">
             <EntityTypeMapping TypeName="Model.CASES_SEARCH">
               <MappingFragment StoreEntitySet="CASES_SEARCH">
+                <ScalarProperty Name="SEC_USER_ID" ColumnName="SEC_USER_ID" />
+                <ScalarProperty Name="SUBSCRIBER_ID" ColumnName="SUBSCRIBER_ID" />
+                <ScalarProperty Name="ZONE_NAME" ColumnName="ZONE_NAME" />
+                <ScalarProperty Name="CLIENT_NAME" ColumnName="CLIENT_NAME" />
                 <ScalarProperty Name="CONTRACT_NUMBER" ColumnName="CONTRACT_NUMBER" />
                 <ScalarProperty Name="SUBSCRIBER_TYPE" ColumnName="SUBSCRIBER_TYPE" />
                 <ScalarProperty Name="NAME" ColumnName="NAME" />
@@ -921,8 +1377,120 @@ FROM "STEFAN"."CASES_SEARCH" "CASES_SEARCH"</DefiningQuery>
                 <ScalarProperty Name="CASE_ID" ColumnName="CASE_ID" />
                 <ScalarProperty Name="OWNER" ColumnName="OWNER" />
                 <ScalarProperty Name="ZONE" ColumnName="ZONE" />
-                <ScalarProperty Name="CLIENT_ID" ColumnName="CLIENT_ID" />
                 <ScalarProperty Name="UNIQUE_ID" ColumnName="UNIQUE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ADDRESS_TYPES">
+            <EntityTypeMapping TypeName="Model.ADDRESS_TYPES">
+              <MappingFragment StoreEntitySet="ADDRESS_TYPES">
+                <ScalarProperty Name="LAST_UPDATE_DATE" ColumnName="LAST_UPDATE_DATE" />
+                <ScalarProperty Name="LAST_UPDATED_BY" ColumnName="LAST_UPDATED_BY" />
+                <ScalarProperty Name="CREATION_DATE" ColumnName="CREATION_DATE" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ADDRESS_TYPE_ID" ColumnName="ADDRESS_TYPE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SOURCE_TYPES">
+            <EntityTypeMapping TypeName="Model.SOURCE_TYPES">
+              <MappingFragment StoreEntitySet="SOURCE_TYPES">
+                <ScalarProperty Name="IS_OFFICIAL" ColumnName="IS_OFFICIAL" />
+                <ScalarProperty Name="LAST_UPDATE_DATE" ColumnName="LAST_UPDATE_DATE" />
+                <ScalarProperty Name="LAST_UPDATED_BY" ColumnName="LAST_UPDATED_BY" />
+                <ScalarProperty Name="CREATION_DATE" ColumnName="CREATION_DATE" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="CONTACT_SOURCE_TYPE_ID" ColumnName="CONTACT_SOURCE_TYPE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SUBSCRIBER_ADDRESSES">
+            <EntityTypeMapping TypeName="Model.SUBSCRIBER_ADDRESSES">
+              <MappingFragment StoreEntitySet="SUBSCRIBER_ADDRESSES">
+                <ScalarProperty Name="COMMENTS" ColumnName="COMMENTS" />
+                <ScalarProperty Name="SOURCE" ColumnName="SOURCE" />
+                <ScalarProperty Name="LAST_UPDATE_DATE" ColumnName="LAST_UPDATE_DATE" />
+                <ScalarProperty Name="LAST_UPDATED_BY" ColumnName="LAST_UPDATED_BY" />
+                <ScalarProperty Name="CREATION_DATE" ColumnName="CREATION_DATE" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="BATCH_NUMBER" ColumnName="BATCH_NUMBER" />
+                <ScalarProperty Name="COUNTRY" ColumnName="COUNTRY" />
+                <ScalarProperty Name="DISTRICT" ColumnName="DISTRICT" />
+                <ScalarProperty Name="CITY" ColumnName="CITY" />
+                <ScalarProperty Name="APARTMENT" ColumnName="APARTMENT" />
+                <ScalarProperty Name="FLOOR" ColumnName="FLOOR" />
+                <ScalarProperty Name="STAIR" ColumnName="STAIR" />
+                <ScalarProperty Name="BUILDING" ColumnName="BUILDING" />
+                <ScalarProperty Name="STREET_NUMBER" ColumnName="STREET_NUMBER" />
+                <ScalarProperty Name="STREET" ColumnName="STREET" />
+                <ScalarProperty Name="MAIN_ADDRESS" ColumnName="MAIN_ADDRESS" />
+                <ScalarProperty Name="SUBSCRIBER_ID" ColumnName="SUBSCRIBER_ID" />
+                <ScalarProperty Name="ADDRESS_TYPE_ID" ColumnName="ADDRESS_TYPE_ID" />
+                <ScalarProperty Name="SUBSCRIBER_ADDRESS_ID" ColumnName="SUBSCRIBER_ADDRESS_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ZONE_TYPES">
+            <EntityTypeMapping TypeName="Model.ZONE_TYPES">
+              <MappingFragment StoreEntitySet="ZONE_TYPES">
+                <ScalarProperty Name="LAST_UPDATE_DATE" ColumnName="LAST_UPDATE_DATE" />
+                <ScalarProperty Name="LAST_UPDATED_BY" ColumnName="LAST_UPDATED_BY" />
+                <ScalarProperty Name="CREATION_DATE" ColumnName="CREATION_DATE" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ZONE_ID" ColumnName="ZONE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CASE_DETAILS_V">
+            <EntityTypeMapping TypeName="Model.CASE_DETAILS_V">
+              <MappingFragment StoreEntitySet="CASE_DETAILS_V">
+                <ScalarProperty Name="PA_CANCELLED" ColumnName="PA_CANCELLED" />
+                <ScalarProperty Name="PA_KEPT" ColumnName="PA_KEPT" />
+                <ScalarProperty Name="PA_BROKEN" ColumnName="PA_BROKEN" />
+                <ScalarProperty Name="PA_MADE" ColumnName="PA_MADE" />
+                <ScalarProperty Name="PA_STATUS" ColumnName="PA_STATUS" />
+                <ScalarProperty Name="BALANCE" ColumnName="BALANCE" />
+                <ScalarProperty Name="CLIENT_NAME" ColumnName="CLIENT_NAME" />
+                <ScalarProperty Name="ZONE" ColumnName="ZONE" />
+                <ScalarProperty Name="CASE_ID" ColumnName="CASE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SUBSCRIBER_ADDRESSES_V">
+            <EntityTypeMapping TypeName="Model.SUBSCRIBER_ADDRESSES_V">
+              <MappingFragment StoreEntitySet="SUBSCRIBER_ADDRESSES_V">
+                <ScalarProperty Name="CREATION_DATE" ColumnName="CREATION_DATE" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="SOURCE_TYPE" ColumnName="SOURCE_TYPE" />
+                <ScalarProperty Name="COUNTRY" ColumnName="COUNTRY" />
+                <ScalarProperty Name="DISTRICT" ColumnName="DISTRICT" />
+                <ScalarProperty Name="CITY" ColumnName="CITY" />
+                <ScalarProperty Name="APARTMENT" ColumnName="APARTMENT" />
+                <ScalarProperty Name="FLOOR" ColumnName="FLOOR" />
+                <ScalarProperty Name="STAIR" ColumnName="STAIR" />
+                <ScalarProperty Name="BUILDING" ColumnName="BUILDING" />
+                <ScalarProperty Name="STREET_NUMBER" ColumnName="STREET_NUMBER" />
+                <ScalarProperty Name="STREET" ColumnName="STREET" />
+                <ScalarProperty Name="MAIN_ADDRESS" ColumnName="MAIN_ADDRESS" />
+                <ScalarProperty Name="ADDRESS_TYPE" ColumnName="ADDRESS_TYPE" />
+                <ScalarProperty Name="SUBSCRIBER_ID" ColumnName="SUBSCRIBER_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SUBSCRIBER_DATA_V">
+            <EntityTypeMapping TypeName="Model.SUBSCRIBER_DATA_V">
+              <MappingFragment StoreEntitySet="SUBSCRIBER_DATA_V">
+                <ScalarProperty Name="SSN" ColumnName="SSN" />
+                <ScalarProperty Name="MAIN" ColumnName="MAIN" />
+                <ScalarProperty Name="SUBSCRIBER_TYPE" ColumnName="SUBSCRIBER_TYPE" />
+                <ScalarProperty Name="LAST_NAME" ColumnName="LAST_NAME" />
+                <ScalarProperty Name="FIRST_NAME" ColumnName="FIRST_NAME" />
+                <ScalarProperty Name="SUBSCRIBER_ID" ColumnName="SUBSCRIBER_ID" />
+                <ScalarProperty Name="CASE_ID" ColumnName="CASE_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

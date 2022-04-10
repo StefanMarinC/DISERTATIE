@@ -36,5 +36,12 @@ namespace DISERTATIE_5.Models
         public DbSet<ADMIN_CLIENTS> ADMIN_CLIENTS { get; set; }
         public DbSet<ADMIN_SEC_USERS_V> ADMIN_SEC_USERS_V { get; set; }
         public DbSet<CASES_SEARCH> CASES_SEARCH { get; set; }
+        public DbSet<ADDRESS_TYPES> ADDRESS_TYPES { get; set; }
+        public DbSet<SOURCE_TYPES> SOURCE_TYPES { get; set; }
+        public DbSet<SUBSCRIBER_ADDRESSES> SUBSCRIBER_ADDRESSES { get; set; }
+        public DbSet<ZONE_TYPES> ZONE_TYPES { get; set; }
+        public DbSet<CASE_DETAILS_V> CASE_DETAILS_V { get; set; }
+        public DbSet<SUBSCRIBER_ADDRESSES_V> SUBSCRIBER_ADDRESSES_V { get; set; }
+        public DbSet<SUBSCRIBER_DATA_V> SUBSCRIBER_DATA_V { get; set; }
     }
 }

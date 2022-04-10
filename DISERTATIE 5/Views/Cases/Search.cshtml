@@ -297,7 +297,7 @@
                                         }
                                     }
                                 </td>
-                                <td style="cursor:pointer; text-decoration:underline; color:darkred" onclick="@("window.location.href='" + @Url.Action("Case", "Cases", new { case_id = cases.case_id}) + "'")">
+                                <td style="cursor:pointer; color:darkred" onclick="@("window.location.href='" + @Url.Action("Case", "Cases", new { case_id = cases.case_id}) + "'")">
                                     @cases.case_id
                                 </td>
                                 <td>
