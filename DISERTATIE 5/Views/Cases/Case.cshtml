@@ -1,88 +1,253 @@
 ﻿@model DISERTATIE_5.Models.CaseInfo
 <html>
-<body>
-    <div>
-        case details
-        <div>
-            @Model.caseDetails.case_id
-        </div>
-        <div>
-            @Model.caseDetails.zone
-        </div>
-        <div>
-            @Model.caseDetails.client_name
-        </div>
-        <div>
-            @Model.caseDetails.balance
-        </div>
-        <div>
-            @Model.caseDetails.pa_status
-        </div>
-        <div>
-            @Model.caseDetails.pa_made
-        </div>
-        <div>
-            @Model.caseDetails.pa_broken
-        </div>
-        <div>
-            @Model.caseDetails.pa_kept
-        </div>
-        <div>
-            @Model.caseDetails.pa_cancelled
+<body style="height:100%; min-height:100vh;">
+
+    <div style="background-color:#9c301a; height:75px;">
+        <div style="display:flex; padding-left:20px;">
+            <img src="~/Resources/Logo.png" style="height:75px; width:180px; cursor:pointer" onclick="@("window.location.href='" + @Url.Action("Home", "Home") + "'")" />
+            <div style="width:75%; text-align:center; height:75px">
+                <div style="font-size:large; font-family:Arial sans-serif; font-weight:bold; color:white; padding-top:20px">
+                    Cases
+                </div>
+            </div>
+            <div style="width:220px; height:75px; display:flex; justify-content:space-around">
+                <div style="font-size:large; font-family:Arial sans-serif; color:white; padding-top:20px;">
+                    @Session["Username"].ToString()
+                </div>
+                <div class="form-group" style="text-align:center; padding:20px 0 0 0">
+                    <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
+                        <input value="Logout" class="btn btn-primary" style="background-color:lightslategray; border-color:lightslategray; width:100px" onclick="@("window.location.href='" + @Url.Action("Logout", "Login") + "'")" />
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div>
-        subscribers data
-        @foreach (var subs in Model.subscriberDatas)
-        {
-            <div>
-                @subs.first_name @subs.last_name
+    <div style="background-color:#403c3c; padding:0 20px 20px 20px; height:862px">
+        <div id="case details" style="padding-top:10px">
+            <div style="background-color:#f8f4f4; padding: 10px 0 10px 20px">
+                <span style="background-color:#9c301a; color:white; padding:3px; font-size:medium; font-weight:bold">CASE DETAILS -  @Model.caseDetails.case_id - (@Model.caseDetails.zone)</span>
             </div>
-            <div>
-                @subs.subscriber_type
+            <hr style="margin:0; border-top:1px solid #403c3c" />
+            <div style="background-color:white; display:flex; justify-content:space-between; padding:10px 0 10px 20px">
+                <div style="display:flex; justify-content:flex-start">
+                    <div style="padding-right:50px">
+                        <div style="font-size:large">
+                            Client name
+                        </div>
+                        <div style="font-size:large; font-weight:bold">
+                            @Model.caseDetails.client_name
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-size:large">
+                            Total balance
+                        </div>
+                        <div style="font-size:large; font-weight:bold; color:limegreen">
+                            @Model.caseDetails.balance
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div>
-                @subs.main
+            <div style="background-color: white; display:flex; justify-content: flex-end; padding:0 0 10px 0">
+                <div style="display:flex; padding-right:20px">
+                    <div style="padding-right:5px">
+                        Pa Status
+                    </div>
+                    <div style="background-color:#9c301a; color:white; padding:0 3px 0 3px">
+                        @Model.caseDetails.pa_status
+                    </div>
+                </div>
+                <div style="display:flex; padding-right:20px">
+                    <div style="padding-right:5px">
+                        PA Made
+                    </div>
+                    <div style="background-color:#403c3c; color:white; padding:0 3px 0 3px">
+                        @Model.caseDetails.pa_made
+                    </div>
+                </div>
+                <div style="display:flex; padding-right:20px">
+                    <div style="padding-right:5px">
+                        PA Broken
+                    </div>
+                    <div style="background-color:#403c3c; color:white; padding:0 3px 0 3px">
+                        @Model.caseDetails.pa_broken
+                    </div>
+                </div>
+                <div style="display:flex; padding-right:20px">
+                    <div style="padding-right:5px">
+                        PA Kept
+                    </div>
+                    <div style="background-color:#403c3c; color:white; padding:0 3px 0 3px">
+                        @Model.caseDetails.pa_kept
+                    </div>
+                </div>
+                <div style="display:flex; padding-right:20px">
+                    <div style="padding-right:5px">
+                        PA Cancelled
+                    </div>
+                    <div style="background-color:#403c3c; color:white; padding:0 3px 0 3px">
+                        @Model.caseDetails.pa_cancelled
+                    </div>
+                </div>
             </div>
-            <div>
-                @subs.SSN
-            </div>
-
-            <div>
-                subscriber_addresses
-                @foreach (var subs_add in Model.subscriberAddresses)
-                {
-                    if (subs_add.subscriber_id == subs.subscriber_id)
+        </div>
+        <div style="padding:10px 0 10px 0; display:flex; justify-content:flex-start;">
+            <button style="background-color:#9c301a; color:white; font-size:medium; margin-right:5px">
+                Letter
+            </button>
+            <button style="background-color:#9c301a; color:white; font-size:medium; margin-right:5px">
+                Email
+            </button>
+            <button style="background-color:#9c301a; color:white; font-size:medium; margin-right:5px">
+                SMS
+            </button>
+            <button style="background-color:#9c301a; color:white; font-size:medium; margin-right:5px">
+                New PA
+            </button>
+            <button style="background-color:#9c301a; color:white; font-size:medium; margin-right:5px">
+                View PA
+            </button>
+            <button style="background-color:#9c301a; color:white; font-size:medium; margin-right:5px">
+                Person
+            </button>
+        </div>
+        <div style="display:flex; justify-content:space-between; height:">
+            <div style="width:30%; background-color:white;">
+                <div style="display:flex; justify-content:flex-start; background-color:gray">
+                    @foreach (var subs in Model.subscriberDatas)
                     {
-                        <div>
-                            @subs_add.address_type
+                        if (subs.main == 1)
+                        {
+                            <button id="select_subs_@subs.subscriber_id" name="select_subs" style=" background-color: #9c301a ; color:white;" onclick="change_subs(@subs.subscriber_id)">
+                                @subs.first_name @subs.last_name
+                            </button>
+                        }
+                        else
+                        {
+                            <button id="select_subs_@subs.subscriber_id" name="select_subs" style=" background-color: gray ; color:white;" onclick="change_subs(@subs.subscriber_id)">
+                                @subs.first_name @subs.last_name
+                            </button>
+                        }
+                    }
+                </div>
+                <div style="overflow-y: scroll">
+
+                    @foreach (var subs in Model.subscriberDatas)
+                    {
+                        <div style="padding-bottom:10px;">
+                            @if (subs.main == 1)
+                            {
+                                <div id="div_@subs.subscriber_id" name="div_subs" style="display:block; padding-bottom:5px">
+                                    <div style="padding:10px 0 0 10px">
+                                        @subs.first_name @subs.last_name (@subs.subscriber_id) - Main
+                                    </div>
+                                    <div style="padding:5px 0 0 10px">
+                                        Role: @subs.subscriber_type
+                                    </div>
+                                    <div style="padding:5px 0 0 10px">
+                                        SSN: @subs.SSN
+                                    </div>
+
+                                    <div style="padding-top:10px; padding-left:10px">
+                                        Addresses
+                                        @foreach (var subs_add in Model.subscriberAddresses)
+                                        {
+                                            <div style="border:1px solid lightgray;">
+                                                @if (subs_add.subscriber_id == subs.subscriber_id)
+                                                {
+                                                    if (subs_add.main_address == 1)
+                                                    {
+                                                        <div style="color:limegreen">
+                                                            @subs_add.address_type - @subs_add.country, @subs_add.city, @subs_add.street, @subs_add.street_number, from @subs_add.source_type
+                                                        </div>
+                                                        <div>
+                                                            Created by @subs_add.created_by on @subs_add.creation_date
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div>
+                                                            @subs_add.address_type - @subs_add.country, @subs_add.city, @subs_add.street, @subs_add.street_number, from @subs_add.source_type
+                                                        </div>
+                                                        <div>
+                                                            Created by @subs_add.created_by on @subs_add.creation_date
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                        <div id="div_@subs.subscriber_id" name="div_subs" style="display:none; padding-bottom:5px">
+                            <div style="padding:10px 0 0 10px">
+                                @subs.first_name @subs.last_name (@subs.subscriber_id) - Main
+                            </div>
+                            <div style="padding:5px 0 0 10px">
+                                Role: @subs.subscriber_type
+                            </div>
+                            <div style="padding:5px 0 0 10px">
+                                SSN: @subs.SSN
+                            </div>
+
+                            <div style="padding-top:10px; padding-left:10px">
+                                Addresses
+                                @foreach (var subs_add in Model.subscriberAddresses)
+                                {
+                                    <div style="border:1px solid lightgray;">
+                                        @if (subs_add.subscriber_id == subs.subscriber_id)
+                                        {
+                                            if (subs_add.main_address == 1)
+                                            {
+                                                <div style="color:limegreen">
+                                                    @subs_add.address_type - @subs_add.country, @subs_add.city, @subs_add.street, @subs_add.street_number, from @subs_add.source_type
+                                                </div>
+                                                <div>
+                                                    Created by @subs_add.created_by on @subs_add.creation_date
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div>
+                                                    @subs_add.address_type - @subs_add.country, @subs_add.city, @subs_add.street, @subs_add.street_number, from @subs_add.source_type
+                                                </div>
+                                                <div>
+                                                    Created by @subs_add.created_by on @subs_add.creation_date
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                }
+                            </div>
                         </div>
-                        <div>
-                            @subs_add.main_address
-                        </div>
-                        <div>
-                            @subs_add.street
-                        </div>
-                        <div>
-                            @subs_add.street_number
-                        </div>
-                        <div>
-                            @subs_add.building
-                        </div>
-                        <div>
-                            @subs_add.source_type
-                        </div>
-                        <div>
-                            @subs_add.created_by
-                        </div>
-                        <div>
-                            @subs_add.creation_date
+                            }
                         </div>
                     }
-                }
+                </div>
             </div>
-        }
+            <div style="width:30%">
+                financial data
+            </div>
+            <div style="width:30%">
+                info
+            </div>
+        </div>
     </div>
-
+    <script>
+        function change_subs(value) {
+            var elements = document.getElementsByName("div_subs");
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].style.display = "none";
+            }
+            elements = document.getElementsByName("select_subs");
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].style.backgroundColor = "gray";
+            }
+            document.getElementById("div_" + value).style.display = "block";
+            document.getElementById("select_subs_" + value).style.backgroundColor = "#9c301a";
+        }
+    </script>
 </body>
 </html>

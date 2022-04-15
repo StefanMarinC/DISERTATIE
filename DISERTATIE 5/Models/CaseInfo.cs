@@ -10,5 +10,9 @@ namespace DISERTATIE_5.Models
         public CaseDetails caseDetails { get; set; }
         public List<SubscriberData> subscriberDatas { get; set; }
         public List<SubscriberAddress> subscriberAddresses { get; set; }
+        public List<SubscriberPhone> subscriberPhones { get; set; }
+        public List<SubscriberEmail> subscriberEmails { get; set; }
+        public List<SubscriberContact> subscriberContacts { get; set; }
+        public List<SubscriberEmployer> subscriberEmployers { get; set; }
     }
 }

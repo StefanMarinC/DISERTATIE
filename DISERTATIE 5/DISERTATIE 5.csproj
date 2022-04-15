@@ -226,7 +226,11 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SubscriberAddress.cs" />
+    <Compile Include="Models\SubscriberContact.cs" />
     <Compile Include="Models\SubscriberData.cs" />
+    <Compile Include="Models\SubscriberEmail.cs" />
+    <Compile Include="Models\SubscriberEmployer.cs" />
+    <Compile Include="Models\SubscriberPhone.cs" />
     <Compile Include="Models\SUBSCRIBERS.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

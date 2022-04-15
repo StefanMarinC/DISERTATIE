@@ -277,6 +277,10 @@ namespace DISERTATIE_5.Controllers
             sql = new OracleCommand(statement, conn);
             List<SubscriberData> subs_list = new List<SubscriberData>();
             List<SubscriberAddress> subs_address = new List<SubscriberAddress>();
+            List<SubscriberPhone> subs_phones = new List<SubscriberPhone>();
+            List<SubscriberEmail> subs_emails = new List<SubscriberEmail>();
+            List<SubscriberContact> subs_contacts = new List<SubscriberContact>();
+            List<SubscriberEmployer> subs_employers = new List<SubscriberEmployer>();
             reader = sql.ExecuteReader();
             try
             {
@@ -322,6 +326,117 @@ namespace DISERTATIE_5.Controllers
                     {
                         reader2.Close();
                     }
+                    statement2 = "SELECT * FROM SUBSCRIBER_PHONES_V SA WHERE SA.SUBSCRIBER_ID=" + subs.subscriber_id + " ORDER BY SA.MAIN_PHONE DESC, SA.CREATION_DATE DESC";
+                    sql2 = new OracleCommand(statement2, conn);
+                    reader2 = sql2.ExecuteReader();
+                    try
+                    {
+                        while (reader2.Read())
+                        {
+                            SubscriberPhone subs_phone = new SubscriberPhone();
+                            subs_phone.subscriber_id = (long)reader2.GetValue(0);
+                            subs_phone.phone_type = (string)reader2.GetValue(1);
+                            subs_phone.main_phone = (string)reader2.GetValue(2);
+                            subs_phone.phone_number = (string)reader2.GetValue(3);
+                            subs_phone.source_type = (string)reader2.GetValue(4);
+                            subs_phone.created_by = (string)reader2.GetValue(5);
+                            subs_phone.creation_date = (DateTime)reader2.GetValue(6);
+                            subs_phones.Add(subs_phone);
+                        }
+                    }
+                    finally
+                    {
+                        reader2.Close();
+                    }
+                    statement2 = "SELECT * FROM SUBSCRIBER_EMAILS_V SA WHERE SA.SUBSCRIBER_ID=" + subs.subscriber_id + " ORDER BY SA.MAIN_EMAIL DESC, SA.CREATION_DATE DESC";
+                    sql2 = new OracleCommand(statement2, conn);
+                    reader2 = sql2.ExecuteReader();
+                    try
+                    {
+                        while (reader2.Read())
+                        {
+                            SubscriberEmail subs_email = new SubscriberEmail();
+                            subs_email.subscriber_id = (long)reader2.GetValue(0);
+                            subs_email.email_type = (string)reader2.GetValue(1);
+                            subs_email.main_email = (string)reader2.GetValue(2);
+                            subs_email.email = (string)reader2.GetValue(3);
+                            subs_email.source_type = (string)reader2.GetValue(4);
+                            subs_email.created_by = (string)reader2.GetValue(5);
+                            subs_email.creation_date = (DateTime)reader2.GetValue(6);
+                            subs_emails.Add(subs_email);
+                        }
+                    }
+                    finally
+                    {
+                        reader2.Close();
+                    }
+                    statement2 = "SELECT * FROM SUBSCRIBER_EMAILS_V SA WHERE SA.SUBSCRIBER_ID=" + subs.subscriber_id + " ORDER BY SA.MAIN_EMAIL DESC, SA.CREATION_DATE DESC";
+                    sql2 = new OracleCommand(statement2, conn);
+                    reader2 = sql2.ExecuteReader();
+                    try
+                    {
+                        while (reader2.Read())
+                        {
+                            SubscriberEmail subs_email = new SubscriberEmail();
+                            subs_email.subscriber_id = (long)reader2.GetValue(0);
+                            subs_email.email_type = (string)reader2.GetValue(1);
+                            subs_email.main_email = (string)reader2.GetValue(2);
+                            subs_email.email = (string)reader2.GetValue(3);
+                            subs_email.source_type = (string)reader2.GetValue(4);
+                            subs_email.created_by = (string)reader2.GetValue(5);
+                            subs_email.creation_date = (DateTime)reader2.GetValue(6);
+                            subs_emails.Add(subs_email);
+                        }
+                    }
+                    finally
+                    {
+                        reader2.Close();
+                    }
+                    statement2 = "SELECT * FROM SUBSCRIBER_CONTACTS_V SA WHERE SA.SUBSCRIBER_ID=" + subs.subscriber_id + " ORDER BY SA.FIRST_NAME DESC";
+                    sql2 = new OracleCommand(statement2, conn);
+                    reader2 = sql2.ExecuteReader();
+                    try
+                    {
+                        while (reader2.Read())
+                        {
+                            SubscriberContact subs_contact = new SubscriberContact();
+                            subs_contact.subscriber_id = (long)reader2.GetValue(0);
+                            subs_contact.contact_type = (string)reader2.GetValue(1);
+                            subs_contact.first_name = (string)reader2.GetValue(2);
+                            subs_contact.last_name = (string)reader2.GetValue(3);
+                            subs_contact.address = (string)reader2.GetValue(4);
+                            subs_contact.city = (string)reader2.GetValue(5);
+                            subs_contact.postal_code = (string)reader2.GetValue(6);
+                            subs_contact.phone = (string)reader2.GetValue(7);
+                            subs_contact.email = (string)reader2.GetValue(8);
+                            subs_contact.source_type = (string)reader2.GetValue(9);
+                            subs_contacts.Add(subs_contact);
+                        }
+                    }
+                    finally
+                    {
+                        reader2.Close();
+                    }
+                    statement2 = "SELECT * FROM SUBSCRIBER_EMPLOYERS_V SA WHERE SA.SUBSCRIBER_ID=" + subs.subscriber_id + " ORDER BY SA.MAIN_EMPLOYER DESC, EMPLOYER_NAME DESC";
+                    sql2 = new OracleCommand(statement2, conn);
+                    reader2 = sql2.ExecuteReader();
+                    try
+                    {
+                        while (reader2.Read())
+                        {
+                            SubscriberEmployer subs_employer = new SubscriberEmployer();
+                            subs_employer.subscriber_id = (long)reader2.GetValue(0);
+                            subs_employer.employer_name = (string)reader2.GetValue(1);
+                            subs_employer.position = (string)reader2.GetValue(2);
+                            subs_employer.main_employer = (string)reader2.GetValue(3);
+                            subs_employer.source_type = (string)reader2.GetValue(4);
+                            subs_employers.Add(subs_employer);
+                        }
+                    }
+                    finally
+                    {
+                        reader2.Close();
+                    }
                 }
             }
             finally
@@ -331,6 +446,10 @@ namespace DISERTATIE_5.Controllers
             }
             caseInfo.subscriberDatas = subs_list;
             caseInfo.subscriberAddresses = subs_address;
+            caseInfo.subscriberPhones = subs_phones;
+            caseInfo.subscriberEmails = subs_emails;
+            caseInfo.subscriberContacts = subs_contacts;
+            caseInfo.subscriberEmployers = subs_employers;
 
             return View(caseInfo);
         }
