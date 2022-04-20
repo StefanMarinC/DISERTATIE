@@ -111,7 +111,7 @@
                 Person
             </button>
         </div>
-        <div style="display:flex; justify-content:space-between; height:">
+        <div style="display:flex; justify-content:space-between;">
             <div style="width:30%; background-color:white;">
                 <div style="display:flex; justify-content:flex-start; background-color:gray">
                     @foreach (var subs in Model.subscriberDatas)
@@ -130,11 +130,11 @@
                         }
                     }
                 </div>
-                <div style="overflow-y: scroll">
+                <div style="overflow:auto; max-height:65vh">
 
                     @foreach (var subs in Model.subscriberDatas)
                     {
-                        <div style="padding-bottom:10px;">
+                        <div>
                             @if (subs.main == 1)
                             {
                                 <div id="div_@subs.subscriber_id" name="div_subs" style="display:block; padding-bottom:5px">
@@ -144,17 +144,22 @@
                                     <div style="padding:5px 0 0 10px">
                                         Role: @subs.subscriber_type
                                     </div>
-                                    <div style="padding:5px 0 0 10px">
+                                    <div style="padding:5px 0 10px 10px">
                                         SSN: @subs.SSN
                                     </div>
-
-                                    <div style="padding-top:10px; padding-left:10px">
+                                    <div style="width:100%">
+                                        <hr style="border-top:2px solid #9c301a; margin:0" />
+                                    </div>
+                                    <div style="padding-top:10px; padding-left:10px; padding-bottom:10px">
                                         Addresses
                                         @foreach (var subs_add in Model.subscriberAddresses)
                                         {
-                                            <div style="border:1px solid lightgray;">
+                                            <div style="padding-bottom:5px">
                                                 @if (subs_add.subscriber_id == subs.subscriber_id)
                                                 {
+                                                    <div style="width:100%; padding-bottom:5px">
+                                                        <hr style="border-top:1px solid black; margin:0" />
+                                                    </div>
                                                     if (subs_add.main_address == 1)
                                                     {
                                                         <div style="color:limegreen">
@@ -177,51 +182,196 @@
                                             </div>
                                         }
                                     </div>
+                                    <div style="width:100%">
+                                        <hr style="border-top:2px solid #9c301a; margin:0" />
+                                    </div>
+                                    <div style="padding-top:10px; padding-left:10px; padding-bottom:10px">
+                                        Phones
+                                        @foreach (var subs_phone in Model.subscriberPhones)
+                                        {
+                                            <div style="padding-bottom:5px">
+                                                @if (subs_phone.subscriber_id == subs.subscriber_id)
+                                                {
+                                                    <div style="width:100%; padding-bottom:5px">
+                                                        <hr style="border-top:1px solid black; margin:0" />
+                                                    </div>
+                                                    if (subs_phone.main_phone == 1)
+                                                    {
+                                                        <div style="color:limegreen">
+                                                            @subs_phone.phone_type - @subs_phone.phone_number, from @subs_phone.source_type
+                                                        </div>
+                                                        <div>
+                                                            Created by @subs_phone.created_by on @subs_phone.creation_date
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div>
+                                                            @subs_phone.phone_type - @subs_phone.phone_number, from @subs_phone.source_type
+                                                        </div>
+                                                        <div>
+                                                            Created by @subs_phone.created_by on @subs_phone.creation_date
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                    <div style="width:100%">
+                                        <hr style="border-top:2px solid #9c301a; margin:0" />
+                                    </div>
+                                    <div style="padding-top:10px; padding-left:10px;">
+                                        Emails
+                                        @foreach (var subs_email in Model.subscriberEmails)
+                                        {
+                                            <div style="padding-bottom:5px">
+                                                @if (subs_email.subscriber_id == subs.subscriber_id)
+                                                {
+                                                    <div style="width:100%; padding-bottom:5px">
+                                                        <hr style="border-top:1px solid black; margin:0" />
+                                                    </div>
+                                                    if (subs_email.main_email == 1)
+                                                    {
+                                                        <div style="color:limegreen">
+                                                            @subs_email.email_type - @subs_email.email, from @subs_email.source_type
+                                                        </div>
+                                                        <div>
+                                                            Created by @subs_email.created_by on @subs_email.creation_date
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div>
+                                                            @subs_email.email_type - @subs_email.email, from @subs_email.source_type
+                                                        </div>
+                                                        <div>
+                                                            Created by @subs_email.created_by on @subs_email.creation_date
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+                                        }
+                                    </div>
                                 </div>
                             }
                             else
                             {
-                        <div id="div_@subs.subscriber_id" name="div_subs" style="display:none; padding-bottom:5px">
-                            <div style="padding:10px 0 0 10px">
-                                @subs.first_name @subs.last_name (@subs.subscriber_id) - Main
-                            </div>
-                            <div style="padding:5px 0 0 10px">
-                                Role: @subs.subscriber_type
-                            </div>
-                            <div style="padding:5px 0 0 10px">
-                                SSN: @subs.SSN
-                            </div>
-
-                            <div style="padding-top:10px; padding-left:10px">
-                                Addresses
-                                @foreach (var subs_add in Model.subscriberAddresses)
-                                {
-                                    <div style="border:1px solid lightgray;">
-                                        @if (subs_add.subscriber_id == subs.subscriber_id)
+                                <div id="div_@subs.subscriber_id" name="div_subs" style="display:none; padding-bottom:5px">
+                                    <div style="padding:10px 0 0 10px">
+                                        @subs.first_name @subs.last_name (@subs.subscriber_id) - Main
+                                    </div>
+                                    <div style="padding:5px 0 0 10px">
+                                        Role: @subs.subscriber_type
+                                    </div>
+                                    <div style="padding:5px 0 10px 10px">
+                                        SSN: @subs.SSN
+                                    </div>
+                                    <div style="width:100%">
+                                        <hr style="border-top:2px solid #9c301a; margin:0" />
+                                    </div>
+                                    <div style="padding-top:10px; padding-left:10px; padding-bottom:10px">
+                                        Addresses
+                                        @foreach (var subs_add in Model.subscriberAddresses)
                                         {
-                                            if (subs_add.main_address == 1)
-                                            {
-                                                <div style="color:limegreen">
-                                                    @subs_add.address_type - @subs_add.country, @subs_add.city, @subs_add.street, @subs_add.street_number, from @subs_add.source_type
-                                                </div>
-                                                <div>
-                                                    Created by @subs_add.created_by on @subs_add.creation_date
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <div>
-                                                    @subs_add.address_type - @subs_add.country, @subs_add.city, @subs_add.street, @subs_add.street_number, from @subs_add.source_type
-                                                </div>
-                                                <div>
-                                                    Created by @subs_add.created_by on @subs_add.creation_date
-                                                </div>
-                                            }
+                                            <div>
+                                                @if (subs_add.subscriber_id == subs.subscriber_id)
+                                                {
+                                                    <div style="width:100%; padding-bottom:5px">
+                                                        <hr style="border-top:1px solid black; margin:0" />
+                                                    </div>
+                                                    if (subs_add.main_address == 1)
+                                                    {
+                                                        <div style="color:limegreen">
+                                                            @subs_add.address_type - @subs_add.country, @subs_add.city, @subs_add.street, @subs_add.street_number, from @subs_add.source_type
+                                                        </div>
+                                                        <div>
+                                                            Created by @subs_add.created_by on @subs_add.creation_date
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div>
+                                                            @subs_add.address_type - @subs_add.country, @subs_add.city, @subs_add.street, @subs_add.street_number, from @subs_add.source_type
+                                                        </div>
+                                                        <div>
+                                                            Created by @subs_add.created_by on @subs_add.creation_date
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
                                         }
                                     </div>
-                                }
-                            </div>
-                        </div>
+                                    <div style="width:100%">
+                                        <hr style="border-top:2px solid #9c301a; margin:0" />
+                                    </div>
+                                    <div style="padding-top:10px; padding-left:10px; padding-bottom:10px">
+                                        Phones
+                                        @foreach (var subs_phone in Model.subscriberPhones)
+                                        {
+                                            <div style="padding-bottom:5px">
+                                                @if (subs_phone.subscriber_id == subs.subscriber_id)
+                                                {
+                                                    <div style="width:100%; padding-bottom:5px">
+                                                        <hr style="border-top:1px solid black; margin:0" />
+                                                    </div>
+                                                    if (subs_phone.main_phone == 1)
+                                                    {
+                                                        <div style="color:limegreen">
+                                                            @subs_phone.phone_type - @subs_phone.phone_number, from @subs_phone.source_type
+                                                        </div>
+                                                        <div>
+                                                            Created by @subs_phone.created_by on @subs_phone.creation_date
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div>
+                                                            @subs_phone.phone_type - @subs_phone.phone_number, from @subs_phone.source_type
+                                                        </div>
+                                                        <div>
+                                                            Created by @subs_phone.created_by on @subs_phone.creation_date
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                    <div style="width:100%">
+                                        <hr style="border-top:2px solid #9c301a; margin:0" />
+                                    </div>
+                                    <div style="padding-top:10px; padding-left:10px; padding-bottom:10px">
+                                        Emails
+                                        @foreach (var subs_email in Model.subscriberEmails)
+                                        {
+                                            <div>
+                                                @if (subs_email.subscriber_id == subs.subscriber_id)
+                                                {
+                                                    <div style="width:100%; padding-bottom:5px">
+                                                        <hr style="border-top:1px solid black; margin:0" />
+                                                    </div>
+                                                    if (subs_email.main_email == 1)
+                                                    {
+                                                        <div style="color:limegreen">
+                                                            @subs_email.email_type - @subs_email.email, from @subs_email.source_type
+                                                        </div>
+                                                        <div>
+                                                            Created by @subs_email.created_by on @subs_email.creation_date
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div>
+                                                            @subs_email.email_type - @subs_email.email, from @subs_email.source_type
+                                                        </div>
+                                                        <div>
+                                                            Created by @subs_email.created_by on @subs_email.creation_date
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
                             }
                         </div>
                     }

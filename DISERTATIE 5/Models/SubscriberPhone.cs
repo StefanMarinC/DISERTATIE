@@ -9,7 +9,7 @@ namespace DISERTATIE_5.Models
     {
         public long subscriber_id { get; set; }
         public string phone_type { get; set; }
-        public string main_phone { get; set; }
+        public short main_phone { get; set; }
         public string phone_number { get; set; }
         public string source_type { get; set; }
         public string created_by { get; set; }

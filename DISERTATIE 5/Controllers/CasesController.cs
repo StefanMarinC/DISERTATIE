@@ -336,7 +336,7 @@ namespace DISERTATIE_5.Controllers
                             SubscriberPhone subs_phone = new SubscriberPhone();
                             subs_phone.subscriber_id = (long)reader2.GetValue(0);
                             subs_phone.phone_type = (string)reader2.GetValue(1);
-                            subs_phone.main_phone = (string)reader2.GetValue(2);
+                            subs_phone.main_phone = (short)reader2.GetValue(2);
                             subs_phone.phone_number = (string)reader2.GetValue(3);
                             subs_phone.source_type = (string)reader2.GetValue(4);
                             subs_phone.created_by = (string)reader2.GetValue(5);
@@ -358,29 +358,7 @@ namespace DISERTATIE_5.Controllers
                             SubscriberEmail subs_email = new SubscriberEmail();
                             subs_email.subscriber_id = (long)reader2.GetValue(0);
                             subs_email.email_type = (string)reader2.GetValue(1);
-                            subs_email.main_email = (string)reader2.GetValue(2);
-                            subs_email.email = (string)reader2.GetValue(3);
-                            subs_email.source_type = (string)reader2.GetValue(4);
-                            subs_email.created_by = (string)reader2.GetValue(5);
-                            subs_email.creation_date = (DateTime)reader2.GetValue(6);
-                            subs_emails.Add(subs_email);
-                        }
-                    }
-                    finally
-                    {
-                        reader2.Close();
-                    }
-                    statement2 = "SELECT * FROM SUBSCRIBER_EMAILS_V SA WHERE SA.SUBSCRIBER_ID=" + subs.subscriber_id + " ORDER BY SA.MAIN_EMAIL DESC, SA.CREATION_DATE DESC";
-                    sql2 = new OracleCommand(statement2, conn);
-                    reader2 = sql2.ExecuteReader();
-                    try
-                    {
-                        while (reader2.Read())
-                        {
-                            SubscriberEmail subs_email = new SubscriberEmail();
-                            subs_email.subscriber_id = (long)reader2.GetValue(0);
-                            subs_email.email_type = (string)reader2.GetValue(1);
-                            subs_email.main_email = (string)reader2.GetValue(2);
+                            subs_email.main_email = (short)reader2.GetValue(2);
                             subs_email.email = (string)reader2.GetValue(3);
                             subs_email.source_type = (string)reader2.GetValue(4);
                             subs_email.created_by = (string)reader2.GetValue(5);
