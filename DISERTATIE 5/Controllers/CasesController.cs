@@ -283,6 +283,7 @@ namespace DISERTATIE_5.Controllers
             List<SubscriberEmployer> subs_employers = new List<SubscriberEmployer>();
             FinAccountDetails finAccountDetails = new FinAccountDetails();
             List<FinancialItem> financialItems = new List<FinancialItem>();
+            FinancialItem interest = new FinancialItem();
             reader = sql.ExecuteReader();
             try
             {
@@ -460,17 +461,37 @@ namespace DISERTATIE_5.Controllers
                     FinancialItem financialItem = new FinancialItem();
                     financialItem.case_id = reader.GetDecimal(0);
                     financialItem.item_name = reader.GetString(1);
-                    financialItem.item_date = reader.GetDateTime(2);
-                    financialItem.booking_date = reader.GetDateTime(3);
-                    financialItem.amount = reader.GetFloat(4);
-                    financialItem.amount_currency = reader.GetString(5);
-                    financialItem.amount_not_booked = reader.GetFloat(6);
-                    financialItem.amount_not_booked_currency = reader.GetString(7);
-                    financialItems.Add(financialItem);
+                    financialItem.item_type = reader.GetString(2);
+                    financialItem.item_date = reader.GetDateTime(3).ToShortDateString();
+                    financialItem.booking_date = reader.GetDateTime(4).ToShortDateString();
+                    financialItem.amount = reader.GetFloat(5);
+                    financialItem.amount_currency = reader.GetString(6);
+                    financialItem.amount_not_booked = reader.GetFloat(7);
+                    financialItem.amount_not_booked_currency = reader.GetString(8);
+                    if (financialItem.item_type == "INTEREST")
+                    {
+                        if (interest.amount > 0)
+                        {
+                            interest.amount += financialItem.amount;
+                            interest.amount_not_booked += financialItem.amount_not_booked;
+                        }
+                        else
+                        {
+                            interest = financialItem;
+                        }
+                    }
+                    else 
+                    {
+                        financialItems.Add(financialItem);
+                    }
                 }
             }
             finally
             {
+                if(interest.amount> 0)
+                {
+                    financialItems.Add(interest);
+                }
                 reader.Close();
                 conn.Close();
             }

@@ -9,8 +9,9 @@ namespace DISERTATIE_5.Models
     {
         public decimal case_id { get; set; }
         public string item_name { get; set; }
-        public DateTime item_date { get; set; }
-        public DateTime booking_date { get; set; }
+        public string item_type { get; set; }
+        public string item_date { get; set; }
+        public string booking_date { get; set; }
         public float amount { get; set; }
         public string amount_currency { get; set; }
         public float amount_not_booked { get; set; }
