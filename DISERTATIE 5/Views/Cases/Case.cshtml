@@ -118,13 +118,13 @@
                     {
                         if (subs.main == 1)
                         {
-                            <button id="select_subs_@subs.subscriber_id" name="select_subs" style=" background-color: #9c301a ; color:white;" onclick="change_subs(@subs.subscriber_id)">
+                            <button id="select_subs_@subs.subscriber_id" name="select_subs" style=" background-color: #9c301a ; color:white; height:30px" onclick="change_subs(@subs.subscriber_id)">
                                 @subs.first_name @subs.last_name
                             </button>
                         }
                         else
                         {
-                            <button id="select_subs_@subs.subscriber_id" name="select_subs" style=" background-color: gray ; color:white;" onclick="change_subs(@subs.subscriber_id)">
+                            <button id="select_subs_@subs.subscriber_id" name="select_subs" style=" background-color: gray ; color:white; height:30px" onclick="change_subs(@subs.subscriber_id)">
                                 @subs.first_name @subs.last_name
                             </button>
                         }
@@ -308,7 +308,7 @@
                                         Phones
                                         @foreach (var subs_phone in Model.subscriberPhones)
                                         {
-                                            <div style="padding-bottom:5px">
+                                            <div>
                                                 @if (subs_phone.subscriber_id == subs.subscriber_id)
                                                 {
                                                     <div style="width:100%; padding-bottom:5px">
@@ -377,8 +377,83 @@
                     }
                 </div>
             </div>
-            <div style="width:30%">
-                financial data
+            <div style="width:30%; background-color:white;">
+                <div style="background-color:gray; color:white; text-align:center; height:30px; font-size:large">
+                    Financial data
+                </div>
+                <div style="padding-left:10px; padding-right:10px">
+                    <div style="overflow:auto; max-height:65vh">
+                    <div style="font-size:large; padding-bottom:10px; padding-top:10px;">
+                        Account details
+                    </div>
+                    <div style="display:flex; justify-content:space-around; padding-bottom:10px">
+                        <div>
+                            <div>
+                                Case ID
+                            </div>
+                            <div>
+                                @Model.FinAccountDetails.case_id (@Model.FinAccountDetails.account_balance_date)
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                Client
+                            </div>
+                            <div>
+                                @Model.FinAccountDetails.client_name
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                Zone
+                            </div>
+                            <div>
+                                @Model.FinAccountDetails.zone
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                Customer ID
+                            </div>
+                            <div>
+                                @Model.FinAccountDetails.customer_id
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                Currency
+                            </div>
+                            <div>
+                                @Model.FinAccountDetails.account_currency
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display:flex; justify-content: space-around; padding-bottom:10px">
+                        <div>
+                            <div>
+                                Amount paid
+                            </div>
+                            <div>
+                                @Model.FinAccountDetails.amount_paid @Model.FinAccountDetails.amount_paid_currency
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                Amount to pay
+                            </div>
+                            <div>
+                                @Model.FinAccountDetails.amount_to_pay @Model.FinAccountDetails.amount_to_pay_currency
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="margin:0; border-top:1px solid #403c3c; padding-bottom:10px" />
+                    <div style="color:black; font-size:large">
+                        Financial Items
+                    </div>
+                </div>
+                </div>
+
+                
             </div>
             <div style="width:30%">
                 info

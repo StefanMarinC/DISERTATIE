@@ -14,5 +14,7 @@ namespace DISERTATIE_5.Models
         public List<SubscriberEmail> subscriberEmails { get; set; }
         public List<SubscriberContact> subscriberContacts { get; set; }
         public List<SubscriberEmployer> subscriberEmployers { get; set; }
+        public FinAccountDetails FinAccountDetails { get; set; }
+        public List<FinancialItem> financialItems { get; set; }
     }
 }

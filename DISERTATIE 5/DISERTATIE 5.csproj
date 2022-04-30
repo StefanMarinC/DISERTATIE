@@ -204,6 +204,8 @@
     <Compile Include="Models\CLIENTS.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FinAccountDetails.cs" />
+    <Compile Include="Models\FinancialItem.cs" />
     <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

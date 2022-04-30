@@ -187,7 +187,7 @@ namespace DISERTATIE_5.Controllers
                     cl.subscriber_type = (string)reader.GetValue(10);
                     cl.contract_number = (string)reader.GetValue(11);
                     cl.subscriber_id = (long)reader.GetValue(12);
-                    cl.owner_id=(decimal)reader.GetValue(13);
+                    cl.owner_id = (decimal)reader.GetValue(13);
                     cases.Add(cl);
                     cases_nr += 1;
                 }
@@ -273,7 +273,7 @@ namespace DISERTATIE_5.Controllers
             }
             caseInfo.caseDetails = cl;
             conn.Open();
-            statement = "SELECT * FROM SUBSCRIBER_DATA_V SD WHERE SD.CASE_ID=" + case_id +" ORDER BY SD.MAIN DESC";
+            statement = "SELECT * FROM SUBSCRIBER_DATA_V SD WHERE SD.CASE_ID=" + case_id + " ORDER BY SD.MAIN DESC";
             sql = new OracleCommand(statement, conn);
             List<SubscriberData> subs_list = new List<SubscriberData>();
             List<SubscriberAddress> subs_address = new List<SubscriberAddress>();
@@ -281,14 +281,16 @@ namespace DISERTATIE_5.Controllers
             List<SubscriberEmail> subs_emails = new List<SubscriberEmail>();
             List<SubscriberContact> subs_contacts = new List<SubscriberContact>();
             List<SubscriberEmployer> subs_employers = new List<SubscriberEmployer>();
+            FinAccountDetails finAccountDetails = new FinAccountDetails();
+            List<FinancialItem> financialItems = new List<FinancialItem>();
             reader = sql.ExecuteReader();
             try
             {
                 while (reader.Read())
                 {
                     SubscriberData subs = new SubscriberData();
-                    subs.case_id= (long)reader.GetValue(0);
-                    subs.subscriber_id= (long)reader.GetValue(1);
+                    subs.case_id = (long)reader.GetValue(0);
+                    subs.subscriber_id = (long)reader.GetValue(1);
                     subs.first_name = (string)reader.GetValue(2);
                     subs.last_name = (string)reader.GetValue(3);
                     subs.subscriber_type = (string)reader.GetValue(4);
@@ -296,7 +298,7 @@ namespace DISERTATIE_5.Controllers
                     subs.SSN = (string)reader.GetValue(6);
                     subs_list.Add(subs);
 
-                    string statement2 = "SELECT * FROM SUBSCRIBER_ADDRESSES_V SA WHERE SA.SUBSCRIBER_ID=" + subs.subscriber_id+" ORDER BY SA.MAIN_ADDRESS DESC, SA.CREATION_DATE DESC";
+                    string statement2 = "SELECT * FROM SUBSCRIBER_ADDRESSES_V SA WHERE SA.SUBSCRIBER_ID=" + subs.subscriber_id + " ORDER BY SA.MAIN_ADDRESS DESC, SA.CREATION_DATE DESC";
                     OracleCommand sql2 = new OracleCommand(statement2, conn);
                     OracleDataReader reader2 = sql2.ExecuteReader();
                     try
@@ -304,7 +306,7 @@ namespace DISERTATIE_5.Controllers
                         while (reader2.Read())
                         {
                             SubscriberAddress subs_add = new SubscriberAddress();
-                            subs_add.subscriber_id= (long)reader2.GetValue(0);
+                            subs_add.subscriber_id = (long)reader2.GetValue(0);
                             subs_add.address_type = (string)reader2.GetValue(1);
                             subs_add.main_address = reader2.GetDecimal(2);
                             subs_add.street = (string)reader2.GetValue(3);
@@ -422,12 +424,64 @@ namespace DISERTATIE_5.Controllers
                 reader.Close();
                 conn.Close();
             }
+            conn.Open();
+            statement = "SELECT * FROM FIN_ACCOUNT_DETAILS_V V WHERE V.CASE_ID=" + case_id;
+            sql = new OracleCommand(statement, conn);
+            reader = sql.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    finAccountDetails.case_id = reader.GetDecimal(0);
+                    finAccountDetails.client_name = reader.GetString(1);
+                    finAccountDetails.zone = reader.GetString(2);
+                    finAccountDetails.customer_id = reader.GetString(3);
+                    finAccountDetails.account_currency = reader.GetString(4);
+                    finAccountDetails.account_balance_date = reader.GetDateTime(5);
+                    finAccountDetails.amount_paid = reader.GetFloat(6);
+                    finAccountDetails.amount_paid_currency = reader.GetString(7);
+                    finAccountDetails.amount_to_pay = reader.GetFloat(8);
+                    finAccountDetails.amount_to_pay_currency = reader.GetString(9);
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            conn.Open();
+            statement = "SELECT * FROM FIN_FINANCIAL_ITEMS_V V WHERE V.CASE_ID=" + case_id;
+            sql = new OracleCommand(statement, conn);
+            reader = sql.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    FinancialItem financialItem = new FinancialItem();
+                    financialItem.case_id = reader.GetDecimal(0);
+                    financialItem.item_name = reader.GetString(1);
+                    financialItem.item_date = reader.GetDateTime(2);
+                    financialItem.booking_date = reader.GetDateTime(3);
+                    financialItem.amount = reader.GetFloat(4);
+                    financialItem.amount_currency = reader.GetString(5);
+                    financialItem.amount_not_booked = reader.GetFloat(6);
+                    financialItem.amount_not_booked_currency = reader.GetString(7);
+                    financialItems.Add(financialItem);
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
             caseInfo.subscriberDatas = subs_list;
             caseInfo.subscriberAddresses = subs_address;
             caseInfo.subscriberPhones = subs_phones;
             caseInfo.subscriberEmails = subs_emails;
             caseInfo.subscriberContacts = subs_contacts;
             caseInfo.subscriberEmployers = subs_employers;
+            caseInfo.FinAccountDetails = finAccountDetails;
+            caseInfo.financialItems = financialItems;
 
             return View(caseInfo);
         }
