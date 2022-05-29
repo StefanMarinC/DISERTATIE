@@ -480,7 +480,7 @@ namespace DISERTATIE_5.Controllers
                             interest = financialItem;
                         }
                     }
-                    else 
+                    else
                     {
                         financialItems.Add(financialItem);
                     }
@@ -488,12 +488,13 @@ namespace DISERTATIE_5.Controllers
             }
             finally
             {
-                if(interest.amount> 0)
+                if (interest.amount > 0)
                 {
                     financialItems.Add(interest);
                 }
                 reader.Close();
                 conn.Close();
+
             }
             caseInfo.subscriberDatas = subs_list;
             caseInfo.subscriberAddresses = subs_address;
@@ -505,6 +506,132 @@ namespace DISERTATIE_5.Controllers
             caseInfo.financialItems = financialItems;
 
             return View(caseInfo);
+        }
+
+        [HttpGet]
+        public ActionResult EditPerson(int? case_id, string subscriber_id)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            int subs_id = Int32.Parse(subscriber_id.Remove(0, 4));
+            Session["case_id"] = case_id;
+            Session["subscriber_id"] = subs_id;
+            EditSubscriberCase editSubscriberCase = new EditSubscriberCase();
+            if (case_id > 0 && subs_id > 0)
+            {
+                string tns = TNS.tns;
+                OracleConnection conn = new OracleConnection();
+                conn.ConnectionString = tns;
+
+                conn.Open();
+                string statement = "SELECT * FROM SUBSCRIBER_CASE_EDIT_V SC WHERE SC.CASE_ID=" + case_id + " AND SC.SUBSCRIBER_ID=" + subs_id;
+                OracleCommand sql = new OracleCommand(statement, conn);
+                OracleDataReader reader = sql.ExecuteReader();
+                try {
+                    while (reader.Read())
+                    {
+                        editSubscriberCase.main = reader.GetBoolean(0);
+                        editSubscriberCase.customer_type = reader.GetString(1);
+                        editSubscriberCase.ssn = reader.GetString(2);
+                        editSubscriberCase.first_name = reader.GetString(3);
+                        editSubscriberCase.last_name = reader.GetString(4);
+                        editSubscriberCase.gender = reader.GetString(5);
+                        editSubscriberCase.birth_date = reader.GetDateTime(6);
+                        editSubscriberCase.birth_place = reader.GetString(7);
+                        editSubscriberCase.subscriber_type = reader.GetString(8);
+                    }
+                }
+                finally
+                {
+                    reader.Close();
+                    conn.Close();
+                }
+                List<string> listPersonType = new List<string>();
+                listPersonType.Add("Person");
+                listPersonType.Add("Company");
+
+                List<string> listGender = new List<string>();
+                listGender.Add("M");
+                listGender.Add("F");
+
+                List<String> listSubscriberType = new List<string>();
+                conn.Open();
+                statement = "SELECT SUBSCRIBER_NAME FROM SUBSCRIBER_TYPES ORDER BY SUBSCRIBER_NAME";
+                sql = new OracleCommand(statement, conn);
+                reader = sql.ExecuteReader();
+                try
+                {
+                    while (reader.Read())
+                    {
+                        listSubscriberType.Add(reader.GetString(0));
+                    }
+                }
+                finally
+                {
+                    reader.Close();
+                    conn.Close();
+                }
+
+                ViewBag.editPersonCase = case_id;
+                ViewBag.PersonTypeList = listPersonType;
+                ViewBag.PersonGender = listGender;
+                ViewBag.SubscriberType = listSubscriberType;
+            }
+            else
+            {
+                RedirectToAction("Case", "Cases", case_id);
+            }
+            
+
+            return View(editSubscriberCase);
+        }
+
+        [HttpPost]
+        public ActionResult EditPerson(EditSubscriberCase subscriber)
+        {
+            int case_id = (int)Session["case_id"];
+            int subscriber_id = (int)Session["subscriber_id"];
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "CASES_PKG.EDIT_PERSON";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            decimal finished_ok = 0;
+            sql.BindByName = true;
+            sql.CommandType = CommandType.StoredProcedure;
+            int main = 0;
+            if (subscriber.main)
+            {
+                main = 1;
+            }
+            sql.Parameters.Add("P_MAIN", OracleDbType.Decimal, main, ParameterDirection.Input);
+            sql.Parameters.Add("P_CUSTOMER_TYPE", OracleDbType.Varchar2, subscriber.customer_type, ParameterDirection.Input);
+            sql.Parameters.Add("P_SSN", OracleDbType.Varchar2, subscriber.ssn, ParameterDirection.Input);
+            sql.Parameters.Add("P_FIRST_NAME", OracleDbType.Varchar2, subscriber.first_name, ParameterDirection.Input);
+            sql.Parameters.Add("P_LAST_NAME", OracleDbType.Varchar2, subscriber.last_name, ParameterDirection.Input);
+            sql.Parameters.Add("P_GENDER", OracleDbType.Varchar2, subscriber.gender, ParameterDirection.Input);
+            sql.Parameters.Add("P_BIRTH_DATE", OracleDbType.Date, subscriber.birth_date, ParameterDirection.Input);
+            sql.Parameters.Add("P_BIRTH_PLACE", OracleDbType.Varchar2, subscriber.birth_place, ParameterDirection.Input);
+            sql.Parameters.Add("P_SUBSCRIBE_TYPE", OracleDbType.Varchar2, subscriber.subscriber_type, ParameterDirection.Input);
+            sql.Parameters.Add("P_CASE_ID", OracleDbType.Decimal, case_id, ParameterDirection.Input);
+            sql.Parameters.Add("P_SUBSCRIBER_ID", OracleDbType.Varchar2, subscriber_id, ParameterDirection.Input);
+
+            sql.Parameters.Add("P_FINISHED_OK", OracleDbType.Decimal).Direction = ParameterDirection.Output;
+            sql.ExecuteNonQuery();
+            finished_ok =Convert.ToDecimal(((OracleDecimal)sql.Parameters["P_FINISHED_OK"].Value).Value);
+            if (finished_ok == 1)
+            {
+                return RedirectToAction("Case", "Cases", new { case_id = case_id });
+            }
+            else
+            {
+                TempData["ErrorEditPerson"] = finished_ok;
+                return RedirectToAction("EditPerson", "Cases", new { case_id = case_id, subscriber_id = subscriber_id });
+            }
         }
     }
 }

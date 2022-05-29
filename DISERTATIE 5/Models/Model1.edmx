@@ -110,6 +110,174 @@
           <Property Name="MAX_COUNT_OF_INST" Type="number" Precision="38" Scale="0" />
           <Property Name="MIN_COUNT_OF_INST" Type="number" Precision="38" Scale="0" />
         </EntityType>
+        <EntityType Name="COLLENT_COMMENTS">
+          <Key>
+            <PropertyRef Name="COLLENT_COMMENT_ID" />
+          </Key>
+          <Property Name="COLLENT_COMMENT_ID" Type="number" Precision="13" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CASE_ID" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="COMMENT_ID" Type="number" Precision="13" Scale="0" />
+          <Property Name="IDUSR" Type="number" Precision="10" Scale="0" />
+          <Property Name="SYS_COMMENT" Type="varchar2" MaxLength="4000" />
+          <Property Name="ACTION_ID" Type="number" Precision="10" Scale="0" />
+          <Property Name="TOTAL_BALANCE" Type="number" Precision="38" Scale="0" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="date" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="LAST_UPDATE_DATE" Type="date" />
+          <Property Name="ZONE" Type="varchar2" MaxLength="1" />
+          <Property Name="USER_COMMENT" Type="clob" />
+        </EntityType>
+        <EntityType Name="COMMENT_TYPES">
+          <Key>
+            <PropertyRef Name="COMMENT_ID" />
+          </Key>
+          <Property Name="COMMENT_ID" Type="number" Precision="13" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="200" />
+          <Property Name="ACTIVE" Type="number" Precision="1" Scale="0" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="date" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="LAST_UPDATE_DATE" Type="date" />
+        </EntityType>
+        <EntityType Name="CONTACT_TYPES">
+          <Key>
+            <PropertyRef Name="CONTACT_TYPE_ID" />
+          </Key>
+          <Property Name="CONTACT_TYPE_ID" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="date" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="LAST_UPDATE_DATE" Type="date" />
+        </EntityType>
+        <EntityType Name="EMAIL_TYPES">
+          <Key>
+            <PropertyRef Name="EMAIL_TYPE_ID" />
+          </Key>
+          <Property Name="EMAIL_TYPE_ID" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="date" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="LAST_UPDATE_DATE" Type="date" />
+        </EntityType>
+        <EntityType Name="FIN_ACCOUNT_BALANCES">
+          <Key>
+            <PropertyRef Name="FIN_ACCOUNT_BALANCE_ID" />
+          </Key>
+          <Property Name="FIN_ACCOUNT_BALANCE_ID" Type="number" Precision="19" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="timestamp" Precision="6" />
+          <Property Name="LAST_UPDATE_DATE" Type="timestamp" Precision="6" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="ACCOUNT_CURRENCY" Type="varchar2" MaxLength="255" Nullable="false" />
+          <Property Name="AMOUNT_PAID_CURRENCY" Type="varchar2" MaxLength="255" Nullable="false" />
+          <Property Name="AMOUNT_PAID" Type="number" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="AMOUNT_TO_PAY_CURRENCY" Type="varchar2" MaxLength="255" Nullable="false" />
+          <Property Name="AMOUNT_TO_PAY" Type="number" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="CALCULATE_INTEREST" Type="number" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="FUNCTIONAL_CURRENCY" Type="varchar2" MaxLength="255" Nullable="false" />
+          <Property Name="LAST_INTEREST_DATE" Type="date" />
+          <Property Name="MAIN_CLAIM_BALANCE_CURRENCY" Type="varchar2" MaxLength="255" Nullable="false" />
+          <Property Name="MAIN_CLAIM_BALANCE" Type="number" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="START_INTEREST_DATE" Type="date" Nullable="false" />
+          <Property Name="FIN_CLIENT_PRODUCT_ID" Type="number" Precision="38" Scale="0" />
+          <Property Name="INTEREST_END_DATE" Type="date" />
+          <Property Name="ACCOUNT_ID" Type="number" Precision="38" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FIN_ACCOUNT_FINANCIAL_ITEMS">
+          <Key>
+            <PropertyRef Name="FIN_ACCOUNT_FIN_ITEM_ID" />
+          </Key>
+          <Property Name="FIN_ACCOUNT_FIN_ITEM_ID" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="timestamp" Precision="6" />
+          <Property Name="LAST_UPDATE_DATE" Type="timestamp" Precision="6" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="FIN_ACCOUNT_BALANCE_ID" Type="number" Precision="19" Scale="0" />
+          <Property Name="AMOUNT_CURRENCY" Type="varchar2" MaxLength="255" Nullable="false" />
+          <Property Name="AMOUNT" Type="number" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="AMOUNT_FNC_CURRENCY" Type="varchar2" MaxLength="255" Nullable="false" />
+          <Property Name="AMOUNT_FNC" Type="number" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="AMOUNT_NOT_BOOKED_CURRENCY" Type="varchar2" MaxLength="255" Nullable="false" />
+          <Property Name="AMOUNT_NOT_BOOKED" Type="number" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="AMOUNT_NOT_BOOKED_FNC_CURRENCY" Type="varchar2" MaxLength="255" Nullable="false" />
+          <Property Name="AMOUNT_NOT_BOOKED_FNC" Type="number" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="AMOUNT_OVER_CURRENCY" Type="varchar2" MaxLength="255" Nullable="false" />
+          <Property Name="AMOUNT_OVER" Type="number" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="AMOUNT_OVER_FNC_CURRENCY" Type="varchar2" MaxLength="255" Nullable="false" />
+          <Property Name="AMOUNT_OVER_FNC" Type="number" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="BOOKING_DATE" Type="date" />
+          <Property Name="ITEM_DATE" Type="date" Nullable="false" />
+          <Property Name="RATE_USED" Type="number" Precision="19" Scale="4" />
+          <Property Name="SIGN" Type="number" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="STORNO_ID" Type="varchar2" MaxLength="255" />
+          <Property Name="FIN_FINANCIAL_ITEM_ID" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="COMMENTS" Type="varchar2" MaxLength="500" />
+          <Property Name="DISCOUNT_REASON_ID" Type="number" Precision="38" Scale="0" />
+          <Property Name="STORNO_REASON_ID" Type="number" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="FIN_CLIENT_PRODUCTS">
+          <Key>
+            <PropertyRef Name="FIN_CLIENT_PRODUCT_ID" />
+          </Key>
+          <Property Name="FIN_CLIENT_PRODUCT_ID" Type="number" Precision="38" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="timestamp" Precision="6" />
+          <Property Name="LAST_UPDATE_DATE" Type="timestamp" Precision="6" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CLIENT_ID" Type="number" Precision="19" Scale="0" Nullable="false" />
+          <Property Name="FIN_FINANCIAL_PRODUCT_ID" Type="number" Precision="38" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FIN_FINANCIAL_ITEMS">
+          <Key>
+            <PropertyRef Name="FIN_FINANCIAL_ITEM_ID" />
+          </Key>
+          <Property Name="FIN_FINANCIAL_ITEM_ID" Type="number" Precision="38" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="timestamp" Precision="6" />
+          <Property Name="LAST_UPDATE_DATE" Type="timestamp" Precision="6" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="ITEM_TYPE" Type="varchar2" MaxLength="255" Nullable="false" />
+          <Property Name="FIN_FINANCIAL_PRODUCT_ID" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="255" Nullable="false" />
+          <Property Name="NR_DAYS" Type="number" Precision="10" Scale="0" />
+          <Property Name="SIGN" Type="varchar2" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FIN_FINANCIAL_PRODUCTS">
+          <Key>
+            <PropertyRef Name="FIN_FINANCIAL_PRODUCT_ID" />
+          </Key>
+          <Property Name="FIN_FINANCIAL_PRODUCT_ID" Type="number" Precision="38" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="timestamp" Precision="6" />
+          <Property Name="LAST_UPDATE_DATE" Type="timestamp" Precision="6" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="NAME" Type="varchar2" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FIN_STORNO_REASONS">
+          <Key>
+            <PropertyRef Name="FIN_STORNO_REASON_ID" />
+          </Key>
+          <Property Name="FIN_STORNO_REASON_ID" Type="number" Precision="38" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="100" Nullable="false" />
+          <Property Name="CREATION_DATE" Type="date" Nullable="false" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="100" Nullable="false" />
+          <Property Name="LAST_UPDATE_DATE" Type="date" Nullable="false" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar2" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PHONE_TYPES">
+          <Key>
+            <PropertyRef Name="PHONE_TYPE_ID" />
+          </Key>
+          <Property Name="PHONE_TYPE_ID" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="date" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="LAST_UPDATE_DATE" Type="date" />
+        </EntityType>
         <EntityType Name="SEC_USERS">
           <Key>
             <PropertyRef Name="SEC_USER_ID" />
@@ -160,6 +328,77 @@
           <Property Name="CITY" Type="varchar2" MaxLength="150" />
           <Property Name="DISTRICT" Type="varchar2" MaxLength="150" />
           <Property Name="COUNTRY" Type="varchar2" MaxLength="150" />
+          <Property Name="BATCH_NUMBER" Type="number" Precision="38" Scale="0" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="date" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="LAST_UPDATE_DATE" Type="date" />
+          <Property Name="SOURCE" Type="number" Precision="13" Scale="0" />
+          <Property Name="COMMENTS" Type="varchar2" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="SUBSCRIBER_CONTACTS">
+          <Key>
+            <PropertyRef Name="SUBSCRIBER_CONTACT_ID" />
+          </Key>
+          <Property Name="SUBSCRIBER_CONTACT_ID" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="SUBSCRIBER_ID" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="CONTACT_TYPE_ID" Type="number" Precision="13" Scale="0" />
+          <Property Name="FIRST_NAME" Type="varchar2" MaxLength="300" />
+          <Property Name="LAST_NAME" Type="varchar2" MaxLength="200" />
+          <Property Name="ADDRESS" Type="varchar2" MaxLength="300" />
+          <Property Name="CITY" Type="varchar2" MaxLength="50" />
+          <Property Name="POSTAL_CODE" Type="varchar2" MaxLength="100" />
+          <Property Name="PHONE" Type="varchar2" MaxLength="50" />
+          <Property Name="EMAIL" Type="varchar2" MaxLength="100" />
+          <Property Name="COMMENTS" Type="varchar2" MaxLength="500" />
+          <Property Name="SOURCE" Type="number" Precision="13" Scale="0" />
+          <Property Name="BATCH_NUMBER" Type="number" Precision="38" Scale="0" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="date" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="LAST_UPDATE_DATE" Type="date" />
+        </EntityType>
+        <EntityType Name="SUBSCRIBER_EMAILS">
+          <Key>
+            <PropertyRef Name="SUBSCRIBER_EMAIL_ID" />
+          </Key>
+          <Property Name="SUBSCRIBER_EMAIL_ID" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="EMAIL_TYPE_ID" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="SUBSCRIBER_ID" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="MAIN_EMAIL" Type="number" Precision="1" Scale="0" />
+          <Property Name="EMAIL" Type="varchar2" MaxLength="100" />
+          <Property Name="BATCH_NUMBER" Type="number" Precision="38" Scale="0" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="date" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="LAST_UPDATE_DATE" Type="date" />
+          <Property Name="SOURCE" Type="number" Precision="13" Scale="0" />
+          <Property Name="COMMENTS" Type="varchar2" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="SUBSCRIBER_EMPLOYERS">
+          <Key>
+            <PropertyRef Name="SUBSCRIBER_EMPLOYER_ID" />
+          </Key>
+          <Property Name="SUBSCRIBER_EMPLOYER_ID" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="SUBSCRIBER_ID" Type="number" Precision="13" Scale="0" />
+          <Property Name="EMPLOYER_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="date" />
+          <Property Name="LAST_UPDATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="LAST_UPDATE_DATE" Type="date" />
+          <Property Name="POSITION" Type="varchar2" MaxLength="200" />
+          <Property Name="SOURCE" Type="number" Precision="38" Scale="0" />
+          <Property Name="MAIN_EMPLOYER" Type="number" Precision="1" Scale="0" />
+        </EntityType>
+        <EntityType Name="SUBSCRIBER_PHONES">
+          <Key>
+            <PropertyRef Name="SUBSCRIBER_PHONE_ID" />
+          </Key>
+          <Property Name="SUBSCRIBER_PHONE_ID" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="PHONE_TYPE_ID" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="SUBSCRIBER_ID" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="MAIN_PHONE" Type="number" Precision="1" Scale="0" />
+          <Property Name="PHONE_NUMBER" Type="varchar2" MaxLength="50" />
           <Property Name="BATCH_NUMBER" Type="number" Precision="38" Scale="0" />
           <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
           <Property Name="CREATION_DATE" Type="date" />
@@ -288,6 +527,50 @@ warning 6002: The table/view 'STEFAN.CASES_SEARCH' does not have a primary key d
           <Property Name="SEC_USER_ID" Type="number" Precision="38" Scale="0" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'STEFAN.FIN_ACCOUNT_DETAILS_V' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FIN_ACCOUNT_DETAILS_V">
+          <Key>
+            <PropertyRef Name="CASE_ID" />
+            <PropertyRef Name="ACCOUNT_CURRENCY" />
+            <PropertyRef Name="AMOUNT_PAID" />
+            <PropertyRef Name="AMOUNT_PAID_CURRENCY" />
+            <PropertyRef Name="AMOUNT_TO_PAY" />
+            <PropertyRef Name="AMOUNT_TO_PAY_CURRENCY" />
+          </Key>
+          <Property Name="CASE_ID" Type="number" Precision="13" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="ZONE" Type="varchar2" MaxLength="1" />
+          <Property Name="CUSTOMER_ID" Type="varchar2" MaxLength="50" />
+          <Property Name="ACCOUNT_CURRENCY" Type="varchar2" MaxLength="255" Nullable="false" />
+          <Property Name="ACCOUNT_BALANCE_DATE" Type="date" />
+          <Property Name="AMOUNT_PAID" Type="number" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="AMOUNT_PAID_CURRENCY" Type="varchar2" MaxLength="255" Nullable="false" />
+          <Property Name="AMOUNT_TO_PAY" Type="number" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="AMOUNT_TO_PAY_CURRENCY" Type="varchar2" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'STEFAN.FIN_FINANCIAL_ITEMS_V' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FIN_FINANCIAL_ITEMS_V">
+          <Key>
+            <PropertyRef Name="CASE_ID" />
+            <PropertyRef Name="ITEM_NAME" />
+            <PropertyRef Name="ITEM_TYPE" />
+            <PropertyRef Name="AMOUNT" />
+            <PropertyRef Name="AMOUNT_CURRENCY" />
+            <PropertyRef Name="AMOUNT_NOT_BOOKED" />
+            <PropertyRef Name="AMOUNT_NOT_BOOKED_CURRENCY" />
+          </Key>
+          <Property Name="CASE_ID" Type="number" Precision="13" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ITEM_NAME" Type="varchar2" MaxLength="255" Nullable="false" />
+          <Property Name="ITEM_TYPE" Type="varchar2" MaxLength="255" Nullable="false" />
+          <Property Name="ITEM_DATE" Type="date" />
+          <Property Name="BOOKING_DATE" Type="date" />
+          <Property Name="AMOUNT" Type="number" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="AMOUNT_CURRENCY" Type="varchar2" MaxLength="255" Nullable="false" />
+          <Property Name="AMOUNT_NOT_BOOKED" Type="number" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="AMOUNT_NOT_BOOKED_CURRENCY" Type="varchar2" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'STEFAN.SUBSCRIBER_ADDRESSES_V' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="SUBSCRIBER_ADDRESSES_V">
           <Key>
@@ -310,6 +593,23 @@ warning 6002: The table/view 'STEFAN.SUBSCRIBER_ADDRESSES_V' does not have a pri
           <Property Name="CREATION_DATE" Type="date" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'STEFAN.SUBSCRIBER_CONTACTS_V' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="SUBSCRIBER_CONTACTS_V">
+          <Key>
+            <PropertyRef Name="SUBSCRIBER_ID" />
+          </Key>
+          <Property Name="SUBSCRIBER_ID" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="CONTACT_TYPE" Type="varchar2" MaxLength="50" />
+          <Property Name="FIRST_NAME" Type="varchar2" MaxLength="300" />
+          <Property Name="LAST_NAME" Type="varchar2" MaxLength="200" />
+          <Property Name="ADDRESS" Type="varchar2" MaxLength="300" />
+          <Property Name="CITY" Type="varchar2" MaxLength="50" />
+          <Property Name="POSTAL_CODE" Type="varchar2" MaxLength="100" />
+          <Property Name="PHONE" Type="varchar2" MaxLength="50" />
+          <Property Name="EMAIL" Type="varchar2" MaxLength="100" />
+          <Property Name="SOURCE_TYPE" Type="varchar2" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'STEFAN.SUBSCRIBER_DATA_V' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="SUBSCRIBER_DATA_V">
           <Key>
@@ -322,6 +622,43 @@ warning 6002: The table/view 'STEFAN.SUBSCRIBER_DATA_V' does not have a primary 
           <Property Name="SUBSCRIBER_TYPE" Type="varchar2" MaxLength="70" />
           <Property Name="MAIN" Type="number" Precision="1" Scale="0" />
           <Property Name="SSN" Type="varchar2" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'STEFAN.SUBSCRIBER_EMAILS_V' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="SUBSCRIBER_EMAILS_V">
+          <Key>
+            <PropertyRef Name="SUBSCRIBER_ID" />
+          </Key>
+          <Property Name="SUBSCRIBER_ID" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="EMAIL_TYPE" Type="varchar2" MaxLength="50" />
+          <Property Name="MAIN_EMAIL" Type="number" Precision="1" Scale="0" />
+          <Property Name="EMAIL" Type="varchar2" MaxLength="100" />
+          <Property Name="SOURCE_TYPE" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="date" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'STEFAN.SUBSCRIBER_EMPLOYERS_V' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="SUBSCRIBER_EMPLOYERS_V">
+          <Property Name="SUBSCRIBER_ID" Type="number" Precision="13" Scale="0" />
+          <Property Name="EMPLOYER_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="POSITION" Type="varchar2" MaxLength="200" />
+          <Property Name="MAIN_EMPLOYER" Type="number" Precision="1" Scale="0" />
+          <Property Name="SOURCE_TYPE" Type="varchar2" MaxLength="50" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'STEFAN.SUBSCRIBER_PHONES_V' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="SUBSCRIBER_PHONES_V">
+          <Key>
+            <PropertyRef Name="SUBSCRIBER_ID" />
+          </Key>
+          <Property Name="SUBSCRIBER_ID" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="PHONE_TYPE" Type="varchar2" MaxLength="50" />
+          <Property Name="MAIN_PHONE" Type="number" Precision="1" Scale="0" />
+          <Property Name="PHONE_NUMBER" Type="varchar2" MaxLength="50" />
+          <Property Name="SOURCE_TYPE" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATION_DATE" Type="date" />
         </EntityType>
         <Association Name="ACC_CE_FK">
           <End Role="CASES" Type="Self.CASES" Multiplicity="0..1" />
@@ -419,6 +756,186 @@ warning 6002: The table/view 'STEFAN.SUBSCRIBER_DATA_V' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="COMMENT_COLLENT_COMM_CASE_FK">
+          <End Role="CASES" Type="Self.CASES" Multiplicity="1" />
+          <End Role="COLLENT_COMMENTS" Type="Self.COLLENT_COMMENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CASES">
+              <PropertyRef Name="CASE_ID" />
+            </Principal>
+            <Dependent Role="COLLENT_COMMENTS">
+              <PropertyRef Name="CASE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="COMMENT_COLLENT_COMM_FK">
+          <End Role="COMMENT_TYPES" Type="Self.COMMENT_TYPES" Multiplicity="0..1" />
+          <End Role="COLLENT_COMMENTS" Type="Self.COLLENT_COMMENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMMENT_TYPES">
+              <PropertyRef Name="COMMENT_ID" />
+            </Principal>
+            <Dependent Role="COLLENT_COMMENTS">
+              <PropertyRef Name="COMMENT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EMAIL_TYPES_SUBSCRIB_EMAILS_FK">
+          <End Role="EMAIL_TYPES" Type="Self.EMAIL_TYPES" Multiplicity="1" />
+          <End Role="SUBSCRIBER_EMAILS" Type="Self.SUBSCRIBER_EMAILS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMAIL_TYPES">
+              <PropertyRef Name="EMAIL_TYPE_ID" />
+            </Principal>
+            <Dependent Role="SUBSCRIBER_EMAILS">
+              <PropertyRef Name="EMAIL_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FAFI_STORNO_REASON_FK">
+          <End Role="FIN_STORNO_REASONS" Type="Self.FIN_STORNO_REASONS" Multiplicity="0..1" />
+          <End Role="FIN_ACCOUNT_FINANCIAL_ITEMS" Type="Self.FIN_ACCOUNT_FINANCIAL_ITEMS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FIN_STORNO_REASONS">
+              <PropertyRef Name="FIN_STORNO_REASON_ID" />
+            </Principal>
+            <Dependent Role="FIN_ACCOUNT_FINANCIAL_ITEMS">
+              <PropertyRef Name="STORNO_REASON_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FIN_ACC_FIN_ITEM_FK">
+          <End Role="FIN_FINANCIAL_ITEMS" Type="Self.FIN_FINANCIAL_ITEMS" Multiplicity="1" />
+          <End Role="FIN_ACCOUNT_FINANCIAL_ITEMS" Type="Self.FIN_ACCOUNT_FINANCIAL_ITEMS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FIN_FINANCIAL_ITEMS">
+              <PropertyRef Name="FIN_FINANCIAL_ITEM_ID" />
+            </Principal>
+            <Dependent Role="FIN_ACCOUNT_FINANCIAL_ITEMS">
+              <PropertyRef Name="FIN_FINANCIAL_ITEM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FIN_ACC_FIN_ITEMS_BALANCE_FK">
+          <End Role="FIN_ACCOUNT_BALANCES" Type="Self.FIN_ACCOUNT_BALANCES" Multiplicity="0..1" />
+          <End Role="FIN_ACCOUNT_FINANCIAL_ITEMS" Type="Self.FIN_ACCOUNT_FINANCIAL_ITEMS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FIN_ACCOUNT_BALANCES">
+              <PropertyRef Name="FIN_ACCOUNT_BALANCE_ID" />
+            </Principal>
+            <Dependent Role="FIN_ACCOUNT_FINANCIAL_ITEMS">
+              <PropertyRef Name="FIN_ACCOUNT_BALANCE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FIN_BALANCE_ACCOUNT_FK">
+          <End Role="ACCOUNTS" Type="Self.ACCOUNTS" Multiplicity="1" />
+          <End Role="FIN_ACCOUNT_BALANCES" Type="Self.FIN_ACCOUNT_BALANCES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACCOUNTS">
+              <PropertyRef Name="ACCOUNT_ID" />
+            </Principal>
+            <Dependent Role="FIN_ACCOUNT_BALANCES">
+              <PropertyRef Name="ACCOUNT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FIN_BALANCE_CLIENT_PRODUCT">
+          <End Role="FIN_CLIENT_PRODUCTS" Type="Self.FIN_CLIENT_PRODUCTS" Multiplicity="0..1" />
+          <End Role="FIN_ACCOUNT_BALANCES" Type="Self.FIN_ACCOUNT_BALANCES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FIN_CLIENT_PRODUCTS">
+              <PropertyRef Name="FIN_CLIENT_PRODUCT_ID" />
+            </Principal>
+            <Dependent Role="FIN_ACCOUNT_BALANCES">
+              <PropertyRef Name="FIN_CLIENT_PRODUCT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FIN_CL_PROD_FIN_PROD">
+          <End Role="FIN_FINANCIAL_PRODUCTS" Type="Self.FIN_FINANCIAL_PRODUCTS" Multiplicity="1" />
+          <End Role="FIN_CLIENT_PRODUCTS" Type="Self.FIN_CLIENT_PRODUCTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FIN_FINANCIAL_PRODUCTS">
+              <PropertyRef Name="FIN_FINANCIAL_PRODUCT_ID" />
+            </Principal>
+            <Dependent Role="FIN_CLIENT_PRODUCTS">
+              <PropertyRef Name="FIN_FINANCIAL_PRODUCT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FIN_FINANCIAL_ITEMS_PRODUCT_FK">
+          <End Role="FIN_FINANCIAL_PRODUCTS" Type="Self.FIN_FINANCIAL_PRODUCTS" Multiplicity="1" />
+          <End Role="FIN_FINANCIAL_ITEMS" Type="Self.FIN_FINANCIAL_ITEMS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FIN_FINANCIAL_PRODUCTS">
+              <PropertyRef Name="FIN_FINANCIAL_PRODUCT_ID" />
+            </Principal>
+            <Dependent Role="FIN_FINANCIAL_ITEMS">
+              <PropertyRef Name="FIN_FINANCIAL_PRODUCT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CLIENTS">
+          <End Role="CLIENTS" Type="Self.CLIENTS" Multiplicity="1" />
+          <End Role="FIN_CLIENT_PRODUCTS" Type="Self.FIN_CLIENT_PRODUCTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENTS">
+              <PropertyRef Name="CLIENT_ID" />
+            </Principal>
+            <Dependent Role="FIN_CLIENT_PRODUCTS">
+              <PropertyRef Name="CLIENT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PHONE_TYPES_SUBSCRIB_PHONES_FK">
+          <End Role="PHONE_TYPES" Type="Self.PHONE_TYPES" Multiplicity="1" />
+          <End Role="SUBSCRIBER_PHONES" Type="Self.SUBSCRIBER_PHONES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PHONE_TYPES">
+              <PropertyRef Name="PHONE_TYPE_ID" />
+            </Principal>
+            <Dependent Role="SUBSCRIBER_PHONES">
+              <PropertyRef Name="PHONE_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SOURCE_SUBSCRIB_EMAILS_FK">
+          <End Role="SOURCE_TYPES" Type="Self.SOURCE_TYPES" Multiplicity="0..1" />
+          <End Role="SUBSCRIBER_EMAILS" Type="Self.SUBSCRIBER_EMAILS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SOURCE_TYPES">
+              <PropertyRef Name="CONTACT_SOURCE_TYPE_ID" />
+            </Principal>
+            <Dependent Role="SUBSCRIBER_EMAILS">
+              <PropertyRef Name="SOURCE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SOURCE_SUBSCRIB_PHONES_FK">
+          <End Role="SOURCE_TYPES" Type="Self.SOURCE_TYPES" Multiplicity="0..1" />
+          <End Role="SUBSCRIBER_PHONES" Type="Self.SUBSCRIBER_PHONES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SOURCE_TYPES">
+              <PropertyRef Name="CONTACT_SOURCE_TYPE_ID" />
+            </Principal>
+            <Dependent Role="SUBSCRIBER_PHONES">
+              <PropertyRef Name="SOURCE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SOURCE_SUBSCRIBER_EMPLOYER_FK">
+          <End Role="SOURCE_TYPES" Type="Self.SOURCE_TYPES" Multiplicity="0..1" />
+          <End Role="SUBSCRIBER_EMPLOYERS" Type="Self.SUBSCRIBER_EMPLOYERS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SOURCE_TYPES">
+              <PropertyRef Name="CONTACT_SOURCE_TYPE_ID" />
+            </Principal>
+            <Dependent Role="SUBSCRIBER_EMPLOYERS">
+              <PropertyRef Name="SOURCE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="SOURCE_TYP_SUBSCRIB_ADDR_FK">
           <End Role="SOURCE_TYPES" Type="Self.SOURCE_TYPES" Multiplicity="0..1" />
           <End Role="SUBSCRIBER_ADDRESSES" Type="Self.SUBSCRIBER_ADDRESSES" Multiplicity="*" />
@@ -427,6 +944,30 @@ warning 6002: The table/view 'STEFAN.SUBSCRIBER_DATA_V' does not have a primary 
               <PropertyRef Name="CONTACT_SOURCE_TYPE_ID" />
             </Principal>
             <Dependent Role="SUBSCRIBER_ADDRESSES">
+              <PropertyRef Name="SOURCE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SUBSCRIB_CONTACT_TYPE_FK">
+          <End Role="CONTACT_TYPES" Type="Self.CONTACT_TYPES" Multiplicity="0..1" />
+          <End Role="SUBSCRIBER_CONTACTS" Type="Self.SUBSCRIBER_CONTACTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CONTACT_TYPES">
+              <PropertyRef Name="CONTACT_TYPE_ID" />
+            </Principal>
+            <Dependent Role="SUBSCRIBER_CONTACTS">
+              <PropertyRef Name="CONTACT_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SUBSCRIB_CONTACTS_SOURCE_FK">
+          <End Role="SOURCE_TYPES" Type="Self.SOURCE_TYPES" Multiplicity="0..1" />
+          <End Role="SUBSCRIBER_CONTACTS" Type="Self.SUBSCRIBER_CONTACTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SOURCE_TYPES">
+              <PropertyRef Name="CONTACT_SOURCE_TYPE_ID" />
+            </Principal>
+            <Dependent Role="SUBSCRIBER_CONTACTS">
               <PropertyRef Name="SOURCE" />
             </Dependent>
           </ReferentialConstraint>
@@ -443,6 +984,42 @@ warning 6002: The table/view 'STEFAN.SUBSCRIBER_DATA_V' does not have a primary 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="SUBSCRIB_SUBSCRIB_CONTACT_FK">
+          <End Role="SUBSCRIBERS" Type="Self.SUBSCRIBERS" Multiplicity="1" />
+          <End Role="SUBSCRIBER_CONTACTS" Type="Self.SUBSCRIBER_CONTACTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUBSCRIBERS">
+              <PropertyRef Name="SUBSCRIBER_ID" />
+            </Principal>
+            <Dependent Role="SUBSCRIBER_CONTACTS">
+              <PropertyRef Name="SUBSCRIBER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SUBSCRIB_SUBSCRIB_EMAILS_FK">
+          <End Role="SUBSCRIBERS" Type="Self.SUBSCRIBERS" Multiplicity="1" />
+          <End Role="SUBSCRIBER_EMAILS" Type="Self.SUBSCRIBER_EMAILS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUBSCRIBERS">
+              <PropertyRef Name="SUBSCRIBER_ID" />
+            </Principal>
+            <Dependent Role="SUBSCRIBER_EMAILS">
+              <PropertyRef Name="SUBSCRIBER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SUBSCRIB_SUBSCRIB_PHONES_FK">
+          <End Role="SUBSCRIBERS" Type="Self.SUBSCRIBERS" Multiplicity="1" />
+          <End Role="SUBSCRIBER_PHONES" Type="Self.SUBSCRIBER_PHONES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUBSCRIBERS">
+              <PropertyRef Name="SUBSCRIBER_ID" />
+            </Principal>
+            <Dependent Role="SUBSCRIBER_PHONES">
+              <PropertyRef Name="SUBSCRIBER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="SUBSCRIB_TYP_ACC_SUBS_FK">
           <End Role="SUBSCRIBER_TYPES" Type="Self.SUBSCRIBER_TYPES" Multiplicity="1" />
           <End Role="ACC_SUBS_INT" Type="Self.ACC_SUBS_INT" Multiplicity="*" />
@@ -452,6 +1029,18 @@ warning 6002: The table/view 'STEFAN.SUBSCRIBER_DATA_V' does not have a primary 
             </Principal>
             <Dependent Role="ACC_SUBS_INT">
               <PropertyRef Name="SUBSCRIBER_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SUBSCRIBER_SUBSCRIBER_FK">
+          <End Role="SUBSCRIBERS" Type="Self.SUBSCRIBERS" Multiplicity="0..1" />
+          <End Role="SUBSCRIBER_EMPLOYERS" Type="Self.SUBSCRIBER_EMPLOYERS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUBSCRIBERS">
+              <PropertyRef Name="SUBSCRIBER_ID" />
+            </Principal>
+            <Dependent Role="SUBSCRIBER_EMPLOYERS">
+              <PropertyRef Name="SUBSCRIBER_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -474,9 +1063,24 @@ warning 6002: The table/view 'STEFAN.SUBSCRIBER_DATA_V' does not have a primary 
           <EntitySet Name="BANK_ACCOUNTS" EntityType="Self.BANK_ACCOUNTS" Schema="STEFAN" store:Type="Tables" />
           <EntitySet Name="CASES" EntityType="Self.CASES" Schema="STEFAN" store:Type="Tables" />
           <EntitySet Name="CLIENTS" EntityType="Self.CLIENTS" Schema="STEFAN" store:Type="Tables" />
+          <EntitySet Name="COLLENT_COMMENTS" EntityType="Self.COLLENT_COMMENTS" Schema="STEFAN" store:Type="Tables" />
+          <EntitySet Name="COMMENT_TYPES" EntityType="Self.COMMENT_TYPES" Schema="STEFAN" store:Type="Tables" />
+          <EntitySet Name="CONTACT_TYPES" EntityType="Self.CONTACT_TYPES" Schema="STEFAN" store:Type="Tables" />
+          <EntitySet Name="EMAIL_TYPES" EntityType="Self.EMAIL_TYPES" Schema="STEFAN" store:Type="Tables" />
+          <EntitySet Name="FIN_ACCOUNT_BALANCES" EntityType="Self.FIN_ACCOUNT_BALANCES" Schema="STEFAN" store:Type="Tables" />
+          <EntitySet Name="FIN_ACCOUNT_FINANCIAL_ITEMS" EntityType="Self.FIN_ACCOUNT_FINANCIAL_ITEMS" Schema="STEFAN" store:Type="Tables" />
+          <EntitySet Name="FIN_CLIENT_PRODUCTS" EntityType="Self.FIN_CLIENT_PRODUCTS" Schema="STEFAN" store:Type="Tables" />
+          <EntitySet Name="FIN_FINANCIAL_ITEMS" EntityType="Self.FIN_FINANCIAL_ITEMS" Schema="STEFAN" store:Type="Tables" />
+          <EntitySet Name="FIN_FINANCIAL_PRODUCTS" EntityType="Self.FIN_FINANCIAL_PRODUCTS" Schema="STEFAN" store:Type="Tables" />
+          <EntitySet Name="FIN_STORNO_REASONS" EntityType="Self.FIN_STORNO_REASONS" Schema="STEFAN" store:Type="Tables" />
+          <EntitySet Name="PHONE_TYPES" EntityType="Self.PHONE_TYPES" Schema="STEFAN" store:Type="Tables" />
           <EntitySet Name="SEC_USERS" EntityType="Self.SEC_USERS" Schema="STEFAN" store:Type="Tables" />
           <EntitySet Name="SOURCE_TYPES" EntityType="Self.SOURCE_TYPES" Schema="STEFAN" store:Type="Tables" />
           <EntitySet Name="SUBSCRIBER_ADDRESSES" EntityType="Self.SUBSCRIBER_ADDRESSES" Schema="STEFAN" store:Type="Tables" />
+          <EntitySet Name="SUBSCRIBER_CONTACTS" EntityType="Self.SUBSCRIBER_CONTACTS" Schema="STEFAN" store:Type="Tables" />
+          <EntitySet Name="SUBSCRIBER_EMAILS" EntityType="Self.SUBSCRIBER_EMAILS" Schema="STEFAN" store:Type="Tables" />
+          <EntitySet Name="SUBSCRIBER_EMPLOYERS" EntityType="Self.SUBSCRIBER_EMPLOYERS" Schema="STEFAN" store:Type="Tables" />
+          <EntitySet Name="SUBSCRIBER_PHONES" EntityType="Self.SUBSCRIBER_PHONES" Schema="STEFAN" store:Type="Tables" />
           <EntitySet Name="SUBSCRIBER_TYPES" EntityType="Self.SUBSCRIBER_TYPES" Schema="STEFAN" store:Type="Tables" />
           <EntitySet Name="SUBSCRIBERS" EntityType="Self.SUBSCRIBERS" Schema="STEFAN" store:Type="Tables" />
           <EntitySet Name="ZONE_TYPES" EntityType="Self.ZONE_TYPES" Schema="STEFAN" store:Type="Tables" />
@@ -541,6 +1145,33 @@ FROM "STEFAN"."CASE_DETAILS_V" "CASE_DETAILS_V"</DefiningQuery>
 "CASES_SEARCH"."SEC_USER_ID" AS "SEC_USER_ID"
 FROM "STEFAN"."CASES_SEARCH" "CASES_SEARCH"</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="FIN_ACCOUNT_DETAILS_V" EntityType="Self.FIN_ACCOUNT_DETAILS_V" store:Type="Views" store:Schema="STEFAN">
+            <DefiningQuery>SELECT 
+"FIN_ACCOUNT_DETAILS_V"."CASE_ID" AS "CASE_ID", 
+"FIN_ACCOUNT_DETAILS_V"."NAME" AS "NAME", 
+"FIN_ACCOUNT_DETAILS_V"."ZONE" AS "ZONE", 
+"FIN_ACCOUNT_DETAILS_V"."CUSTOMER_ID" AS "CUSTOMER_ID", 
+"FIN_ACCOUNT_DETAILS_V"."ACCOUNT_CURRENCY" AS "ACCOUNT_CURRENCY", 
+"FIN_ACCOUNT_DETAILS_V"."ACCOUNT_BALANCE_DATE" AS "ACCOUNT_BALANCE_DATE", 
+"FIN_ACCOUNT_DETAILS_V"."AMOUNT_PAID" AS "AMOUNT_PAID", 
+"FIN_ACCOUNT_DETAILS_V"."AMOUNT_PAID_CURRENCY" AS "AMOUNT_PAID_CURRENCY", 
+"FIN_ACCOUNT_DETAILS_V"."AMOUNT_TO_PAY" AS "AMOUNT_TO_PAY", 
+"FIN_ACCOUNT_DETAILS_V"."AMOUNT_TO_PAY_CURRENCY" AS "AMOUNT_TO_PAY_CURRENCY"
+FROM "STEFAN"."FIN_ACCOUNT_DETAILS_V" "FIN_ACCOUNT_DETAILS_V"</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FIN_FINANCIAL_ITEMS_V" EntityType="Self.FIN_FINANCIAL_ITEMS_V" store:Type="Views" store:Schema="STEFAN">
+            <DefiningQuery>SELECT 
+"FIN_FINANCIAL_ITEMS_V"."CASE_ID" AS "CASE_ID", 
+"FIN_FINANCIAL_ITEMS_V"."ITEM_NAME" AS "ITEM_NAME", 
+"FIN_FINANCIAL_ITEMS_V"."ITEM_TYPE" AS "ITEM_TYPE", 
+"FIN_FINANCIAL_ITEMS_V"."ITEM_DATE" AS "ITEM_DATE", 
+"FIN_FINANCIAL_ITEMS_V"."BOOKING_DATE" AS "BOOKING_DATE", 
+"FIN_FINANCIAL_ITEMS_V"."AMOUNT" AS "AMOUNT", 
+"FIN_FINANCIAL_ITEMS_V"."AMOUNT_CURRENCY" AS "AMOUNT_CURRENCY", 
+"FIN_FINANCIAL_ITEMS_V"."AMOUNT_NOT_BOOKED" AS "AMOUNT_NOT_BOOKED", 
+"FIN_FINANCIAL_ITEMS_V"."AMOUNT_NOT_BOOKED_CURRENCY" AS "AMOUNT_NOT_BOOKED_CURRENCY"
+FROM "STEFAN"."FIN_FINANCIAL_ITEMS_V" "FIN_FINANCIAL_ITEMS_V"</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="SUBSCRIBER_ADDRESSES_V" EntityType="Self.SUBSCRIBER_ADDRESSES_V" store:Type="Views" store:Schema="STEFAN">
             <DefiningQuery>SELECT 
 "SUBSCRIBER_ADDRESSES_V"."SUBSCRIBER_ID" AS "SUBSCRIBER_ID", 
@@ -560,6 +1191,20 @@ FROM "STEFAN"."CASES_SEARCH" "CASES_SEARCH"</DefiningQuery>
 "SUBSCRIBER_ADDRESSES_V"."CREATION_DATE" AS "CREATION_DATE"
 FROM "STEFAN"."SUBSCRIBER_ADDRESSES_V" "SUBSCRIBER_ADDRESSES_V"</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="SUBSCRIBER_CONTACTS_V" EntityType="Self.SUBSCRIBER_CONTACTS_V" store:Type="Views" store:Schema="STEFAN">
+            <DefiningQuery>SELECT 
+"SUBSCRIBER_CONTACTS_V"."SUBSCRIBER_ID" AS "SUBSCRIBER_ID", 
+"SUBSCRIBER_CONTACTS_V"."CONTACT_TYPE" AS "CONTACT_TYPE", 
+"SUBSCRIBER_CONTACTS_V"."FIRST_NAME" AS "FIRST_NAME", 
+"SUBSCRIBER_CONTACTS_V"."LAST_NAME" AS "LAST_NAME", 
+"SUBSCRIBER_CONTACTS_V"."ADDRESS" AS "ADDRESS", 
+"SUBSCRIBER_CONTACTS_V"."CITY" AS "CITY", 
+"SUBSCRIBER_CONTACTS_V"."POSTAL_CODE" AS "POSTAL_CODE", 
+"SUBSCRIBER_CONTACTS_V"."PHONE" AS "PHONE", 
+"SUBSCRIBER_CONTACTS_V"."EMAIL" AS "EMAIL", 
+"SUBSCRIBER_CONTACTS_V"."SOURCE_TYPE" AS "SOURCE_TYPE"
+FROM "STEFAN"."SUBSCRIBER_CONTACTS_V" "SUBSCRIBER_CONTACTS_V"</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="SUBSCRIBER_DATA_V" EntityType="Self.SUBSCRIBER_DATA_V" store:Type="Views" store:Schema="STEFAN">
             <DefiningQuery>SELECT 
 "SUBSCRIBER_DATA_V"."CASE_ID" AS "CASE_ID", 
@@ -570,6 +1215,28 @@ FROM "STEFAN"."SUBSCRIBER_ADDRESSES_V" "SUBSCRIBER_ADDRESSES_V"</DefiningQuery>
 "SUBSCRIBER_DATA_V"."MAIN" AS "MAIN", 
 "SUBSCRIBER_DATA_V"."SSN" AS "SSN"
 FROM "STEFAN"."SUBSCRIBER_DATA_V" "SUBSCRIBER_DATA_V"</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="SUBSCRIBER_EMAILS_V" EntityType="Self.SUBSCRIBER_EMAILS_V" store:Type="Views" store:Schema="STEFAN">
+            <DefiningQuery>SELECT 
+"SUBSCRIBER_EMAILS_V"."SUBSCRIBER_ID" AS "SUBSCRIBER_ID", 
+"SUBSCRIBER_EMAILS_V"."EMAIL_TYPE" AS "EMAIL_TYPE", 
+"SUBSCRIBER_EMAILS_V"."MAIN_EMAIL" AS "MAIN_EMAIL", 
+"SUBSCRIBER_EMAILS_V"."EMAIL" AS "EMAIL", 
+"SUBSCRIBER_EMAILS_V"."SOURCE_TYPE" AS "SOURCE_TYPE", 
+"SUBSCRIBER_EMAILS_V"."CREATED_BY" AS "CREATED_BY", 
+"SUBSCRIBER_EMAILS_V"."CREATION_DATE" AS "CREATION_DATE"
+FROM "STEFAN"."SUBSCRIBER_EMAILS_V" "SUBSCRIBER_EMAILS_V"</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="SUBSCRIBER_PHONES_V" EntityType="Self.SUBSCRIBER_PHONES_V" store:Type="Views" store:Schema="STEFAN">
+            <DefiningQuery>SELECT 
+"SUBSCRIBER_PHONES_V"."SUBSCRIBER_ID" AS "SUBSCRIBER_ID", 
+"SUBSCRIBER_PHONES_V"."PHONE_TYPE" AS "PHONE_TYPE", 
+"SUBSCRIBER_PHONES_V"."MAIN_PHONE" AS "MAIN_PHONE", 
+"SUBSCRIBER_PHONES_V"."PHONE_NUMBER" AS "PHONE_NUMBER", 
+"SUBSCRIBER_PHONES_V"."SOURCE_TYPE" AS "SOURCE_TYPE", 
+"SUBSCRIBER_PHONES_V"."CREATED_BY" AS "CREATED_BY", 
+"SUBSCRIBER_PHONES_V"."CREATION_DATE" AS "CREATION_DATE"
+FROM "STEFAN"."SUBSCRIBER_PHONES_V" "SUBSCRIBER_PHONES_V"</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="ACC_CE_FK" Association="Self.ACC_CE_FK">
             <End Role="CASES" EntitySet="CASES" />
@@ -603,17 +1270,101 @@ FROM "STEFAN"."SUBSCRIBER_DATA_V" "SUBSCRIBER_DATA_V"</DefiningQuery>
             <End Role="BANK_ACCOUNTS" EntitySet="BANK_ACCOUNTS" />
             <End Role="CLIENTS" EntitySet="CLIENTS" />
           </AssociationSet>
+          <AssociationSet Name="COMMENT_COLLENT_COMM_CASE_FK" Association="Self.COMMENT_COLLENT_COMM_CASE_FK">
+            <End Role="CASES" EntitySet="CASES" />
+            <End Role="COLLENT_COMMENTS" EntitySet="COLLENT_COMMENTS" />
+          </AssociationSet>
+          <AssociationSet Name="COMMENT_COLLENT_COMM_FK" Association="Self.COMMENT_COLLENT_COMM_FK">
+            <End Role="COMMENT_TYPES" EntitySet="COMMENT_TYPES" />
+            <End Role="COLLENT_COMMENTS" EntitySet="COLLENT_COMMENTS" />
+          </AssociationSet>
+          <AssociationSet Name="EMAIL_TYPES_SUBSCRIB_EMAILS_FK" Association="Self.EMAIL_TYPES_SUBSCRIB_EMAILS_FK">
+            <End Role="EMAIL_TYPES" EntitySet="EMAIL_TYPES" />
+            <End Role="SUBSCRIBER_EMAILS" EntitySet="SUBSCRIBER_EMAILS" />
+          </AssociationSet>
+          <AssociationSet Name="FAFI_STORNO_REASON_FK" Association="Self.FAFI_STORNO_REASON_FK">
+            <End Role="FIN_STORNO_REASONS" EntitySet="FIN_STORNO_REASONS" />
+            <End Role="FIN_ACCOUNT_FINANCIAL_ITEMS" EntitySet="FIN_ACCOUNT_FINANCIAL_ITEMS" />
+          </AssociationSet>
+          <AssociationSet Name="FIN_ACC_FIN_ITEM_FK" Association="Self.FIN_ACC_FIN_ITEM_FK">
+            <End Role="FIN_FINANCIAL_ITEMS" EntitySet="FIN_FINANCIAL_ITEMS" />
+            <End Role="FIN_ACCOUNT_FINANCIAL_ITEMS" EntitySet="FIN_ACCOUNT_FINANCIAL_ITEMS" />
+          </AssociationSet>
+          <AssociationSet Name="FIN_ACC_FIN_ITEMS_BALANCE_FK" Association="Self.FIN_ACC_FIN_ITEMS_BALANCE_FK">
+            <End Role="FIN_ACCOUNT_BALANCES" EntitySet="FIN_ACCOUNT_BALANCES" />
+            <End Role="FIN_ACCOUNT_FINANCIAL_ITEMS" EntitySet="FIN_ACCOUNT_FINANCIAL_ITEMS" />
+          </AssociationSet>
+          <AssociationSet Name="FIN_BALANCE_ACCOUNT_FK" Association="Self.FIN_BALANCE_ACCOUNT_FK">
+            <End Role="ACCOUNTS" EntitySet="ACCOUNTS" />
+            <End Role="FIN_ACCOUNT_BALANCES" EntitySet="FIN_ACCOUNT_BALANCES" />
+          </AssociationSet>
+          <AssociationSet Name="FIN_BALANCE_CLIENT_PRODUCT" Association="Self.FIN_BALANCE_CLIENT_PRODUCT">
+            <End Role="FIN_CLIENT_PRODUCTS" EntitySet="FIN_CLIENT_PRODUCTS" />
+            <End Role="FIN_ACCOUNT_BALANCES" EntitySet="FIN_ACCOUNT_BALANCES" />
+          </AssociationSet>
+          <AssociationSet Name="FIN_CL_PROD_FIN_PROD" Association="Self.FIN_CL_PROD_FIN_PROD">
+            <End Role="FIN_FINANCIAL_PRODUCTS" EntitySet="FIN_FINANCIAL_PRODUCTS" />
+            <End Role="FIN_CLIENT_PRODUCTS" EntitySet="FIN_CLIENT_PRODUCTS" />
+          </AssociationSet>
+          <AssociationSet Name="FIN_FINANCIAL_ITEMS_PRODUCT_FK" Association="Self.FIN_FINANCIAL_ITEMS_PRODUCT_FK">
+            <End Role="FIN_FINANCIAL_PRODUCTS" EntitySet="FIN_FINANCIAL_PRODUCTS" />
+            <End Role="FIN_FINANCIAL_ITEMS" EntitySet="FIN_FINANCIAL_ITEMS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CLIENTS" Association="Self.FK_CLIENTS">
+            <End Role="CLIENTS" EntitySet="CLIENTS" />
+            <End Role="FIN_CLIENT_PRODUCTS" EntitySet="FIN_CLIENT_PRODUCTS" />
+          </AssociationSet>
+          <AssociationSet Name="PHONE_TYPES_SUBSCRIB_PHONES_FK" Association="Self.PHONE_TYPES_SUBSCRIB_PHONES_FK">
+            <End Role="PHONE_TYPES" EntitySet="PHONE_TYPES" />
+            <End Role="SUBSCRIBER_PHONES" EntitySet="SUBSCRIBER_PHONES" />
+          </AssociationSet>
+          <AssociationSet Name="SOURCE_SUBSCRIB_EMAILS_FK" Association="Self.SOURCE_SUBSCRIB_EMAILS_FK">
+            <End Role="SOURCE_TYPES" EntitySet="SOURCE_TYPES" />
+            <End Role="SUBSCRIBER_EMAILS" EntitySet="SUBSCRIBER_EMAILS" />
+          </AssociationSet>
+          <AssociationSet Name="SOURCE_SUBSCRIB_PHONES_FK" Association="Self.SOURCE_SUBSCRIB_PHONES_FK">
+            <End Role="SOURCE_TYPES" EntitySet="SOURCE_TYPES" />
+            <End Role="SUBSCRIBER_PHONES" EntitySet="SUBSCRIBER_PHONES" />
+          </AssociationSet>
+          <AssociationSet Name="SOURCE_SUBSCRIBER_EMPLOYER_FK" Association="Self.SOURCE_SUBSCRIBER_EMPLOYER_FK">
+            <End Role="SOURCE_TYPES" EntitySet="SOURCE_TYPES" />
+            <End Role="SUBSCRIBER_EMPLOYERS" EntitySet="SUBSCRIBER_EMPLOYERS" />
+          </AssociationSet>
           <AssociationSet Name="SOURCE_TYP_SUBSCRIB_ADDR_FK" Association="Self.SOURCE_TYP_SUBSCRIB_ADDR_FK">
             <End Role="SOURCE_TYPES" EntitySet="SOURCE_TYPES" />
             <End Role="SUBSCRIBER_ADDRESSES" EntitySet="SUBSCRIBER_ADDRESSES" />
+          </AssociationSet>
+          <AssociationSet Name="SUBSCRIB_CONTACT_TYPE_FK" Association="Self.SUBSCRIB_CONTACT_TYPE_FK">
+            <End Role="CONTACT_TYPES" EntitySet="CONTACT_TYPES" />
+            <End Role="SUBSCRIBER_CONTACTS" EntitySet="SUBSCRIBER_CONTACTS" />
+          </AssociationSet>
+          <AssociationSet Name="SUBSCRIB_CONTACTS_SOURCE_FK" Association="Self.SUBSCRIB_CONTACTS_SOURCE_FK">
+            <End Role="SOURCE_TYPES" EntitySet="SOURCE_TYPES" />
+            <End Role="SUBSCRIBER_CONTACTS" EntitySet="SUBSCRIBER_CONTACTS" />
           </AssociationSet>
           <AssociationSet Name="SUBSCRIB_SUBSCRIB_ADDRESSES_FK" Association="Self.SUBSCRIB_SUBSCRIB_ADDRESSES_FK">
             <End Role="SUBSCRIBERS" EntitySet="SUBSCRIBERS" />
             <End Role="SUBSCRIBER_ADDRESSES" EntitySet="SUBSCRIBER_ADDRESSES" />
           </AssociationSet>
+          <AssociationSet Name="SUBSCRIB_SUBSCRIB_CONTACT_FK" Association="Self.SUBSCRIB_SUBSCRIB_CONTACT_FK">
+            <End Role="SUBSCRIBERS" EntitySet="SUBSCRIBERS" />
+            <End Role="SUBSCRIBER_CONTACTS" EntitySet="SUBSCRIBER_CONTACTS" />
+          </AssociationSet>
+          <AssociationSet Name="SUBSCRIB_SUBSCRIB_EMAILS_FK" Association="Self.SUBSCRIB_SUBSCRIB_EMAILS_FK">
+            <End Role="SUBSCRIBERS" EntitySet="SUBSCRIBERS" />
+            <End Role="SUBSCRIBER_EMAILS" EntitySet="SUBSCRIBER_EMAILS" />
+          </AssociationSet>
+          <AssociationSet Name="SUBSCRIB_SUBSCRIB_PHONES_FK" Association="Self.SUBSCRIB_SUBSCRIB_PHONES_FK">
+            <End Role="SUBSCRIBERS" EntitySet="SUBSCRIBERS" />
+            <End Role="SUBSCRIBER_PHONES" EntitySet="SUBSCRIBER_PHONES" />
+          </AssociationSet>
           <AssociationSet Name="SUBSCRIB_TYP_ACC_SUBS_FK" Association="Self.SUBSCRIB_TYP_ACC_SUBS_FK">
             <End Role="SUBSCRIBER_TYPES" EntitySet="SUBSCRIBER_TYPES" />
             <End Role="ACC_SUBS_INT" EntitySet="ACC_SUBS_INT" />
+          </AssociationSet>
+          <AssociationSet Name="SUBSCRIBER_SUBSCRIBER_FK" Association="Self.SUBSCRIBER_SUBSCRIBER_FK">
+            <End Role="SUBSCRIBERS" EntitySet="SUBSCRIBERS" />
+            <End Role="SUBSCRIBER_EMPLOYERS" EntitySet="SUBSCRIBER_EMPLOYERS" />
           </AssociationSet>
           <AssociationSet Name="SUBSCRIBERS_ACC_SUBS_INT_FK" Association="Self.SUBSCRIBERS_ACC_SUBS_INT_FK">
             <End Role="SUBSCRIBERS" EntitySet="SUBSCRIBERS" />

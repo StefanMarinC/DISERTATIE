@@ -1,5 +1,8 @@
 ﻿@model DISERTATIE_5.Models.CaseInfo
 <html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
 <body style="height:100%; min-height:100vh;">
 
     <div style="background-color:#9c301a; height:75px;">
@@ -7,7 +10,7 @@
             <img src="~/Resources/Logo.png" style="height:75px; width:180px; cursor:pointer" onclick="@("window.location.href='" + @Url.Action("Home", "Home") + "'")" />
             <div style="width:75%; text-align:center; height:75px">
                 <div style="font-size:large; font-family:Arial sans-serif; font-weight:bold; color:white; padding-top:20px">
-                    Cases
+                    CASES
                 </div>
             </div>
             <div style="width:220px; height:75px; display:flex; justify-content:space-around">
@@ -22,7 +25,7 @@
             </div>
         </div>
     </div>
-    <div style="background-color:#403c3c; padding:0 20px 20px 20px; height:862px">
+    <div style="background-color:#403c3c; padding:0 20px 20px 20px; height:auto">
         <div id="case details" style="padding-top:10px">
             <div style="background-color:#f8f4f4; padding: 10px 0 10px 20px">
                 <span style="background-color:#9c301a; color:white; padding:3px; font-size:medium; font-weight:bold">CASE DETAILS -  @Model.caseDetails.case_id - (@Model.caseDetails.zone)</span>
@@ -92,45 +95,91 @@
             </div>
         </div>
         <div style="padding:10px 0 10px 0; display:flex; justify-content:flex-start;">
-            <button style="background-color:#9c301a; color:white; font-size:medium; margin-right:5px">
-                Letter
-            </button>
-            <button style="background-color:#9c301a; color:white; font-size:medium; margin-right:5px">
-                Email
-            </button>
-            <button style="background-color:#9c301a; color:white; font-size:medium; margin-right:5px">
-                SMS
-            </button>
-            <button style="background-color:#9c301a; color:white; font-size:medium; margin-right:5px">
-                New PA
-            </button>
-            <button style="background-color:#9c301a; color:white; font-size:medium; margin-right:5px">
-                View PA
-            </button>
-            <button style="background-color:#9c301a; color:white; font-size:medium; margin-right:5px">
-                Person
-            </button>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" style="background-color:#9c301a; border:hidden">Letter</button>
+                <div class="dropdown-menu" style="text-align:center">
+                    <div>
+                        <a id="letter1" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">Letter 1</a>
+                    </div>
+                    <div>
+                        <a id="letter2" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">Letter 2</a>
+                    </div>
+                    <div>
+                        <a id="letter3" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">Letter 3</a>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-group" style="padding-left:5px">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" style="background-color:#9c301a; border:hidden">Email</button>
+                <div class="dropdown-menu" style="text-align:center">
+                    <div>
+                        <a id="email1" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">Email 1</a>
+                    </div>
+                    <div>
+                        <a id="email2" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">Email 2</a>
+                    </div>
+                    <div>
+                        <a id="email3" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">Email 3</a>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-group" style="padding-left:5px">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" style="background-color:#9c301a ; border:hidden">SMS</button>
+                <div class="dropdown-menu" style="text-align:center">
+                    <div>
+                        <a id="sms1" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">SMS 1</a>
+                    </div>
+                    <div>
+                        <a id="sms2" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">SMS 2</a>
+                    </div>
+                    <div>
+                        <a id="sms3" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">SMS 3</a>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-group" style="padding-left:5px">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" style="background-color:#9c301a; border:hidden">New PA</button>
+            </div>
+            <div class="btn-group" style="padding-left:5px">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" style="background-color:#9c301a; border:hidden">View PA</button>
+            </div>
+
+            <div class="btn-group" style="padding-left:5px">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" style="background-color:#9c301a; border:hidden">Person</button>
+                <div class="dropdown-menu" style="text-align:center">
+                    <div>
+                        <a id="addPerson" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black" onclick="@("window.location.href='" + @Url.Action("AddPersonToCase", "Cases", new { case_id = Model.caseDetails.case_id}) + "'")" )">Add person</a>
+                    </div>
+                    <div>
+                        <a id="editPerson" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black" onclick="edit_subs(@Model.caseDetails.case_id)">Edit person</a>
+                    </div>
+                    <div>
+                        <a id="deletePerson" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black" onclick="delete_subs(@Model.caseDetails.case_id)">Delete person</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
-        <div style="display:flex; justify-content:space-between;">
-            <div style="width:30%; background-color:white;">
+        <div style="display:flex; justify-content:space-between; height:68.8vh">
+            <div style="width:32%; background-color:white;">
                 <div style="display:flex; justify-content:flex-start; background-color:gray">
                     @foreach (var subs in Model.subscriberDatas)
                     {
                         if (subs.main == 1)
                         {
-                            <button id="select_subs_@subs.subscriber_id" name="select_subs" style=" background-color: #9c301a ; color:white; height:30px" onclick="change_subs(@subs.subscriber_id)">
+                            <button id="select_subs_@subs.subscriber_id" name="select_subs" style=" background-color: #9c301a ; color:white; height:30px; border:hidden" onclick="change_subs(@subs.subscriber_id)">
                                 @subs.first_name @subs.last_name
                             </button>
                         }
                         else
                         {
-                            <button id="select_subs_@subs.subscriber_id" name="select_subs" style=" background-color: gray ; color:white; height:30px" onclick="change_subs(@subs.subscriber_id)">
+                            <button id="select_subs_@subs.subscriber_id" name="select_subs" style=" background-color: gray ; color:white; height:30px; border:hidden" onclick="change_subs(@subs.subscriber_id)">
                                 @subs.first_name @subs.last_name
                             </button>
                         }
                     }
                 </div>
-                <div style="overflow:auto; max-height:65vh">
+                <div style="overflow:auto; max-height:65vh; height:100%">
 
                     @foreach (var subs in Model.subscriberDatas)
                     {
@@ -252,13 +301,80 @@
                                             </div>
                                         }
                                     </div>
+                                    <div style="width:100%">
+                                        <hr style="border-top:2px solid #9c301a; margin:0" />
+                                    </div>
+                                    <div style="padding-top:10px; padding-left:10px; padding-bottom:10px">
+                                        Contacts
+                                        @foreach (var subs_contact in Model.subscriberContacts)
+                                        {
+                                            <div>
+                                                @if (subs_contact.subscriber_id == subs.subscriber_id)
+                                                {
+                                                    <div style="width:100%; padding-bottom:5px">
+                                                        <hr style="border-top:1px solid black; margin:0" />
+                                                    </div>
+                                                    <div>
+                                                        @subs_contact.contact_type - @subs_contact.first_name @subs_contact.last_name, @subs_contact.city, @subs_contact.address, @subs_contact.postal_code, @subs_contact.phone, @subs_contact.email
+                                                    </div>
+                                                    <div>
+                                                        From @subs_contact.source_type
+                                                    </div>
+
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                    <div style="width:100%">
+                                        <hr style="border-top:2px solid #9c301a; margin:0" />
+                                    </div>
+                                    <div style="padding-top:10px; padding-left:10px; padding-bottom:10px">
+                                        Employers
+                                        @foreach (var subs_employer in Model.subscriberEmployers)
+                                        {
+                                            <div>
+                                                @if (subs_employer.subscriber_id == subs.subscriber_id)
+                                                {
+                                                    <div style="width:100%; padding-bottom:5px">
+                                                        <hr style="border-top:1px solid black; margin:0" />
+                                                    </div>
+                                                    <div>
+                                                        @subs_employer.employer_name
+                                                    </div>
+                                                    <div>
+                                                        @if (subs_employer.main_employer == "1")
+                                                        {
+                                                            <div>
+                                                                Working: Yes
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div>
+                                                                Working: No
+                                                            </div>
+                                                        }
+
+                                                    </div>
+
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                    <div style="width:100%">
+                                        <hr style="border-top:2px solid #9c301a; margin:0" />
+                                    </div>
+                                    <div style="padding-top:10px; padding-left:10px; padding-bottom:10px">
+                                        Assets
+
+                                    </div>
                                 </div>
                             }
                             else
                             {
                                 <div id="div_@subs.subscriber_id" name="div_subs" style="display:none; padding-bottom:5px">
                                     <div style="padding:10px 0 0 10px">
-                                        @subs.first_name @subs.last_name (@subs.subscriber_id) - Main
+                                        @subs.first_name @subs.last_name (@subs.subscriber_id)
                                     </div>
                                     <div style="padding:5px 0 0 10px">
                                         Role: @subs.subscriber_type
@@ -371,18 +487,85 @@
                                             </div>
                                         }
                                     </div>
+                                    <div style="width:100%">
+                                        <hr style="border-top:2px solid #9c301a; margin:0" />
+                                    </div>
+                                    <div style="padding-top:10px; padding-left:10px; padding-bottom:10px">
+                                        Contacts
+                                        @foreach (var subs_contact in Model.subscriberContacts)
+                                        {
+                                            <div>
+                                                @if (subs_contact.subscriber_id == subs.subscriber_id)
+                                                {
+                                                    <div style="width:100%; padding-bottom:5px">
+                                                        <hr style="border-top:1px solid black; margin:0" />
+                                                    </div>
+                                                    <div>
+                                                        @subs_contact.contact_type - @subs_contact.first_name @subs_contact.last_name, @subs_contact.city, @subs_contact.address, @subs_contact.postal_code, @subs_contact.phone, @subs_contact.email
+                                                    </div>
+                                                    <div>
+                                                        From @subs_contact.source_type
+                                                    </div>
+
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                    <div style="width:100%">
+                                        <hr style="border-top:2px solid #9c301a; margin:0" />
+                                    </div>
+                                    <div style="padding-top:10px; padding-left:10px; padding-bottom:10px">
+                                        Employers
+                                        @foreach (var subs_employer in Model.subscriberEmployers)
+                                        {
+                                            <div>
+                                                @if (subs_employer.subscriber_id == subs.subscriber_id)
+                                                {
+                                                    <div style="width:100%; padding-bottom:5px">
+                                                        <hr style="border-top:1px solid black; margin:0" />
+                                                    </div>
+                                                    <div>
+                                                        @subs_employer.employer_name
+                                                    </div>
+                                                    <div>
+                                                        @if (subs_employer.main_employer == "1")
+                                                        {
+                                                            <div>
+                                                                Working: Yes
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div>
+                                                                Working: No
+                                                            </div>
+                                                        }
+
+                                                    </div>
+
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                    <div style="width:100%">
+                                        <hr style="border-top:2px solid #9c301a; margin:0" />
+                                    </div>
+                                    <div style="padding-top:10px; padding-left:10px; padding-bottom:10px">
+                                        Assets
+
+                                    </div>
                                 </div>
                             }
                         </div>
                     }
                 </div>
             </div>
-            <div style="width:34%; background-color:white;">
+            <div style="width:36%; background-color:white;">
                 <div style="background-color:gray; color:white; text-align:center; height:30px; font-size:large">
                     Financial data
                 </div>
                 <div style="padding-left:10px; padding-right:10px">
-                    <div style="overflow:auto; max-height:65vh">
+                    <div style="overflow:auto; max-height:65vh; height:100%">
                         <div style="font-size:large; padding-bottom:10px; padding-top:10px;">
                             Account details
                         </div>
@@ -392,7 +575,7 @@
                                     Case ID
                                 </div>
                                 <div>
-                                    @Model.FinAccountDetails.case_id (@Model.FinAccountDetails.account_balance_date)
+                                    @Model.FinAccountDetails.case_id (@Model.FinAccountDetails.account_balance_date.ToString("dd/MM/yyyy"))
                                 </div>
                             </div>
                             <div>
@@ -447,9 +630,29 @@
                             </div>
                         </div>
                         <hr style="border-top:2px solid #9c301a; margin:0; padding-bottom:10px;" />
-                        <div style="color:black; font-size:large; padding-bottom:10px">
-                            Financial Items
+                        <div style="display:flex; justify-content:space-between">
+                            <div style="color:black; font-size:large; padding-bottom:10px">
+                                Financial Items
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" style="background-color:#9c301a">Add</button>
+                                <div class="dropdown-menu" style="text-align:center">
+                                    <div>
+                                        <a id="addPayment" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">Payment</a>
+                                    </div>
+                                    <div>
+                                        <a id="addDiscount" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">Discount</a>
+                                    </div>
+                                    <div>
+                                        <a id="addCost" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">Cost</a>
+                                    </div>
+                                    <div>
+                                        <a id="addDebt" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">Debt</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
                         <div>
                             <table style="border: 1px solid #dee2e6; width: 100%; margin-bottom: 1rem; color: #212529; border-collapse: separate; box-sizing: border-box; display: table; text-indent: initial; border-spacing: 0 10px; background-color:white;">
                                 <thead>
@@ -500,11 +703,39 @@
 
 
             </div>
-            <div style="width:34%">
-                info
+            <div style="width:30%; background-color:white">
+                <div style="display:flex; justify-content:flex-start; background-color:gray">
+                    <button id="select_comments" name="button_info" style=" background-color: #9c301a ; color:white; height:30px; border:hidden" onclick="change_info('comments')">
+                        Comments
+                    </button>
+                    <button id="select_letters" name="button_info" style=" background-color: gray ; color:white; height:30px; border:hidden" onclick="change_info('letters')">
+                        Letters
+                    </button>
+                    <button id="select_emails" name="button_info" style=" background-color: gray ; color:white; height:30px; border:hidden" onclick="change_info('emails')">
+                        Emails
+                    </button>
+                    <button id="select_sms" name="button_info" style=" background-color: gray ; color:white; height:30px; border:hidden" onclick="change_info('sms')">
+                        SMS
+                    </button>
+                </div>
+                <div>
+                    <div id="comments" name="div_info" style="display:block; padding-bottom:5px">
+                        comments
+                    </div>
+                    <div id="letters" name="div_info" style="display:none; padding-bottom:5px">
+                        letters
+                    </div>
+                    <div id="emails" name="div_info" style="display:none; padding-bottom:5px">
+                        emails
+                    </div>
+                    <div id="sms" name="div_info" style="display:none; padding-bottom:5px">
+                        sms
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
     <script>
         function change_subs(value) {
             var elements = document.getElementsByName("div_subs");
@@ -518,6 +749,43 @@
             document.getElementById("div_" + value).style.display = "block";
             document.getElementById("select_subs_" + value).style.backgroundColor = "#9c301a";
         }
+    </script>
+
+    <script>
+        function change_info(value) {
+            var elements = document.getElementsByName("div_info");
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].style.display = "none";
+            }
+            elements = document.getElementsByName("button_info");
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].style.backgroundColor = "gray";
+            }
+            document.getElementById(value).style.display = "block";
+            document.getElementById("select_" + value).style.backgroundColor = "#9c301a";
+        }
+    </script>
+
+    <script>
+        function edit_subs(case_id) {
+            var subs_element;
+            var elements = document.getElementsByName("div_subs");
+            for (var i = 0; i < elements.length; i++) {
+                if (elements[i].style.display=="block")
+                {
+                    subs_element = elements[i];
+                }
+            }
+            var subs_id = subs_element.id;
+            var url = '/Cases/EditPerson?case_id=' + case_id + '&subscriber_id='+subs_id;
+            window.location.href = url;
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $(".dropdown-toggle").dropdown();
+        });
     </script>
 </body>
 </html>
