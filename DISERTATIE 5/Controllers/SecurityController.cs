@@ -194,7 +194,7 @@ namespace DISERTATIE_5.Controllers
             {
                 isadmin = 0;
             }
-            statement = "SECURITY.ADD_USER";
+            statement = "SECURITY_PKG.ADD_USER";
             sql = new OracleCommand(statement, conn);
             sql.BindByName = true;
             sql.CommandType = CommandType.StoredProcedure;

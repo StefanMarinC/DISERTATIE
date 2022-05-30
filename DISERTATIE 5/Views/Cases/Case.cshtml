@@ -5,6 +5,39 @@
 </head>
 <body style="height:100%; min-height:100vh;">
 
+    @if (TempData["ErrorDeletePerson"] != null)
+    {
+        <div class="modal" tabindex="-1" role="dialog" style="display:block" id="modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Error!</h3>
+                    </div>
+                    <div class="modal-body">
+                        <h4>@TempData["ErrorDeletePerson"].ToString()</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="buttonclose" style="background-color:#9c301a; color:white">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var modal = document.getElementById("modal");
+            var btn = document.getElementById("buttonclose");
+            console.log(btn);
+            btn.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
+    }
+
     <div style="background-color:#9c301a; height:75px;">
         <div style="display:flex; padding-left:20px;">
             <img src="~/Resources/Logo.png" style="height:75px; width:180px; cursor:pointer" onclick="@("window.location.href='" + @Url.Action("Home", "Home") + "'")" />
@@ -148,7 +181,7 @@
                 <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" style="background-color:#9c301a; border:hidden">Person</button>
                 <div class="dropdown-menu" style="text-align:center">
                     <div>
-                        <a id="addPerson" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black" onclick="@("window.location.href='" + @Url.Action("AddPersonToCase", "Cases", new { case_id = Model.caseDetails.case_id}) + "'")" )">Add person</a>
+                        <a id="addPerson" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black" onclick="@("window.location.href='" + @Url.Action("AddPerson", "Cases", new { case_id = Model.caseDetails.case_id}) + "'")">Add person</a>
                     </div>
                     <div>
                         <a id="editPerson" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black" onclick="edit_subs(@Model.caseDetails.case_id)">Edit person</a>
@@ -635,10 +668,10 @@
                                 Financial Items
                             </div>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" style="background-color:#9c301a">Add</button>
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" style="background-color:#9c301a ; border:hidden">Add</button>
                                 <div class="dropdown-menu" style="text-align:center">
                                     <div>
-                                        <a id="addPayment" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">Payment</a>
+                                        <a id="addPayment" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black" onclick="@("window.location.href='" + @Url.Action("AddPayment", "Cases", new { case_id = @Model.FinAccountDetails.case_id}) + "'")">Payment</a>
                                     </div>
                                     <div>
                                         <a id="addDiscount" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">Discount</a>
@@ -672,6 +705,9 @@
                                         <th style="text-align:center">
                                             Not allocated
                                         </th>
+                                        <th style="text-align:center">
+                                            Actions
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -687,12 +723,38 @@
                                             <td style="text-align:center">
                                                 @FinItem.booking_date
                                             </td>
-                                            <td style="text-align:center">
-                                                @FinItem.amount @FinItem.amount_currency
-                                            </td>
-                                            <td style="text-align:center">
-                                                @FinItem.amount_not_booked @FinItem.amount_not_booked_currency
-                                            </td>
+                                            @if (FinItem.sign < 0)
+                                            {
+                                                <td style="text-align:center; color:red">
+                                                    - @FinItem.amount @FinItem.amount_currency
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td style="text-align:center; color:mediumseagreen">
+                                                    + @FinItem.amount @FinItem.amount_currency
+                                                </td>
+                                            }
+                                            @if (FinItem.sign < 0)
+                                            {
+                                                <td style="text-align:center; color:red">
+                                                    - @FinItem.amount_not_booked @FinItem.amount_not_booked_currency
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td style="text-align:center; color:mediumseagreen">
+                                                    + @FinItem.amount_not_booked @FinItem.amount_not_booked_currency
+                                                </td>
+                                            }
+                                            @if (FinItem.item_name != "Interest")
+                                            {
+                                                <td style="display:flex; justify-content:center">
+                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" style="background-color:#9c301a ; border:hidden" onclick="@("window.location.href='" + @Url.Action("StornoFinancialItem", "Cases", new { financialItem = FinItem.financial_item}) + "'")">
+                                                        Storno
+                                                    </button>
+                                                </td>
+                                            }
                                         </tr>
                                     }
                                 </tbody>
@@ -771,21 +833,30 @@
             var subs_element;
             var elements = document.getElementsByName("div_subs");
             for (var i = 0; i < elements.length; i++) {
-                if (elements[i].style.display=="block")
-                {
+                if (elements[i].style.display == "block") {
                     subs_element = elements[i];
                 }
             }
             var subs_id = subs_element.id;
-            var url = '/Cases/EditPerson?case_id=' + case_id + '&subscriber_id='+subs_id;
+            var url = '/Cases/EditPerson?case_id=' + case_id + '&subscriber_id=' + subs_id;
             window.location.href = url;
         }
     </script>
 
     <script>
-        $(document).ready(function () {
-            $(".dropdown-toggle").dropdown();
-        });
+        function delete_subs(case_id) {
+            var subs_element;
+            var elements = document.getElementsByName("div_subs");
+            for (var i = 0; i < elements.length; i++) {
+                if (elements[i].style.display == "block") {
+                    subs_element = elements[i];
+                }
+            }
+            var subs_id = subs_element.id;
+            var url = '/Cases/DeletePerson?case_id=' + case_id + '&subscriber_id=' + subs_id;
+            window.location.href = url;
+        }
     </script>
+
 </body>
 </html>

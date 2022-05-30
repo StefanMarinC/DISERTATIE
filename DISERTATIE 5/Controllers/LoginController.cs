@@ -80,7 +80,7 @@ namespace DISERTATIE_5.Controllers
             if (sec_user.SEC_USER_ID > 0 && user_id == 0)
             {
                 ViewBag.Message = "Password is incorrect!";
-                statement = "SECURITY.UPDATE_FAILED_ATTEMPTS";
+                statement = "SECURITY_PKG.UPDATE_FAILED_ATTEMPTS";
                 sql = new OracleCommand(statement, conn);
                 sql.BindByName = true;
                 sql.CommandType = CommandType.StoredProcedure;

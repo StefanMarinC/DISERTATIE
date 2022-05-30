@@ -6,13 +6,13 @@ using System.Web;
 
 namespace DISERTATIE_5.Models
 {
-    public class EditSubscriberCase
+    public class AddSubscriberCase
     {
-        [Display(Name="Main")]
+        [Display(Name = "Main")]
         public Boolean main { get; set; }
         [Display(Name = "Debtor type")]
         [Required(ErrorMessage = "The debtor type is required")]
-        public string customer_type { get; set; }
+        public string debtor_type { get; set; }
         [Display(Name = "SSN")]
         [Required(ErrorMessage = "The SSN is required")]
         public string ssn { get; set; }
@@ -24,11 +24,11 @@ namespace DISERTATIE_5.Models
         [Display(Name = "Gender")]
         public string gender { get; set; }
         [Display(Name = "Birth date")]
-        [DisplayFormat(ApplyFormatInEditMode =true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime birth_date { get; set; }
         [Display(Name = "Birth place")]
         public string birth_place { get; set; }
-        [Display(Name = "Subscriber type")]
+        [Display(Name = "Type")]
         [Required(ErrorMessage = "The subscriber type is required")]
         public string subscriber_type { get; set; }
     }

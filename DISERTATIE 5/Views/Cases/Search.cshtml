@@ -7,9 +7,9 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
-<body style="padding: 0 0 0 0; background-color:#3a3a3c">
-    <div>
-        <div style="background-color:#9c301a; height:75px;">
+<body style="padding: 0 0 0 0; background-color:#3a3a3c; height:100vh">
+    <div style="height: 100vh">
+        <div style="background-color:#9c301a; height:7.5vh;">
             <div style="display:flex; padding-left:20px;">
                 <img src="~/Resources/Logo.png" style="height:75px; width:180px; cursor:pointer" onclick="@("window.location.href='" + @Url.Action("Home", "Home") + "'")" />
                 <div style="width:75%; text-align:center; height:75px">
@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        <div style="margin:10px 40px 10px 20px; background-color:#3a3a3c;">
+        <div style="margin:2vh 3vw 1vh 1vw; background-color:#3a3a3c; height:29vh">
             @if (TempData["AccessError"] != null)
             {
                 if (TempData["AccessError"].ToString() == "AccessError")
@@ -45,7 +45,7 @@
                                     <h4>You are not allowed to access this case!</h4>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="buttonclose" style="background-color:#9c301a; color:white">Close</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="buttonclose" style="background-color:#9c301a; color:white;">Close</button>
                                 </div>
                             </div>
                         </div>
@@ -192,13 +192,13 @@
                 <div style="display:flex; justify-content:flex-end; margin:0px 20px 0px 20px; background-color:#3a3a3c;">
                     <div class="form-group" style="text-align:center; padding:20px 0 0 0">
                         <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
-                            <input value="Reset" class="btn btn-primary" style="background-color:#9c301a; border-color:lightslategray; width:100px" onclick="@("window.location.href='" + @Url.Action("Search", "Cases") + "'")" />
+                            <input value="Reset" class="btn btn-primary" style="background-color:#9c301a; border-color:lightslategray; width:100px; border:hidden" onclick="@("window.location.href='" + @Url.Action("Search", "Cases") + "'")" />
                         </div>
                     </div>
                     <div style="padding-top:22px;">
                         <div class="form-group" style="text-align:center; padding:0 0 0 0; margin-right:0;">
                             <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0; width:100%; margin-right:0;">
-                                <button class="btn btn-primary" style="background-color:#9c301a; width:100px" id="search" type="submit">
+                                <button class="btn btn-primary" style="background-color:#9c301a; width:100px; border:hidden" id="search" type="submit">
                                     Search
                                 </button>
                             </div>
@@ -207,7 +207,8 @@
                 </div>
             }
         </div>
-        <div style="margin: 0px 20px 10px 20px; color:#9c301a; font-weight:bold; font-size:larger">
+
+        <div style="margin: 0vh 3vw 1vh 1vw; color:#9c301a; font-weight:bold; font-size:larger; height:2vh">
             @if (TempData["Cases_nr"] != null)
             {
                 <div>
@@ -223,7 +224,8 @@
             }
 
         </div>
-        <div style="overflow-y:scroll; height:500px; margin:0px 20px 10px 20px; background-color:#3a3a3c;">
+
+        <div style="overflow-y:scroll; height:55.5vh; margin:0vh 2vw 2vh 1vw; background-color:#3a3a3c;">
             <table style="border: 1px solid #dee2e6; width: 99%; margin-bottom: 1rem; color: #212529; border-collapse: collapse; box-sizing: border-box; display: table; text-indent: initial; border-spacing: 2px; background-color:white; margin-left:0.5%; margin-right:0.5%">
                 <thead>
                     <tr style="border: solid; border-width: 3px 0;">

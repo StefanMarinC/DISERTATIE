@@ -459,15 +459,17 @@ namespace DISERTATIE_5.Controllers
                 while (reader.Read())
                 {
                     FinancialItem financialItem = new FinancialItem();
-                    financialItem.case_id = reader.GetDecimal(0);
-                    financialItem.item_name = reader.GetString(1);
-                    financialItem.item_type = reader.GetString(2);
-                    financialItem.item_date = reader.GetDateTime(3).ToShortDateString();
-                    financialItem.booking_date = reader.GetDateTime(4).ToShortDateString();
-                    financialItem.amount = reader.GetFloat(5);
-                    financialItem.amount_currency = reader.GetString(6);
-                    financialItem.amount_not_booked = reader.GetFloat(7);
-                    financialItem.amount_not_booked_currency = reader.GetString(8);
+                    financialItem.financial_item = reader.GetDecimal(0);
+                    financialItem.case_id = reader.GetDecimal(1);
+                    financialItem.item_name = reader.GetString(2);
+                    financialItem.item_type = reader.GetString(3);
+                    financialItem.item_date = reader.GetDateTime(4).ToShortDateString();
+                    financialItem.booking_date = reader.GetDateTime(5).ToShortDateString();
+                    financialItem.amount = reader.GetFloat(6);
+                    financialItem.amount_currency = reader.GetString(7);
+                    financialItem.amount_not_booked = reader.GetFloat(8);
+                    financialItem.amount_not_booked_currency = reader.GetString(9);
+                    financialItem.sign = reader.GetFloat(10);
                     if (financialItem.item_type == "INTEREST")
                     {
                         if (interest.amount > 0)
@@ -578,14 +580,14 @@ namespace DISERTATIE_5.Controllers
                 ViewBag.PersonTypeList = listPersonType;
                 ViewBag.PersonGender = listGender;
                 ViewBag.SubscriberType = listSubscriberType;
+                return View(editSubscriberCase);
+
             }
             else
             {
-                RedirectToAction("Case", "Cases", case_id);
+                return RedirectToAction("Search", "Cases");
             }
             
-
-            return View(editSubscriberCase);
         }
 
         [HttpPost]
@@ -618,7 +620,7 @@ namespace DISERTATIE_5.Controllers
             sql.Parameters.Add("P_BIRTH_PLACE", OracleDbType.Varchar2, subscriber.birth_place, ParameterDirection.Input);
             sql.Parameters.Add("P_SUBSCRIBE_TYPE", OracleDbType.Varchar2, subscriber.subscriber_type, ParameterDirection.Input);
             sql.Parameters.Add("P_CASE_ID", OracleDbType.Decimal, case_id, ParameterDirection.Input);
-            sql.Parameters.Add("P_SUBSCRIBER_ID", OracleDbType.Varchar2, subscriber_id, ParameterDirection.Input);
+            sql.Parameters.Add("P_SUBSCRIBER_ID", OracleDbType.Decimal, subscriber_id, ParameterDirection.Input);
 
             sql.Parameters.Add("P_FINISHED_OK", OracleDbType.Decimal).Direction = ParameterDirection.Output;
             sql.ExecuteNonQuery();
@@ -629,9 +631,183 @@ namespace DISERTATIE_5.Controllers
             }
             else
             {
-                TempData["ErrorEditPerson"] = finished_ok;
+                TempData["ErrorEditPerson"] = "Something went wrong";
                 return RedirectToAction("EditPerson", "Cases", new { case_id = case_id, subscriber_id = subscriber_id });
             }
+        }
+
+        [HttpGet]
+        public ActionResult AddPerson(int? case_id)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            Session["case_id"] = case_id;
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            List<string> listPersonType = new List<string>();
+            listPersonType.Add("Person");
+            listPersonType.Add("Company");
+
+            List<string> listGender = new List<string>();
+            listGender.Add("M");
+            listGender.Add("F");
+
+            List<String> listSubscriberType = new List<string>();
+            conn.Open();
+            string statement = "SELECT SUBSCRIBER_NAME FROM SUBSCRIBER_TYPES ORDER BY SUBSCRIBER_NAME";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            OracleDataReader reader = sql.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    listSubscriberType.Add(reader.GetString(0));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            ViewBag.addPersonCase = case_id;
+            ViewBag.PersonTypeList = listPersonType;
+            ViewBag.PersonGender = listGender;
+            ViewBag.SubscriberType = listSubscriberType;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddPerson(AddSubscriberCase subscriber)
+        {
+            int case_id = (int)Session["case_id"];
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "CASES_PKG.ADD_PERSON";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            decimal finished_ok = 0;
+            sql.BindByName = true;
+            sql.CommandType = CommandType.StoredProcedure;
+            int main = 0;
+            if (subscriber.main)
+            {
+                main = 1;
+            }
+            sql.Parameters.Add("P_MAIN", OracleDbType.Decimal, main, ParameterDirection.Input);
+            sql.Parameters.Add("P_CUSTOMER_TYPE", OracleDbType.Varchar2, subscriber.debtor_type, ParameterDirection.Input);
+            sql.Parameters.Add("P_SSN", OracleDbType.Varchar2, subscriber.ssn, ParameterDirection.Input);
+            sql.Parameters.Add("P_FIRST_NAME", OracleDbType.Varchar2, subscriber.first_name, ParameterDirection.Input);
+            sql.Parameters.Add("P_LAST_NAME", OracleDbType.Varchar2, subscriber.last_name, ParameterDirection.Input);
+            sql.Parameters.Add("P_GENDER", OracleDbType.Varchar2, subscriber.gender, ParameterDirection.Input);
+            sql.Parameters.Add("P_BIRTH_DATE", OracleDbType.Date, subscriber.birth_date, ParameterDirection.Input);
+            sql.Parameters.Add("P_BIRTH_PLACE", OracleDbType.Varchar2, subscriber.birth_place, ParameterDirection.Input);
+            sql.Parameters.Add("P_SUBSCRIBE_TYPE", OracleDbType.Varchar2, subscriber.subscriber_type, ParameterDirection.Input);
+            sql.Parameters.Add("P_CASE_ID", OracleDbType.Decimal, case_id, ParameterDirection.Input);
+
+            sql.Parameters.Add("P_FINISHED_OK", OracleDbType.Decimal).Direction = ParameterDirection.Output;
+            sql.ExecuteNonQuery();
+            finished_ok = Convert.ToDecimal(((OracleDecimal)sql.Parameters["P_FINISHED_OK"].Value).Value);
+
+            switch (finished_ok)
+            {
+                case 1:
+                    return RedirectToAction("Case", "Cases", new { case_id = case_id });
+                case 2:
+                    TempData["ErrorAddPerson"] = "The person is already associated on this case!";
+                    return RedirectToAction("AddPerson", "Cases", new { case_id = case_id });
+                default:
+                    TempData["ErrorAddPerson"] = "Something went wrong";
+                    return RedirectToAction("AddPerson", "Cases", new { case_id = case_id });
+            }
+        }
+
+        [HttpGet]
+        public ActionResult DeletePerson(int? case_id, string subscriber_id)
+        {
+            int subs_id = Int32.Parse(subscriber_id.Remove(0, 4));
+            Session["case_id"] = case_id;
+            Session["subscriber_id"] = subs_id;
+            decimal finished_ok = 0;
+            if (case_id > 0 && subs_id > 0)
+            {
+                string tns = TNS.tns;
+                OracleConnection conn = new OracleConnection();
+                conn.ConnectionString = tns;
+
+                conn.Open();
+                string statement = "CASES_PKG.DELETE_PERSON";
+                OracleCommand sql = new OracleCommand(statement, conn);
+                sql.BindByName = true;
+                sql.CommandType = CommandType.StoredProcedure;
+                sql.Parameters.Add("P_CASE_ID", OracleDbType.Decimal, case_id, ParameterDirection.Input);
+                sql.Parameters.Add("P_SUBSCRIBER_ID", OracleDbType.Decimal, subs_id, ParameterDirection.Input);
+
+                sql.Parameters.Add("P_FINISHED_OK", OracleDbType.Decimal).Direction = ParameterDirection.Output;
+                sql.ExecuteNonQuery();
+                finished_ok = Convert.ToDecimal(((OracleDecimal)sql.Parameters["P_FINISHED_OK"].Value).Value);
+                switch (finished_ok) {
+                    case 1:
+                        return RedirectToAction("Case", "Cases", new { case_id = case_id });
+                    case 2:
+                        TempData["ErrorDeletePerson"] = "You can't delete the only person of the case!";
+                        return RedirectToAction("Case", "Cases", new { case_id = case_id });
+                    case 3:
+                        TempData["ErrorDeletePerson"] = "You can't delete the main person of the case!";
+                        return RedirectToAction("Case", "Cases", new { case_id = case_id });
+                    default:
+                        TempData["ErrorDeletePerson"] = "Something went wrong";
+                        return RedirectToAction("Case", "Cases", new { case_id = case_id });
+                }
+            }
+            else
+            {
+                return RedirectToAction("Search", "Cases");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult AddPayment(int? case_id)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+            string statement = "SELECT NAME FROM CURRENCIES";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            conn.Open();
+            OracleDataReader reader = sql.ExecuteReader();
+            List<string> currencyList = new List<string>();
+            try
+            {
+                while (reader.Read())
+                {
+                    currencyList.Add(reader.GetString(0));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            ViewBag.CurrencyList = currencyList;
+            Session["case_id"] = case_id;
+            return View();
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult AddPayment(DateTime payment_date, DateTime booking_date, float amount, string currency)
+        {
+            int case_id = (int)Session["case_id"];
+            return RedirectToAction("Case", "Cases", new { case_id = case_id });
         }
     }
 }

@@ -1,14 +1,15 @@
-﻿@model DISERTATIE_5.Models.EditSubscriberCase
+﻿@model DISERTATIE_5.Models.AddSubscriberCase
 
 <!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>EditPerson</title>
+    <title>AddPerson</title>
 </head>
 <body style="max-width:100%">
-    @if (TempData["ErrorEditPerson"] != null)
+
+    @if (TempData["ErrorAddPerson"] != null)
     {
         <div class="modal" tabindex="-1" role="dialog" style="display:block" id="modal">
             <div class="modal-dialog" role="document">
@@ -17,7 +18,7 @@
                         <h3 class="modal-title">Error!</h3>
                     </div>
                     <div class="modal-body">
-                        <h4>@TempData["ErrorEditPerson"].ToString()</h4>
+                        <h4>@TempData["ErrorAddPerson"].ToString()</h4>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="buttonclose" style="background-color:#9c301a; color:white">Close</button>
@@ -47,41 +48,34 @@
             </div>
         </div>
     </div>
+
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
-            <h4 style="text-align:center">Edit person</h4>
+        <div class="form-horizontal" style="max-width:100%">
+            <h4 style="text-align:center">Add subscriber</h4>
             <hr />
             <div>
-
-
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group" style="max-width:100%">
                     @Html.LabelFor(model => model.main, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         <div class="checkbox">
-                            @if (Model.main == true)
-                            {
-                                @Html.CheckBoxFor(model => model.main, new { onclick = "return false" })
-                            }
-                            else
-                            {
-                                @Html.EditorFor(model => model.main)
-                            }
+                            @Html.EditorFor(model => model.main)
                             @Html.ValidationMessageFor(model => model.main, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group" style="max-width:100%">
-                    @Html.LabelFor(model => model.customer_type, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.debtor_type, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.customer_type, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.customer_type, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.debtor_type, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.debtor_type, "", new { @class = "text-danger" })
                     </div>
                 </div>
+
                 <div class="form-group" style="max-width:100%">
                     @Html.LabelFor(model => model.ssn, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -132,20 +126,18 @@
 
                 <div class="form-group" style="max-width:100%">
                     @Html.LabelFor(model => model.subscriber_type, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10" style="padding-right:0; margin-right:0">
+                    <div class="col-md-10">
                         @Html.EditorFor(model => model.subscriber_type, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.subscriber_type, "", new { @class = "text-danger" })
                     </div>
                 </div>
-
                 <div class="form-group" style="max-width:100%">
                     <div class="col-md-offset-2 col-md-10" style="display:flex;">
-                        <button type="submit" class="btn btn-default" style="margin-right:50px">
+                        <button type="submit" class="btn btn-default">
                             Save
                         </button>
                     </div>
                 </div>
-
             </div>
 
         </div>
@@ -153,7 +145,7 @@
 
     <div class="form-group">
         <label class="control-label col-md-2" for="cancel"></label>
-        <button style="cursor:pointer" id="cancel" class="btn btn-default" onclick="@("window.location.href='" + @Url.Action("Case", "Cases", new { case_id = ViewBag.editPersonCase }) + "'")">
+        <button style="cursor:pointer" id="cancel" class="btn btn-default" onclick="@("window.location.href='" + @Url.Action("Case", "Cases", new { case_id = ViewBag.addPersonCase }) + "'")">
             Cancel
         </button>
     </div>
@@ -214,6 +206,7 @@
             </div>
         </div>
     </div>
+
     @section Scripts {
 
         @Scripts.Render("~/bundles/jqueryui")
@@ -222,11 +215,10 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 $('input[type=datetime]').datepicker({
-                    dateFormat: "dd/mm/yy",
+                    dateFormat: "dd/MM/yy",
                     changeMonth: true,
                     changeYear: true,
-                    yearRange: "-70:-18",
-                    maxDate: '-18Y'
+                    yearRange: "-70:-18"
                 });
 
             });
@@ -246,6 +238,8 @@
                 }
             }
         </script>
+
+
     }
 </body>
 </html>
