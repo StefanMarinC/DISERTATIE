@@ -470,6 +470,7 @@ namespace DISERTATIE_5.Controllers
                     financialItem.amount_not_booked = reader.GetFloat(8);
                     financialItem.amount_not_booked_currency = reader.GetString(9);
                     financialItem.sign = reader.GetFloat(10);
+                    financialItem.amount_over = reader.GetFloat(11);
                     if (financialItem.item_type == "INTEREST")
                     {
                         if (interest.amount > 0)
@@ -531,7 +532,8 @@ namespace DISERTATIE_5.Controllers
                 string statement = "SELECT * FROM SUBSCRIBER_CASE_EDIT_V SC WHERE SC.CASE_ID=" + case_id + " AND SC.SUBSCRIBER_ID=" + subs_id;
                 OracleCommand sql = new OracleCommand(statement, conn);
                 OracleDataReader reader = sql.ExecuteReader();
-                try {
+                try
+                {
                     while (reader.Read())
                     {
                         editSubscriberCase.main = reader.GetBoolean(0);
@@ -587,7 +589,7 @@ namespace DISERTATIE_5.Controllers
             {
                 return RedirectToAction("Search", "Cases");
             }
-            
+
         }
 
         [HttpPost]
@@ -624,7 +626,7 @@ namespace DISERTATIE_5.Controllers
 
             sql.Parameters.Add("P_FINISHED_OK", OracleDbType.Decimal).Direction = ParameterDirection.Output;
             sql.ExecuteNonQuery();
-            finished_ok =Convert.ToDecimal(((OracleDecimal)sql.Parameters["P_FINISHED_OK"].Value).Value);
+            finished_ok = Convert.ToDecimal(((OracleDecimal)sql.Parameters["P_FINISHED_OK"].Value).Value);
             if (finished_ok == 1)
             {
                 return RedirectToAction("Case", "Cases", new { case_id = case_id });
@@ -751,7 +753,8 @@ namespace DISERTATIE_5.Controllers
                 sql.Parameters.Add("P_FINISHED_OK", OracleDbType.Decimal).Direction = ParameterDirection.Output;
                 sql.ExecuteNonQuery();
                 finished_ok = Convert.ToDecimal(((OracleDecimal)sql.Parameters["P_FINISHED_OK"].Value).Value);
-                switch (finished_ok) {
+                switch (finished_ok)
+                {
                     case 1:
                         return RedirectToAction("Case", "Cases", new { case_id = case_id });
                     case 2:
@@ -807,6 +810,31 @@ namespace DISERTATIE_5.Controllers
         public ActionResult AddPayment(DateTime payment_date, DateTime booking_date, float amount, string currency)
         {
             int case_id = (int)Session["case_id"];
+
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "FINANCIAL_PKG.ADD_PAYMENT";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            decimal finished_ok = 0;
+            sql.BindByName = true;
+            sql.CommandType = CommandType.StoredProcedure;
+            sql.Parameters.Add("P_CASE_ID", OracleDbType.Decimal, case_id, ParameterDirection.Input);
+            sql.Parameters.Add("P_PAYMENT_DATE", OracleDbType.Date, payment_date, ParameterDirection.Input);
+            sql.Parameters.Add("P_BOOKING_DATE", OracleDbType.Date, booking_date, ParameterDirection.Input);
+            sql.Parameters.Add("P_AMOUNT", OracleDbType.Double, amount, ParameterDirection.Input);
+            sql.Parameters.Add("P_CURRENCY", OracleDbType.Varchar2, currency, ParameterDirection.Input);
+
+            sql.Parameters.Add("P_FINISHED_OK", OracleDbType.Decimal).Direction = ParameterDirection.Output;
+            sql.ExecuteNonQuery();
+            finished_ok = Convert.ToDecimal(((OracleDecimal)sql.Parameters["P_FINISHED_OK"].Value).Value);
+            if (finished_ok == 0)
+            {
+                TempData["ErrorDeletePerson"] = "eroare la payment";
+                return RedirectToAction("Case", "Cases", new { case_id = case_id });
+            }
             return RedirectToAction("Case", "Cases", new { case_id = case_id });
         }
     }

@@ -716,6 +716,10 @@
                                         <tr>
                                             <td style="text-align:center">
                                                 @FinItem.item_name
+                                                @if (FinItem.amount_over > 0)
+                                                {
+                                                    <small _ngcontent-iqe-c273="" data-toggle="tooltip" data-placement="top" class="badge badge-primary mr-1 ng-star-inserted" title="Overpayment">! </small>
+                                                }
                                             </td>
                                             <td style="text-align:center">
                                                 @FinItem.item_date
@@ -749,10 +753,18 @@
                                             }
                                             @if (FinItem.item_name != "Interest")
                                             {
-                                                <td style="display:flex; justify-content:center">
-                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" style="background-color:#9c301a ; border:hidden" onclick="@("window.location.href='" + @Url.Action("StornoFinancialItem", "Cases", new { financialItem = FinItem.financial_item}) + "'")">
-                                                        Storno
-                                                    </button>
+                                                <td>
+                                                    <div style="display:flex; justify-content:center">
+                                                        <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a ; border-color:white; width:75%;" onclick="@("window.location.href='" + @Url.Action("StornoFinancialItem", "Cases", new { financialItem = FinItem.financial_item}) + "'")">
+                                                            Storno
+                                                        </button>
+                                                    </div>
+                                                    <div style="display:flex; justify-content:center">
+                                                        <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a ; border-color:white; width:75%">
+                                                            Info
+                                                        </button>
+                                                    </div>
+
                                                 </td>
                                             }
                                         </tr>

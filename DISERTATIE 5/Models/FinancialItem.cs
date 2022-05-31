@@ -18,5 +18,6 @@ namespace DISERTATIE_5.Models
         public float amount_not_booked { get; set; }
         public string amount_not_booked_currency { get; set; }
         public float sign { get; set; }
+        public float amount_over { get; set; }
     }
 }
