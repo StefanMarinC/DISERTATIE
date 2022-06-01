@@ -11,6 +11,7 @@ namespace DISERTATIE_5.Models
         public string zone { get; set; }
         public string client_name { get; set; }
         public float balance { get; set; }
+        public string balance_currency { get; set; }
         public string pa_status { get; set; }
         public decimal pa_made { get; set; }
         public decimal pa_broken { get; set; }

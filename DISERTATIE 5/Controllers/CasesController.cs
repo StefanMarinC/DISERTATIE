@@ -259,11 +259,12 @@ namespace DISERTATIE_5.Controllers
                     cl.zone = (string)reader.GetValue(1);
                     cl.client_name = (string)reader.GetValue(2);
                     cl.balance = (float)reader.GetFloat(3);
-                    cl.pa_status = (string)reader.GetValue(4);
-                    cl.pa_made = (decimal)reader.GetValue(5);
-                    cl.pa_broken = (decimal)reader.GetValue(6);
-                    cl.pa_kept = (decimal)reader.GetValue(7);
-                    cl.pa_cancelled = (decimal)reader.GetValue(8);
+                    cl.balance_currency=(string)reader.GetString(4);
+                    cl.pa_status = (string)reader.GetValue(5);
+                    cl.pa_made = (decimal)reader.GetValue(6);
+                    cl.pa_broken = (decimal)reader.GetValue(7);
+                    cl.pa_kept = (decimal)reader.GetValue(8);
+                    cl.pa_cancelled = (decimal)reader.GetValue(9);
                 }
             }
             finally
@@ -802,6 +803,7 @@ namespace DISERTATIE_5.Controllers
                 conn.Close();
             }
             ViewBag.CurrencyList = currencyList;
+            ViewBag.addPaymentCase = case_id;
             Session["case_id"] = case_id;
             return View();
         }
@@ -832,7 +834,70 @@ namespace DISERTATIE_5.Controllers
             finished_ok = Convert.ToDecimal(((OracleDecimal)sql.Parameters["P_FINISHED_OK"].Value).Value);
             if (finished_ok == 0)
             {
-                TempData["ErrorDeletePerson"] = "eroare la payment";
+                TempData["ErrorDeletePerson"] = "Something went wrong";
+                return RedirectToAction("Case", "Cases", new { case_id = case_id });
+            }
+            return RedirectToAction("Case", "Cases", new { case_id = case_id });
+        }
+
+        public ActionResult AddDebt(int? case_id)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+            string statement = "SELECT NAME FROM CURRENCIES";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            conn.Open();
+            OracleDataReader reader = sql.ExecuteReader();
+            List<string> currencyList = new List<string>();
+            try
+            {
+                while (reader.Read())
+                {
+                    currencyList.Add(reader.GetString(0));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            ViewBag.CurrencyList = currencyList;
+            ViewBag.addDebtCase = case_id;
+            Session["case_id"] = case_id;
+            return View();
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult AddDebt(DateTime item_date, float amount, string currency)
+        {
+            int case_id = (int)Session["case_id"];
+
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "FINANCIAL_PKG.ADD_DEBT";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            decimal finished_ok = 0;
+            sql.BindByName = true;
+            sql.CommandType = CommandType.StoredProcedure;
+            sql.Parameters.Add("P_CASE_ID", OracleDbType.Decimal, case_id, ParameterDirection.Input);
+            sql.Parameters.Add("P_ITEM_DATE", OracleDbType.Date, item_date, ParameterDirection.Input);
+            sql.Parameters.Add("P_AMOUNT", OracleDbType.Double, amount, ParameterDirection.Input);
+            sql.Parameters.Add("P_CURRENCY", OracleDbType.Varchar2, currency, ParameterDirection.Input);
+
+            sql.Parameters.Add("P_FINISHED_OK", OracleDbType.Decimal).Direction = ParameterDirection.Output;
+            sql.ExecuteNonQuery();
+            finished_ok = Convert.ToDecimal(((OracleDecimal)sql.Parameters["P_FINISHED_OK"].Value).Value);
+            if (finished_ok == 0)
+            {
+                TempData["ErrorDeletePerson"] = "Something went wrong";
                 return RedirectToAction("Case", "Cases", new { case_id = case_id });
             }
             return RedirectToAction("Case", "Cases", new { case_id = case_id });
