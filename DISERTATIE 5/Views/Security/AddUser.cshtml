@@ -51,6 +51,20 @@
                 </div>
             </div>
         </div>
+        <script>
+            var modal = document.getElementById("modal");
+            var btn = document.getElementById("buttonclose");
+            console.log(btn);
+            btn.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
     }
 
     <div style="padding-top:50px">
@@ -61,7 +75,7 @@
             <div class="form-horizontal" style="color:white">
 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
+                <div class="form-group" style="width:100%">
                     @Html.LabelFor(model => model.USERNAME, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.USERNAME, new { htmlAttributes = new { @class = "form-control" } })
@@ -69,7 +83,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="width:100%">
                     @Html.LabelFor(model => model.FULL_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.FULL_NAME, new { htmlAttributes = new { @class = "form-control" } })
@@ -77,7 +91,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="width:100%">
                     @Html.LabelFor(model => model.SEC_PASSWORD, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.SEC_PASSWORD, new { htmlAttributes = new { @class = "form-control" } })
@@ -85,7 +99,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="width:100%">
                     @Html.LabelFor(model => model.ISADMIN, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.ISADMIN, new { htmlAttributes = new { @class = "form-control" } })
@@ -93,7 +107,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="width:100%">
                     @Html.LabelFor(model => model.START_ACTIVE_DATE, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.START_ACTIVE_DATE, new { htmlAttributes = new { @class = "form-control" } })
@@ -101,7 +115,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="width:100%">
                     @Html.LabelFor(model => model.END_ACTIVE_DATE, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.END_ACTIVE_DATE, new { htmlAttributes = new { @class = "form-control" } })
@@ -109,17 +123,17 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="width:100%">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" class="btn btn-default" style="background-color:#9c301a; color:white" />
+                        <input type="submit" value="Create" class="btn btn-default" style="background-color:#9c301a; color:white; border:none " />
                     </div>
                 </div>
             </div>
 
         }
-        <div class="form-group" style="text-align:center; padding:20px 0 0 0">
+        <div class="form-group" style="text-align:center; padding:20px 0 0 0; width:100%">
             <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
-                <input value="Back" class="btn btn-primary" style="background-color:#9c301a; border-color:#9c301a; width:100px" onclick="@("window.location.href='" + @Url.Action("Users", "Security") + "'")" />
+                <input value="Back" class="btn btn-primary" style="background-color:#9c301a; border:none; width:100px" onclick="@("window.location.href='" + @Url.Action("Users", "Security") + "'")" />
             </div>
         </div>
         @if (Session["AddUserError"] != null)
@@ -132,20 +146,7 @@
         }
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/jqueryval")
     </div>
 </body>
 </html>
-<script>
-    var modal = document.getElementById("modal");
-    var btn = document.getElementById("buttonclose");
-
-    btn.onclick = function () {
-        modal.style.display = "none";
-    }
-
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-</script>

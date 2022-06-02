@@ -10,20 +10,20 @@ namespace DISERTATIE_5.Models
     public class AddPayment
     {
         [Display(Name ="Payment date")]
-        [Required(ErrorMessage ="The date of payment is required!")]
+        [Required]
         [DataType(DataType.Date)]
-        [CustomDateRange(ErrorMessage = "The payment date must be between 10 years ago and today!")]
+        [RangeDate(minDate:"01/01/2000")]
         public DateTime payment_date{ get; set; }
         [Display(Name = "Booking date")]
-        [Required(ErrorMessage = "The booking date of payment is required!")]
+        [Required]
         [DataType(DataType.Date)]
-        [CustomDateRange(ErrorMessage ="The booking date must be between 10 years ago and today!")]
+        [RangeDate(minDate: "01/01/2000")]
         public DateTime booking_date{ get; set; }
         [Display(Name = "Amount")]
-        [Required(ErrorMessage = "The amount of payment is required!")]
+        [Required]
         public float amount{ get; set; }
         [Display(Name = "Currency")]
-        [Required(ErrorMessage = "The currency of payment is required!")]
+        [Required]
         public string currency { get; set; }
     }
 }

@@ -45,7 +45,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.payment_date, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.payment_date, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.payment_date, new { htmlAttributes = new { @class = "form-control", @type="date", @max = DateTime.Today.AddDays(1).AddSeconds(-1).ToString("yyyy-MM-dd"), @min = "2000-01-01" } })
                         @Html.ValidationMessageFor(model => model.payment_date, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.booking_date, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.booking_date, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.booking_date, new { htmlAttributes = new { @class = "form-control", @type = "date", @max = DateTime.Today.AddDays(1).AddSeconds(-1).ToString("yyyy-MM-dd"), @min = "2000-01-01" } })
                         @Html.ValidationMessageFor(model => model.booking_date, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -68,7 +68,7 @@
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.currency, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10" style="padding-top:7px">
+                    <div class="col-md-10" style="padding-top:7px; color:black">
                         @Html.DropDownListFor(model => model.currency, new SelectList(ViewBag.CurrencyList), new { htmlAttributes = new { @class = "form-control", @name = "currency" } })
                         @Html.ValidationMessageFor(model => model.currency, "", new { @class = "text-danger" })
                     </div>
@@ -76,7 +76,7 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" class="btn btn-default" style="background-color:#9c301a; color:white" />
+                        <input type="submit" value="Create" class="btn btn-default" style="background-color:#9c301a; color:white; border:none" />
                     </div>
                 </div>
             </div>
@@ -89,6 +89,7 @@
         </div>
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/jqueryval")
 
     </div>
 </body>
