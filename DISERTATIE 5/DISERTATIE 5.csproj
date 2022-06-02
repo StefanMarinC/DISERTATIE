@@ -186,7 +186,9 @@
     <Compile Include="Models\ACC_SUBS_INT.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AddCost.cs" />
     <Compile Include="Models\AddDebt.cs" />
+    <Compile Include="Models\AddDiscount.cs" />
     <Compile Include="Models\AddPayment.cs" />
     <Compile Include="Models\ADDRESS_TYPES.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -399,6 +401,8 @@
     <Content Include="Views\Cases\AddPerson.cshtml" />
     <Content Include="Views\Cases\AddPayment.cshtml" />
     <Content Include="Views\Cases\AddDebt.cshtml" />
+    <Content Include="Views\Cases\AddDiscount.cshtml" />
+    <Content Include="Views\Cases\AddCost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

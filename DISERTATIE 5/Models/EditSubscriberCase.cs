@@ -8,28 +8,31 @@ namespace DISERTATIE_5.Models
 {
     public class EditSubscriberCase
     {
-        [Display(Name="Main")]
+        [Display(Name = "Main")]
+        [Required]
         public Boolean main { get; set; }
         [Display(Name = "Debtor type")]
-        [Required(ErrorMessage = "The debtor type is required")]
+        [Required]
         public string customer_type { get; set; }
         [Display(Name = "SSN")]
-        [Required(ErrorMessage = "The SSN is required")]
+        [Required]
         public string ssn { get; set; }
         [Display(Name = "First name / company name")]
-        [Required(ErrorMessage = "The name is required")]
+        [Required]
         public string first_name { get; set; }
         [Display(Name = "Last name")]
         public string last_name { get; set; }
         [Display(Name = "Gender")]
+        [Required]
         public string gender { get; set; }
-        [Display(Name = "Birth date")]
-        [DisplayFormat(ApplyFormatInEditMode =true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [Display(Name = "Birth date / date of establishment")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime birth_date { get; set; }
         [Display(Name = "Birth place")]
         public string birth_place { get; set; }
         [Display(Name = "Subscriber type")]
-        [Required(ErrorMessage = "The subscriber type is required")]
+        [Required]
         public string subscriber_type { get; set; }
     }
 }

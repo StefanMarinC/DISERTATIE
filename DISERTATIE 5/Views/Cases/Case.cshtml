@@ -1057,201 +1057,210 @@
                 </div>
             </div>
             <div style="width:36%; background-color:white;">
-                <div style="background-color:gray; color:white; text-align:center; height:30px; font-size:large">
-                    Financial data
+                <div style="display:flex; justify-content:flex-start; background-color:gray">
+                    <button id="select_financial" name="button_fin" style=" background-color: #9c301a ; color:white; height:30px; border:hidden" onclick="change_fin('financial')">
+                        Financial
+                    </button>
+                    <button id="select_legal" name="button_fin" style=" background-color: gray ; color:white; height:30px; border:hidden" onclick="change_fin('legal')">
+                        Legal
+                    </button>
                 </div>
-                <div style="padding-left:10px;">
-                    <div style="overflow:auto; max-height:65vh; height:100%;">
-                        <div style="margin-right:5px">
-                            <div style="font-size:large; padding-bottom:10px; padding-top:10px; font-weight:bold">
-                                Account details
-                            </div>
-                            <div style="display:flex; flex-wrap:wrap; justify-content:start; padding-bottom:10px; width:100%; font-size:14px">
-                                <div style="width:25%; margin-bottom:10px">
-                                    <div>
-                                        Case ID
-                                    </div>
-                                    <div>
-                                        @Model.FinAccountDetails.case_id (@Model.FinAccountDetails.account_balance_date.ToString("dd/MM/yyyy"))
-                                    </div>
+                <div id="financial" name="div_fin" style="display:block; padding-bottom:5px">
+                    <div style="padding-left:10px;">
+                        <div style="overflow:auto; max-height:65vh; height:100%;">
+                            <div style="margin-right:5px">
+                                <div style="font-size:large; padding-bottom:10px; padding-top:10px; font-weight:bold">
+                                    Account details
                                 </div>
-                                <div style="width:25%; margin-bottom:10px">
-                                    <div>
-                                        Client
-                                    </div>
-                                    <div>
-                                        @Model.FinAccountDetails.client_name
-                                    </div>
-                                </div>
-                                <div style="width:25%; margin-bottom:10px">
-                                    <div>
-                                        Zone
-                                    </div>
-                                    <div>
-                                        @Model.FinAccountDetails.zone
-                                    </div>
-                                </div>
-                                <div style="width:25%">
-                                    <div>
-                                        Customer ID
-                                    </div>
-                                    <div>
-                                        @Model.FinAccountDetails.customer_id
-                                    </div>
-                                </div>
-                                <div style="width:25%; margin-bottom:10px">
-                                    <div>
-                                        Currency
-                                    </div>
-                                    <div>
-                                        @Model.FinAccountDetails.account_currency
-                                    </div>
-                                </div>
-                                <div style="width:25%; margin-bottom:10px">
-                                    <div>
-                                        Amount paid
-                                    </div>
-                                    <div>
-                                        @Model.FinAccountDetails.amount_paid @Model.FinAccountDetails.amount_paid_currency
-                                    </div>
-                                </div>
-                                <div style="width:25%; margin-bottom:10px">
-                                    <div>
-                                        Amount to pay
-                                    </div>
-                                    <div>
-                                        @Model.FinAccountDetails.amount_to_pay @Model.FinAccountDetails.amount_to_pay_currency
-                                    </div>
-                                </div>
-                            </div>
-                            <hr style="border-top:2px solid #9c301a; margin:0; padding-bottom:10px;" />
-                            <div style="display:flex; justify-content:space-between">
-                                <div style="color:black; font-size:large; padding-bottom:10px">
-                                    Financial Items
-                                </div>
-                                <div class="btn-group" style="padding-right:10px;">
-                                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex !important; justify-content:center !important">
-                                        <img src="~/Resources/Add.png" style="width:15px; height:15px;" />
-                                    </button>
-                                    <div class="dropdown-menu" style="text-align:center">
+                                <div style="display:flex; flex-wrap:wrap; justify-content:start; padding-bottom:10px; width:100%; font-size:14px">
+                                    <div style="width:25%; margin-bottom:10px">
                                         <div>
-                                            <a id="addPayment" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black" onclick="@("window.location.href='" + @Url.Action("AddPayment", "Cases", new { case_id = @Model.FinAccountDetails.case_id}) + "'")">Payment</a>
+                                            Case ID
                                         </div>
                                         <div>
-                                            <a id="addDiscount" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black" onclick="@("window.location.href='" + @Url.Action("AddDiscount", "Cases", new { case_id = @Model.FinAccountDetails.case_id}) + "'")">Discount</a>
+                                            @Model.FinAccountDetails.case_id (@Model.FinAccountDetails.account_balance_date.ToString("dd/MM/yyyy"))
+                                        </div>
+                                    </div>
+                                    <div style="width:25%; margin-bottom:10px">
+                                        <div>
+                                            Client
                                         </div>
                                         <div>
-                                            <a id="addCost" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">Cost</a>
+                                            @Model.FinAccountDetails.client_name
+                                        </div>
+                                    </div>
+                                    <div style="width:25%; margin-bottom:10px">
+                                        <div>
+                                            Zone
                                         </div>
                                         <div>
-                                            <a id="addDebt" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black" onclick="@("window.location.href='" + @Url.Action("AddDebt", "Cases", new { case_id = @Model.FinAccountDetails.case_id}) + "'")">Debt</a>
+                                            @Model.FinAccountDetails.zone
+                                        </div>
+                                    </div>
+                                    <div style="width:25%">
+                                        <div>
+                                            Customer ID
+                                        </div>
+                                        <div>
+                                            @Model.FinAccountDetails.customer_id
+                                        </div>
+                                    </div>
+                                    <div style="width:25%; margin-bottom:10px">
+                                        <div>
+                                            Currency
+                                        </div>
+                                        <div>
+                                            @Model.FinAccountDetails.account_currency
+                                        </div>
+                                    </div>
+                                    <div style="width:25%; margin-bottom:10px">
+                                        <div>
+                                            Amount paid
+                                        </div>
+                                        <div>
+                                            @Model.FinAccountDetails.amount_paid @Model.FinAccountDetails.amount_paid_currency
+                                        </div>
+                                    </div>
+                                    <div style="width:25%; margin-bottom:10px">
+                                        <div>
+                                            Amount to pay
+                                        </div>
+                                        <div>
+                                            @Model.FinAccountDetails.amount_to_pay @Model.FinAccountDetails.amount_to_pay_currency
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                <hr style="border-top:2px solid #9c301a; margin:0; padding-bottom:10px;" />
+                                <div style="display:flex; justify-content:space-between">
+                                    <div style="color:black; font-size:large; padding-bottom:10px">
+                                        Financial Items
+                                    </div>
+                                    <div class="btn-group" style="padding-right:10px;">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex !important; justify-content:center !important">
+                                            <img src="~/Resources/Add.png" style="width:15px; height:15px;" />
+                                        </button>
+                                        <div class="dropdown-menu" style="text-align:center">
+                                            <div>
+                                                <a id="addPayment" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black" onclick="@("window.location.href='" + @Url.Action("AddPayment", "Cases", new { case_id = @Model.FinAccountDetails.case_id}) + "'")">Payment</a>
+                                            </div>
+                                            <div>
+                                                <a id="addDiscount" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black" onclick="@("window.location.href='" + @Url.Action("AddDiscount", "Cases", new { case_id = @Model.FinAccountDetails.case_id}) + "'")">Discount</a>
+                                            </div>
+                                            <div>
+                                                <a id="addCost" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black" onclick="@("window.location.href='" + @Url.Action("AddCost", "Cases", new { case_id = @Model.FinAccountDetails.case_id}) + "'")">Cost</a>
+                                            </div>
+                                            <div>
+                                                <a id="addDebt" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black" onclick="@("window.location.href='" + @Url.Action("AddDebt", "Cases", new { case_id = @Model.FinAccountDetails.case_id}) + "'")">Debt</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                            <div>
-                                <table style="border: 1px solid gray; width: 100%; margin-bottom: 1rem; color: #212529; border-collapse: separate; box-sizing: border-box; display: table; text-indent: initial; border-spacing: 0 10px; background-color:white; font-size:16px">
-                                    <thead>
-                                        <tr style="border: solid; border-width: 3px 0; ">
-                                            <th style="text-align:center">
-                                                Item name
-                                            </th>
-                                            <th style="text-align:center">
-                                                Item date
-                                            </th>
-                                            <th style="text-align:center">
-                                                Booked
-                                            </th>
-                                            <th style="text-align:center">
-                                                Amount
-                                            </th>
-                                            <th style="text-align:center">
-                                                Not allocated
-                                            </th>
-                                            <th style="text-align:center">
-                                                Actions
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="6">
-                                                <hr style="border: 1px solid black; margin:0" />
-                                            </td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var FinItem in Model.financialItems)
-                                        {
-                                            <tr style="border-bottom: 1px solid #000;">
-                                                <td style="text-align:center">
-                                                    @FinItem.item_name
-                                                    @if (FinItem.amount_over > 0)
-                                                    {
-                                                        <small _ngcontent-iqe-c273="" data-toggle="tooltip" data-placement="top" class="badge badge-primary mr-1 ng-star-inserted" title="Overpayment">! </small>
-                                                    }
-                                                </td>
-                                                <td style="text-align:center">
-                                                    @FinItem.item_date
-                                                </td>
-                                                <td style="text-align:center">
-                                                    @FinItem.booking_date
-                                                </td>
-                                                @if (FinItem.sign < 0)
-                                                {
-                                                    <td style="text-align:center; color:red">
-                                                        - @FinItem.amount @FinItem.amount_currency
-                                                    </td>
-                                                }
-                                                else
-                                                {
-                                                    <td style="text-align:center; color:mediumseagreen">
-                                                        + @FinItem.amount @FinItem.amount_currency
-                                                    </td>
-                                                }
-                                                @if (FinItem.sign < 0)
-                                                {
-                                                    <td style="text-align:center; color:red">
-                                                        - @FinItem.amount_not_booked @FinItem.amount_not_booked_currency
-                                                    </td>
-                                                }
-                                                else
-                                                {
-                                                    <td style="text-align:center; color:mediumseagreen">
-                                                        + @FinItem.amount_not_booked @FinItem.amount_not_booked_currency
-                                                    </td>
-                                                }
-                                                @if (FinItem.item_name != "Interest")
-                                                {
-                                                    <td>
-                                                        <div style="display:flex; justify-content:center">
-                                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:30px; height:30px; display:flex !important; justify-content:center !important">
-                                                                <img src="~/Resources/Storno.png" style="width:15px; height:15px;" />
-                                                            </button>
-                                                        </div>
-                                                        <div style="margin-bottom:5px">
-                                                        </div>
-                                                        <div style="display:flex; justify-content:center;">
-                                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:30px; height:30px; display:flex !important; justify-content:center !important;">
-                                                                <img src="~/Resources/Info.png" style="width:20px; height:20px;" />
-                                                            </button>
-                                                        </div>
-
-                                                    </td>
-                                                }
+                                <div>
+                                    <table style="border: 1px solid gray; width: 100%; margin-bottom: 1rem; color: #212529; border-collapse: separate; box-sizing: border-box; display: table; text-indent: initial; border-spacing: 0 10px; background-color:white; font-size:16px">
+                                        <thead>
+                                            <tr style="border: solid; border-width: 3px 0; ">
+                                                <th style="text-align:center">
+                                                    Item name
+                                                </th>
+                                                <th style="text-align:center">
+                                                    Item date
+                                                </th>
+                                                <th style="text-align:center">
+                                                    Booked
+                                                </th>
+                                                <th style="text-align:center">
+                                                    Amount
+                                                </th>
+                                                <th style="text-align:center">
+                                                    Not allocated
+                                                </th>
+                                                <th style="text-align:center">
+                                                    Actions
+                                                </th>
                                             </tr>
                                             <tr>
                                                 <td colspan="6">
-                                                    <hr style="border: 1px solid gray; margin:0" />
+                                                    <hr style="border: 1px solid black; margin:0" />
                                                 </td>
                                             </tr>
-                                        }
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var FinItem in Model.financialItems)
+                                            {
+                                                <tr style="border-bottom: 1px solid #000;">
+                                                    <td style="text-align:center">
+                                                        @FinItem.item_name
+                                                        @if (FinItem.amount_over > 0)
+                                                        {
+                                                            <img src="~/Resources/Overpayment.png" style="width:20px; height:20px" title="Overpayment" />
+                                                        }
+                                                    </td>
+                                                    <td style="text-align:center">
+                                                        @FinItem.item_date
+                                                    </td>
+                                                    <td style="text-align:center">
+                                                        @FinItem.booking_date
+                                                    </td>
+                                                    @if (FinItem.sign < 0)
+                                                    {
+                                                        <td style="text-align:center; color:red">
+                                                            - @FinItem.amount @FinItem.amount_currency
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="text-align:center; color:mediumseagreen">
+                                                            + @FinItem.amount @FinItem.amount_currency
+                                                        </td>
+                                                    }
+                                                    @if (FinItem.sign < 0)
+                                                    {
+                                                        <td style="text-align:center; color:red">
+                                                            - @FinItem.amount_not_booked @FinItem.amount_not_booked_currency
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="text-align:center; color:mediumseagreen">
+                                                            + @FinItem.amount_not_booked @FinItem.amount_not_booked_currency
+                                                        </td>
+                                                    }
+                                                    @if (FinItem.item_name != "Interest")
+                                                    {
+                                                        <td>
+                                                            <div style="display:flex; justify-content:center">
+                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:30px; height:30px; display:flex !important; justify-content:center !important">
+                                                                    <img src="~/Resources/Storno.png" style="width:15px; height:15px;" />
+                                                                </button>
+                                                            </div>
+                                                            <div style="margin-bottom:5px">
+                                                            </div>
+                                                            <div style="display:flex; justify-content:center;">
+                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:30px; height:30px; display:flex !important; justify-content:center !important;">
+                                                                    <img src="~/Resources/Info.png" style="width:20px; height:20px;" />
+                                                                </button>
+                                                            </div>
+
+                                                        </td>
+                                                    }
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="6">
+                                                        <hr style="border: 1px solid gray; margin:0" />
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div id="legal" name="div_fin" style="display:block; padding-bottom:5px">
 
+                </div>
 
             </div>
             <div style="width:30%; background-color:white">
@@ -1309,6 +1318,21 @@
                 elements[i].style.display = "none";
             }
             elements = document.getElementsByName("button_info");
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].style.backgroundColor = "gray";
+            }
+            document.getElementById(value).style.display = "block";
+            document.getElementById("select_" + value).style.backgroundColor = "#9c301a";
+        }
+    </script>
+
+    <script>
+        function change_fin(value) {
+            var elements = document.getElementsByName("div_fin");
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].style.display = "none";
+            }
+            elements = document.getElementsByName("button_fin");
             for (var i = 0; i < elements.length; i++) {
                 elements[i].style.backgroundColor = "gray";
             }

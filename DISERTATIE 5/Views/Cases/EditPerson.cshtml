@@ -1,13 +1,19 @@
 ﻿@model DISERTATIE_5.Models.EditSubscriberCase
 
+@{
+    Layout = null;
+}
+
 <!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>EditPerson</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
 </head>
-<body style="max-width:100%">
+<body style="max-width:100%; padding: 0; background-color:#3a3a3c">
     @if (TempData["ErrorEditPerson"] != null)
     {
         <div class="modal" tabindex="-1" role="dialog" style="display:block" id="modal">
@@ -25,6 +31,20 @@
                 </div>
             </div>
         </div>
+        <script>
+            var modal = document.getElementById("modal");
+            var btn = document.getElementById("buttonclose");
+
+            btn.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
     }
 
     <div style="background-color:#9c301a; height:75px;">
@@ -47,205 +67,114 @@
             </div>
         </div>
     </div>
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
+    <div style="padding-top:50px">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
-            <h4 style="text-align:center">Edit person</h4>
-            <hr />
-            <div>
-
-
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group" style="max-width:100%">
-                    @Html.LabelFor(model => model.main, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        <div class="checkbox">
-                            @if (Model.main == true)
-                            {
-                                @Html.CheckBoxFor(model => model.main, new { onclick = "return false" })
-                            }
-                            else
-                            {
-                                @Html.EditorFor(model => model.main)
-                            }
-                            @Html.ValidationMessageFor(model => model.main, "", new { @class = "text-danger" })
+            <div class="form-horizontal" style="color:white">
+                <div>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group" style="max-width:100%">
+                        @Html.LabelFor(model => model.main, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @if (Model.main == true)
+                                {
+                                    @Html.CheckBoxFor(model => model.main, new { onclick = "return false", @name = "main" })
+                                }
+                                else
+                                {
+                                    @Html.EditorFor(model => model.main, new { @name = "main" })
+                                }
+                                @Html.ValidationMessageFor(model => model.main, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-group" style="max-width:100%">
-                    @Html.LabelFor(model => model.customer_type, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.customer_type, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.customer_type, "", new { @class = "text-danger" })
+                    <div class="form-group" style="max-width:100%">
+                        @Html.LabelFor(model => model.customer_type, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10" style="padding-top:7px; color:black">
+                            @Html.DropDownListFor(model => model.customer_type, new SelectList(ViewBag.PersonTypeList), new { htmlAttributes = new { @class = "form-control", @name = "customer_type" } })
+                            @Html.ValidationMessageFor(model => model.customer_type, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
-                <div class="form-group" style="max-width:100%">
-                    @Html.LabelFor(model => model.ssn, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.ssn, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.ssn, "", new { @class = "text-danger" })
+                    <div class="form-group" style="max-width:100%">
+                        @Html.LabelFor(model => model.ssn, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ssn, new { htmlAttributes = new { @class = "form-control", @name = "ssn" } })
+                            @Html.ValidationMessageFor(model => model.ssn, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group" style="max-width:100%">
-                    @Html.LabelFor(model => model.first_name, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.first_name, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.first_name, "", new { @class = "text-danger" })
+                    <div class="form-group" style="max-width:100%">
+                        @Html.LabelFor(model => model.first_name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.first_name, new { htmlAttributes = new { @class = "form-control", @name = "first_name" } })
+                            @Html.ValidationMessageFor(model => model.first_name, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group" style="max-width:100%">
-                    @Html.LabelFor(model => model.last_name, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.last_name, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.last_name, "", new { @class = "text-danger" })
+                    <div class="form-group" style="max-width:100%">
+                        @Html.LabelFor(model => model.last_name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.last_name, new { htmlAttributes = new { @class = "form-control", @name = "last_name" } })
+                            @Html.ValidationMessageFor(model => model.last_name, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group" style="max-width:100%">
-                    @Html.LabelFor(model => model.gender, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.gender, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.gender, "", new { @class = "text-danger" })
+                    <div class="form-group" style="max-width:100%">
+                        @Html.LabelFor(model => model.gender, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10" style="padding-top:7px; color:black">
+                            @Html.DropDownListFor(model => model.gender, new SelectList(ViewBag.PersonGender), new { htmlAttributes = new { @class = "form-control", @name = "gender" } })
+                            @Html.ValidationMessageFor(model => model.gender, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group" style="max-width:100%">
-                    @Html.LabelFor(model => model.birth_date, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.birth_date, new { htmlAttributes = new { @class = "datepicker" } })
-                        @Html.ValidationMessageFor(model => model.birth_date, "", new { @class = "text-danger" })
+                    <div class="form-group" style="max-width:100%">
+                        @Html.LabelFor(model => model.birth_date, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.birth_date, new { htmlAttributes = new { @class = "form-control", @type = "date", @max = DateTime.Today.ToString("yyyy-MM-dd"), @min = DateTime.Now.AddYears(-70).ToString("yyyy-MM-dd"), @name = "birth_date" } })
+                            @Html.ValidationMessageFor(model => model.birth_date, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group" style="max-width:100%">
-                    @Html.LabelFor(model => model.birth_place, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.birth_place, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.birth_place, "", new { @class = "text-danger" })
+                    <div class="form-group" style="max-width:100%">
+                        @Html.LabelFor(model => model.birth_place, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.birth_place, new { htmlAttributes = new { @class = "form-control", @name = "birth_place" } })
+                            @Html.ValidationMessageFor(model => model.birth_place, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group" style="max-width:100%">
-                    @Html.LabelFor(model => model.subscriber_type, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10" style="padding-right:0; margin-right:0">
-                        @Html.EditorFor(model => model.subscriber_type, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.subscriber_type, "", new { @class = "text-danger" })
+                    <div class="form-group" style="max-width:100%">
+                        @Html.LabelFor(model => model.subscriber_type, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10" style="padding-top:7px; color:black">
+                            @Html.DropDownListFor(model => model.subscriber_type, new SelectList(ViewBag.SubscriberType), new { htmlAttributes = new { @class = "form-control", @name = "subscriber_type" } })
+                            @Html.ValidationMessageFor(model => model.subscriber_type, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group" style="max-width:100%">
-                    <div class="col-md-offset-2 col-md-10" style="display:flex;">
-                        <button type="submit" class="btn btn-default" style="margin-right:50px">
-                            Save
-                        </button>
+                    <div class="form-group" style="width:100%">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-default" style="background-color:#9c301a; color:white; border:none" />
+                        </div>
                     </div>
+
                 </div>
 
             </div>
-
-        </div>
-    }
-
-    <div class="form-group">
-        <label class="control-label col-md-2" for="cancel"></label>
-        <button style="cursor:pointer" id="cancel" class="btn btn-default" onclick="@("window.location.href='" + @Url.Action("Case", "Cases", new { case_id = ViewBag.editPersonCase }) + "'")">
-            Cancel
-        </button>
+        }
     </div>
 
-    <div style="margin-top: 30px">
-
-        <div style="font-size:large; border:dashed; display:block; margin-left:5%; margin-right:5%; border-radius:30px;">
-            <div style="padding:2% 2% 2% 2%">
-                <div style="color:#9c301a">
-                    IMPORTANT!
-                </div>
-                <hr style="border:1px solid black" />
-                <div style="display:flex;">
-                    The customer type must be one of:
-                    @for (int i = 0; i < ((List<string>)ViewBag.PersonTypeList).Count(); i++)
-                    {
-                        <div style="padding-left:10px">
-                            @ViewBag.PersonTypeList[i]
-                        </div>
-                        if (i < ((List<string>)ViewBag.PersonTypeList).Count() - 1)
-                        {
-                            <div>, </div>
-                        }
-                    }
-                </div>
-                <div style="display:flex">
-                    The gender must be one of:
-                    @for (int i = 0; i < ((List<string>)ViewBag.PersonGender).Count(); i++)
-                    {
-                        <div style="padding-left:10px">
-                            @ViewBag.PersonGender[i]
-                        </div>
-                        if (i < ((List<string>)ViewBag.PersonTypeList).Count() - 1)
-                        {
-                            <div>, </div>
-                        }
-                    }
-                    <div>
-                        &nbsp or nothing
-                    </div>
-                </div>
-                <div style="display:flex">
-                    The subscriber type must be one of:
-                    @for (int i = 0; i < ((List<string>)ViewBag.SubscriberType).Count(); i++)
-                    {
-                        <div style="padding-left:10px">
-                            @ViewBag.SubscriberType[i]
-                        </div>
-                        if (i < ((List<string>)ViewBag.SubscriberType).Count() - 1)
-                        {
-                            <div>, </div>
-                        }
-                    }
-                </div>
-                <div style="color:#9c301a">
-                    If the mentioned fields are not completed correctly, then the modifications will not be saved!
-                </div>
-            </div>
+    <div class="form-group" style="text-align:center; padding:20px 0 0 0">
+        <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
+            <input value="Back" class="btn btn-primary" style="background-color:#9c301a; border-color:#9c301a; width:100px" onclick="@("window.location.href='" + @Url.Action("Case", "Cases", new { case_id = ViewBag.addDebtCase }) + "'")">
         </div>
     </div>
-    @section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
 
-        @Scripts.Render("~/bundles/jqueryui")
-        @Styles.Render("~/Content/themes/base/jquery-ui.css")
-
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('input[type=datetime]').datepicker({
-                    dateFormat: "dd/mm/yy",
-                    changeMonth: true,
-                    changeYear: true,
-                    yearRange: "-70:-18",
-                    maxDate: '-18Y'
-                });
-
-            });
-        </script>
-
-        <script>
-            var modal = document.getElementById("modal");
-            var btn = document.getElementById("buttonclose");
-
-            btn.onclick = function () {
-                modal.style.display = "none";
-            }
-
-            window.onclick = function (event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
-        </script>
-    }
 </body>
 </html>

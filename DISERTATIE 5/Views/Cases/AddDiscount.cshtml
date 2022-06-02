@@ -1,4 +1,4 @@
-﻿@model DISERTATIE_5.Models.AddPayment
+﻿@model DISERTATIE_5.Models.AddDiscount
 
 @{
     Layout = null;
@@ -9,12 +9,12 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>AddPayment</title>
+    <title>AddDiscount</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body style="padding: 0; background-color:#3a3a3c">
-    @if (TempData["ErrorAddPayment"] != null)
+    @if (TempData["ErrorAddDiscount"] != null)
     {
         <div class="modal" tabindex="-1" role="dialog" style="display:block" id="modal">
             <div class="modal-dialog" role="document">
@@ -23,7 +23,7 @@
                         <h3 class="modal-title">Error!</h3>
                     </div>
                     <div class="modal-body">
-                        <h4>@TempData["ErrorAddPayment"].ToString()</h4>
+                        <h4>@TempData["ErrorAddDiscount"].ToString()</h4>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="buttonclose" style="background-color:#9c301a; color:white">Close</button>
@@ -46,7 +46,6 @@
             }
         </script>
     }
-
     <div style="background-color:#9c301a; height:75px;">
         <div style="display:flex; padding-left:20px;">
             <img src="~/Resources/Logo.png" style="height:75px; width:180px; cursor:pointer" onclick="@("window.location.href='" + @Url.Action("Home", "Home") + "'")" />
@@ -73,21 +72,12 @@
             @Html.AntiForgeryToken()
 
             <div class="form-horizontal" style="color:white">
-
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group" style="width:100%">
-                    @Html.LabelFor(model => model.payment_date, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.payment_date, new { htmlAttributes = new { @class = "form-control", @type = "date", @max = DateTime.Today.ToString("yyyy-MM-dd"), @min = "2000-01-01", @name= "payment_date" } })
-                        @Html.ValidationMessageFor(model => model.payment_date, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group" style="width:100%">
-                    @Html.LabelFor(model => model.booking_date, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.booking_date, new { htmlAttributes = new { @class = "form-control", @type = "date", @max = DateTime.Today.ToString("yyyy-MM-dd"), @min = "2000-01-01", @name= "booking_date" } })
-                        @Html.ValidationMessageFor(model => model.booking_date, "", new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.reason, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10"  style="padding-top:7px; color:black">
+                        @Html.DropDownListFor(model => model.reason, new SelectList(ViewBag.DiscountReason), new { htmlAttributes = new { @class = "form-control", @name = "reason" } })
+                        @Html.ValidationMessageFor(model => model.reason, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -108,22 +98,28 @@
                 </div>
 
                 <div class="form-group" style="width:100%">
+                    @Html.LabelFor(model => model.comments, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10" >
+                        @Html.EditorFor(model => model.comments, new { htmlAttributes = new { @class = "form-control", @name = "comments" } })
+                        @Html.ValidationMessageFor(model => model.comments, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" style="width:100%">
                     <div class="col-md-offset-2 col-md-10">
                         <input type="submit" value="Add" class="btn btn-default" style="background-color:#9c301a; color:white; border:none" />
                     </div>
                 </div>
             </div>
         }
-
         <div class="form-group" style="text-align:center; padding:20px 0 0 0">
             <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
-                <input value="Back" class="btn btn-primary" style="background-color:#9c301a; border-color:#9c301a; width:100px" onclick="@("window.location.href='" + @Url.Action("Case", "Cases", new { case_id = ViewBag.addPaymentCase }) + "'")">
+                <input value="Back" class="btn btn-primary" style="background-color:#9c301a; border-color:#9c301a; width:100px" onclick="@("window.location.href='" + @Url.Action("Case", "Cases", new { case_id = ViewBag.AddDiscountCase }) + "'")">
             </div>
         </div>
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")
         @Scripts.Render("~/bundles/jqueryval")
-
     </div>
 </body>
 </html>
