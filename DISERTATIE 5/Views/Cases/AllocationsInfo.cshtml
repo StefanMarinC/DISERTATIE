@@ -1,0 +1,108 @@
+﻿@model DISERTATIE_5.Models.AllocationsData
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AllocationsInfo</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body style="padding: 0; background-color:#3a3a3c">
+    <div style="background-color:#9c301a; height:75px;">
+        <div style="display:flex; padding-left:20px;">
+            <img src="~/Resources/Logo.png" style="height:75px; width:180px; cursor:pointer" onclick="@("window.location.href='" + @Url.Action("Home", "Home") + "'")" />
+            <div style="width:75%; text-align:center; height:75px">
+                <div style="font-size:large; font-family:Arial sans-serif; font-weight:bold; color:white; padding-top:20px">
+                    CASES
+                </div>
+            </div>
+            <div style="width:220px; height:75px; display:flex; justify-content:space-around">
+                <div style="font-size:large; font-family:Arial sans-serif; color:white; padding-top:20px;">
+                    @Session["Username"].ToString()
+                </div>
+                <div class="form-group" style="text-align:center; padding:20px 0 0 0">
+                    <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
+                        <input value="Logout" class="btn btn-primary" style="background-color:lightslategray; border-color:lightslategray; width:100px" onclick="@("window.location.href='" + @Url.Action("Logout", "Login") + "'")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="padding-top:100px; display:flex; justify-content:center; width:80vw; margin-left:10vw;">
+        <div style="width:70vw">
+            <h3 style="text-align:center; color:white; padding-bottom:20px">General information</h3>
+            <div style="display:flex; justify-content:center;">
+
+                <table style="border:2px solid gray; width:100vw; background-color:white">
+                    <thead style="font-weight:bold; border-bottom:2px solid gray">
+                        <tr style="height:50px">
+                            <td style="width:10vw; text-align:center">Amount</td>
+                            <td style="width:10vw; text-align:center">Amount FNC</td>
+                            <td style="width:10vw; text-align:center">Amount allocated</td>
+                            <td style="width:10vw; text-align:center">Amount allocated FNC</td>
+                            <td style="width:10vw; text-align:center">Amount over</td>
+                            <td style="width:10vw; text-align:center">Amount over FNC</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="height:30px">
+                            <td style="width:10vw; text-align:center">@Model.finAllocationItem.amount @Model.finAllocationItem.amount_currency</td>
+                            <td style="width:10vw; text-align:center">@Model.finAllocationItem.amount_fnc @Model.finAllocationItem.amount_fnc_currency</td>
+                            <td style="width:10vw; text-align:center">@Model.finAllocationItem.amount_allocated @Model.finAllocationItem.amount_allocated_currency</td>
+                            <td style="width:10vw; text-align:center">@Model.finAllocationItem.amount_allocated_fnc @Model.finAllocationItem.amount_allocated_fnc_currency</td>
+                            <td style="width:10vw; text-align:center">@Model.finAllocationItem.amount_over @Model.finAllocationItem.amount_over_currency</td>
+                            <td style="width:10vw; text-align:center">@Model.finAllocationItem.amount_over_fnc @Model.finAllocationItem.amount_over_fnc_currency</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3 style="text-align:center; padding-top:20px; padding-bottom:20px; color:white">Allocations for item</h3>
+            <div style=" display:flex; justify-content:center">
+                <table style="border:2px solid gray; border-bottom:none; background-color:white; width:100vw">
+                    <thead style="font-weight:bold; border-bottom:2px solid gray">
+                        <tr style="height:50px">
+                            <td style="width:10vw; text-align:center">Allocated on</td>
+                            <td style="width:10vw; text-align:center">Amount allocated on</td>
+                            <td style="width:15vw; text-align:center">Amount allocated from</td>
+                            <td style="width:10vw; text-align:center">Amount allocated FNC</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var allocation in Model.finAllocationsInfos)
+                        {
+                            <tr style="height:30px">
+                                <td style="width:10vw; text-align:center">@allocation.item_type</td>
+                                <td style="width:10vw; text-align:center">@allocation.allocated_amount_p @allocation.allocated_amount_currency_p</td>
+                                <td style="width:10vw; text-align:center">@allocation.allocated_amount_m @allocation.allocated_amount_currency_m</td>
+                                <td style="width:10vw; text-align:center">@allocation.allocated_amount_fnc @allocation.allocated_amount_fnc_currency</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    <hr style="border: 1px solid gray; margin:0" />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div style="display:flex; justify-content:center">
+        <div class="form-group" style="text-align:center; padding:20px 0 0 0">
+            <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
+                <button class="btn btn-primary" style="background-color:#9c301a; border-color:#9c301a;" onclick="@("window.location.href='" + @Url.Action("Case", "Cases", new { case_id = ViewBag.allocationCase }) + "'")">
+                    <img src="~/Resources/Add.png" style="height:25px; width:25px; transform:rotate(45deg)" />
+                </button>
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+</body>
+</html>

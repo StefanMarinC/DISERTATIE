@@ -51,6 +51,20 @@
                         </div>
                     </div>
                 }
+                <script>
+                    var modal = document.getElementById("modal");
+                    var btn = document.getElementById("buttonclose");
+
+                    btn.onclick = function () {
+                        modal.style.display = "none";
+                    }
+
+                    window.onclick = function (event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+                        }
+                    }
+                </script>
             }
 
             @using (Html.BeginForm("SearchCases", "Cases", FormMethod.Post))
@@ -346,17 +360,3 @@
     @Scripts.Render("~/bundles/bootstrap")
 </body>
 </html>
-<script>
-    var modal = document.getElementById("modal");
-    var btn = document.getElementById("buttonclose");
-
-    btn.onclick = function () {
-        modal.style.display = "none";
-    }
-
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-</script>

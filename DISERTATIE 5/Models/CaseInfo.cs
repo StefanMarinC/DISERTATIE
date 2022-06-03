@@ -16,5 +16,7 @@ namespace DISERTATIE_5.Models
         public List<SubscriberEmployer> subscriberEmployers { get; set; }
         public FinAccountDetails FinAccountDetails { get; set; }
         public List<FinancialItem> financialItems { get; set; }
+        public List<string> stornoReasons { get; set; }
+        public AllocationsData AllocationsData { get; set; }
     }
 }

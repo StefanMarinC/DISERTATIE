@@ -120,6 +120,10 @@ namespace DISERTATIE_5.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult SearchCases(string client_name, string zone_name, string owner, string case_id, string account_id, string customer_id, string ssn, string subscriber_name, string subs_type, string contract_number)
         {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
             string tns = TNS.tns;
             OracleConnection conn = new OracleConnection();
             conn.ConnectionString = tns;
@@ -225,7 +229,7 @@ namespace DISERTATIE_5.Controllers
             {
                 return RedirectToAction("LoginPage", "Login");
             }
-
+            Session["case_id"] = case_id;
             string tns = TNS.tns;
             OracleConnection conn = new OracleConnection();
             conn.ConnectionString = tns;
@@ -259,7 +263,7 @@ namespace DISERTATIE_5.Controllers
                     cl.zone = (string)reader.GetValue(1);
                     cl.client_name = (string)reader.GetValue(2);
                     cl.balance = (float)reader.GetFloat(3);
-                    cl.balance_currency=(string)reader.GetString(4);
+                    cl.balance_currency = (string)reader.GetString(4);
                     cl.pa_status = (string)reader.GetValue(5);
                     cl.pa_made = (decimal)reader.GetValue(6);
                     cl.pa_broken = (decimal)reader.GetValue(7);
@@ -285,6 +289,7 @@ namespace DISERTATIE_5.Controllers
             FinAccountDetails finAccountDetails = new FinAccountDetails();
             List<FinancialItem> financialItems = new List<FinancialItem>();
             FinancialItem interest = new FinancialItem();
+            List<string> stornoReason = new List<string>();
             reader = sql.ExecuteReader();
             try
             {
@@ -316,16 +321,29 @@ namespace DISERTATIE_5.Controllers
                             subs_add.main_address = reader2.GetDecimal(2);
                             subs_add.street = (string)reader2.GetValue(3);
                             subs_add.street_number = (string)reader2.GetValue(4);
-                            subs_add.building = (string)reader2.GetValue(5);
-                            subs_add.stair = (string)reader2.GetValue(6);
-                            subs_add.floor = (string)reader2.GetValue(7);
-                            subs_add.apartment = (string)reader2.GetValue(8);
+                            if (DBNull.Value != reader2.GetValue(5))
+                            {
+                                subs_add.building = (string)reader2.GetValue(5);
+                            }
+                            if (DBNull.Value != reader2.GetValue(6))
+                            {
+                                subs_add.stair = (string)reader2.GetValue(6);
+                            }
+                            if (DBNull.Value != reader2.GetValue(7))
+                            {
+                                subs_add.floor = (string)reader2.GetValue(7);
+                            }
+                            if (DBNull.Value != reader2.GetValue(8))
+                            {
+                                subs_add.apartment = (string)reader2.GetValue(8);
+                            }
                             subs_add.city = (string)reader2.GetValue(9);
                             subs_add.distrinct = (string)reader2.GetValue(10);
                             subs_add.country = (string)reader2.GetValue(11);
                             subs_add.source_type = (string)reader2.GetValue(12);
                             subs_add.created_by = (string)reader2.GetValue(13);
                             subs_add.creation_date = (DateTime)reader2.GetValue(14);
+                            subs_add.address_id = reader2.GetDecimal(15);
                             subs_address.Add(subs_add);
                         }
                     }
@@ -475,6 +493,8 @@ namespace DISERTATIE_5.Controllers
                     financialItem.amount_not_booked_currency = reader.GetString(9);
                     financialItem.sign = reader.GetFloat(10);
                     financialItem.amount_over = reader.GetFloat(11);
+                    financialItem.storno_id = reader.GetDecimal(12);
+                    financialItem.before = reader.GetDecimal(13);
                     if (financialItem.item_type == "INTEREST")
                     {
                         if (interest.amount > 0)
@@ -503,6 +523,22 @@ namespace DISERTATIE_5.Controllers
                 conn.Close();
 
             }
+            conn.Open();
+            statement = "SELECT NAME  FROM FIN_STORNO_REASONS";
+            sql = new OracleCommand(statement, conn);
+            reader = sql.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    stornoReason.Add(reader.GetString(0));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
             caseInfo.subscriberDatas = subs_list;
             caseInfo.subscriberAddresses = subs_address;
             caseInfo.subscriberPhones = subs_phones;
@@ -511,6 +547,7 @@ namespace DISERTATIE_5.Controllers
             caseInfo.subscriberEmployers = subs_employers;
             caseInfo.FinAccountDetails = finAccountDetails;
             caseInfo.financialItems = financialItems;
+            caseInfo.stornoReasons = stornoReason;
 
             return View(caseInfo);
         }
@@ -557,7 +594,7 @@ namespace DISERTATIE_5.Controllers
                         {
                             editSubscriberCase.birth_place = reader.GetString(7);
                         }
-                        
+
                         editSubscriberCase.subscriber_type = reader.GetString(8);
                     }
                 }
@@ -612,6 +649,10 @@ namespace DISERTATIE_5.Controllers
         [HttpPost]
         public ActionResult EditPerson(EditSubscriberCase subscriber)
         {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
             int case_id = (int)Session["case_id"];
             int subscriber_id = (int)Session["subscriber_id"];
             string tns = TNS.tns;
@@ -705,9 +746,13 @@ namespace DISERTATIE_5.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult AddPerson(bool main, string debtor_type, string ssn, string first_name, string last_name, string gender, DateTime birth_date, string birth_place, string subscriber_type)
         {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
             int case_id = (int)Session["case_id"];
 
-            if(debtor_type=="Person" && (DateTime.Today.AddYears(-18) < birth_date))
+            if (debtor_type == "Person" && (DateTime.Today.AddYears(-18) < birth_date))
             {
                 TempData["ErrorAddPerson"] = "The person is underage!";
                 return RedirectToAction("AddPerson", "Cases", new { case_id = case_id });
@@ -741,7 +786,7 @@ namespace DISERTATIE_5.Controllers
                 {
                     sql.Parameters.Add("P_LAST_NAME", OracleDbType.Varchar2, last_name, ParameterDirection.Input);
                 }
-                if(gender=="Not the case")
+                if (gender == "Not the case")
                 {
                     sql.Parameters.Add("P_GENDER", OracleDbType.Varchar2, null, ParameterDirection.Input);
                 }
@@ -782,6 +827,10 @@ namespace DISERTATIE_5.Controllers
         [HttpGet]
         public ActionResult DeletePerson(int? case_id, string subscriber_id)
         {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
             int subs_id = Int32.Parse(subscriber_id.Remove(0, 4));
             Session["case_id"] = case_id;
             Session["subscriber_id"] = subs_id;
@@ -860,6 +909,10 @@ namespace DISERTATIE_5.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult AddPayment(DateTime payment_date, DateTime booking_date, float amount, string currency)
         {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
             int case_id = (int)Session["case_id"];
 
             string tns = TNS.tns;
@@ -924,6 +977,10 @@ namespace DISERTATIE_5.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult AddDebt(DateTime item_date, float amount, string currency)
         {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
             int case_id = (int)Session["case_id"];
 
             string tns = TNS.tns;
@@ -944,12 +1001,21 @@ namespace DISERTATIE_5.Controllers
             sql.Parameters.Add("P_FINISHED_OK", OracleDbType.Decimal).Direction = ParameterDirection.Output;
             sql.ExecuteNonQuery();
             finished_ok = Convert.ToDecimal(((OracleDecimal)sql.Parameters["P_FINISHED_OK"].Value).Value);
-            if (finished_ok == 0)
+
+            switch (finished_ok)
             {
-                TempData["ErrorAddDebt"] = "Something went wrong";
-                return RedirectToAction("AddDebt", "Cases", new { case_id = case_id });
+                case 1:
+                    return RedirectToAction("Case", "Cases", new { case_id = case_id });
+                case 2:
+                    TempData["ErrorAddDebt"] = "The debt currency must be as the balance currency!";
+                    return RedirectToAction("AddDiscount", "Cases", new { case_id = case_id });
+                case 3:
+                    TempData["ErrorAddDiscount"] = "The item date of debt can't be before the date of original debt!";
+                    return RedirectToAction("AddDiscount", "Cases", new { case_id = case_id });
+                default:
+                    TempData["ErrorAddDebt"] = "Something went wrong!";
+                    return RedirectToAction("AddDebt", "Cases", new { case_id = case_id });
             }
-            return RedirectToAction("Case", "Cases", new { case_id = case_id });
         }
 
         [HttpGet]
@@ -1006,6 +1072,10 @@ namespace DISERTATIE_5.Controllers
         [HttpPost]
         public ActionResult AddDiscount(AddDiscount addDiscount)
         {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
             int case_id = (int)Session["case_id"];
 
             string tns = TNS.tns;
@@ -1076,6 +1146,10 @@ namespace DISERTATIE_5.Controllers
         [HttpPost]
         public ActionResult AddCost(AddCost addCost)
         {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
             int case_id = (int)Session["case_id"];
 
             string tns = TNS.tns;
@@ -1111,8 +1185,424 @@ namespace DISERTATIE_5.Controllers
                     TempData["ErrorAddCost"] = "Something went wrong!";
                     return RedirectToAction("AddCost", "Cases", new { case_id = case_id });
             }
-            
+        }
+
+        [HttpGet]
+        public ActionResult StornoItem(int case_id, int fin_item_id, string fin_item_type, string storno_reason)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            decimal finished_ok = 0;
+            if (fin_item_type == "PAYMENT")
+            {
+                finished_ok = StornoPayment(fin_item_id, storno_reason);
+                if (finished_ok == 0)
+                {
+                    TempData["ErrorStorno"] = "Something went wrong!";
+                }
+            }
+            else
+            {
+                finished_ok = StornoDebt(fin_item_id, storno_reason);
+                if (finished_ok == 0)
+                {
+                    TempData["ErrorStorno"] = "Something went wrong!";
+                }
+                else if (finished_ok == 2)
+                {
+                    TempData["ErrorStorno"] = "Can't delete the original debt!";
+                }
+            }
+
             return RedirectToAction("Case", "Cases", new { case_id = case_id });
+        }
+
+        [NonAction]
+        public decimal StornoPayment(int fin_item_id, string storno_reason)
+        {
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "FINANCIAL_PKG.STORNO_PAYMENT";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            decimal finished_ok = 0;
+            sql.BindByName = true;
+            sql.CommandType = CommandType.StoredProcedure;
+            sql.Parameters.Add("P_FIN_ITEM_ID", OracleDbType.Decimal, fin_item_id, ParameterDirection.Input);
+            sql.Parameters.Add("P_STORNO_REASON", OracleDbType.Varchar2, storno_reason, ParameterDirection.Input);
+            sql.Parameters.Add("P_FINISHED_OK", OracleDbType.Decimal).Direction = ParameterDirection.Output;
+            sql.ExecuteNonQuery();
+            finished_ok = Convert.ToDecimal(((OracleDecimal)sql.Parameters["P_FINISHED_OK"].Value).Value);
+            return finished_ok;
+        }
+
+        [NonAction]
+        public decimal StornoDebt(int fin_item_id, string storno_reason)
+        {
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "FINANCIAL_PKG.STORNO_DEBT";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            decimal finished_ok = 0;
+            sql.BindByName = true;
+            sql.CommandType = CommandType.StoredProcedure;
+            sql.Parameters.Add("P_FIN_ITEM_ID", OracleDbType.Decimal, fin_item_id, ParameterDirection.Input);
+            sql.Parameters.Add("P_STORNO_REASON", OracleDbType.Varchar2, storno_reason, ParameterDirection.Input);
+            sql.Parameters.Add("P_FINISHED_OK", OracleDbType.Decimal).Direction = ParameterDirection.Output;
+            sql.ExecuteNonQuery();
+            finished_ok = Convert.ToDecimal(((OracleDecimal)sql.Parameters["P_FINISHED_OK"].Value).Value);
+            return finished_ok;
+        }
+
+        [HttpGet]
+        public ActionResult AllocationsInfo(int case_id, int fin_item_id)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "SELECT * FROM FIN_ALLOCATION_ITEM_V V WHERE V.FIN_ACCOUNT_FIN_ITEM_ID=" + fin_item_id;
+            OracleCommand sql = new OracleCommand(statement, conn);
+            OracleDataReader reader = sql.ExecuteReader();
+            AllocationsData allocationsData = new AllocationsData();
+            allocationsData.finAllocationItem = new FinAllocationItem();
+            allocationsData.finAllocationsInfos = new List<FinAllocationsInfo>();
+            try
+            {
+                while (reader.Read())
+                {
+                    allocationsData.finAllocationItem.amount = reader.GetFloat(1);
+                    allocationsData.finAllocationItem.amount_currency = reader.GetString(2);
+                    allocationsData.finAllocationItem.amount_fnc = reader.GetFloat(3);
+                    allocationsData.finAllocationItem.amount_fnc_currency = reader.GetString(4);
+                    allocationsData.finAllocationItem.amount_allocated = reader.GetFloat(5);
+                    allocationsData.finAllocationItem.amount_allocated_currency = reader.GetString(6);
+                    allocationsData.finAllocationItem.amount_allocated_fnc = reader.GetFloat(7);
+                    allocationsData.finAllocationItem.amount_allocated_fnc_currency = reader.GetString(8);
+                    allocationsData.finAllocationItem.amount_over = reader.GetFloat(9);
+                    allocationsData.finAllocationItem.amount_over_currency = reader.GetString(10);
+                    allocationsData.finAllocationItem.amount_over_fnc = reader.GetFloat(11);
+                    allocationsData.finAllocationItem.amount_over_fnc_currency = reader.GetString(12);
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+
+            conn.Open();
+            statement = "SELECT * FROM FIN_ALLOCATIONS_INFO_V V WHERE V.FIN_M_ACC_FINANCIAL_ITEM_ID=" + fin_item_id;
+            sql = new OracleCommand(statement, conn);
+            reader = sql.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    FinAllocationsInfo finAllocationsInfo = new FinAllocationsInfo();
+                    finAllocationsInfo.item_type = reader.GetString(0);
+                    finAllocationsInfo.amount_p = reader.GetFloat(1);
+                    finAllocationsInfo.amount_currency_p = reader.GetString(2);
+                    finAllocationsInfo.allocated_amount_p = reader.GetFloat(3);
+                    finAllocationsInfo.allocated_amount_currency_p = reader.GetString(4);
+                    finAllocationsInfo.allocated_amount_m = reader.GetFloat(5);
+                    finAllocationsInfo.allocated_amount_currency_m = reader.GetString(6);
+                    finAllocationsInfo.allocated_amount_fnc = reader.GetFloat(7);
+                    finAllocationsInfo.allocated_amount_fnc_currency = reader.GetString(8);
+
+                    allocationsData.finAllocationsInfos.Add(finAllocationsInfo);
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            ViewBag.allocationCase = case_id;
+            Session["case_id"] = case_id;
+            return View(allocationsData);
+        }
+
+        [HttpGet]
+        public ActionResult DeleteAddress(int address_id)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            int case_id = (int)Session["case_id"];
+
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "DELETE FROM SUBSCRIBER_ADDRESSES SA WHERE SUBSCRIBER_ADDRESS_ID=" + address_id;
+            OracleCommand sql = new OracleCommand(statement, conn);
+            sql.ExecuteNonQuery();
+            conn.Close();
+            return RedirectToAction("Case", "Cases", new { case_id = case_id });
+        }
+
+        [HttpGet]
+        public ActionResult AddAddress(int subs_id)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "SELECT NAME FROM SOURCE_TYPES";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            OracleDataReader reader = sql.ExecuteReader();
+            List<string> sourceTypes = new List<string>();
+            try
+            {
+                while (reader.Read())
+                {
+                    sourceTypes.Add(reader.GetString(0));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            conn.Open();
+            statement = "SELECT NAME FROM ADDRESS_TYPES";
+            sql = new OracleCommand(statement, conn);
+            reader = sql.ExecuteReader();
+            List<string> addressTypes = new List<string>();
+            try
+            {
+                while (reader.Read())
+                {
+                    addressTypes.Add(reader.GetString(0));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            ViewBag.AddressTypes = addressTypes;
+            ViewBag.SourceTypes = sourceTypes;
+            ViewBag.AddAddressCase = Session["case_id"];
+            Session["AddAddressSubsId"] = subs_id;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddAddress(AddAddress address)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            int case_id = (int)Session["case_id"];
+
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "CONTACT_DATA.ADD_ADDRESS";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            decimal finished_ok = 0;
+            sql.BindByName = true;
+            sql.CommandType = CommandType.StoredProcedure;
+            int subs_id = (int)Session["AddAddressSubsId"];
+            Session["AddAddressSubsId"] = null;
+            int v_main = 1;
+            if (!address.main)
+            {
+                v_main = 0;
+            }
+
+            sql.Parameters.Add("P_MAIN", OracleDbType.Decimal, v_main, ParameterDirection.Input);
+            sql.Parameters.Add("P_TYPE", OracleDbType.Varchar2, address.type, ParameterDirection.Input);
+            sql.Parameters.Add("P_COUNTRY", OracleDbType.Varchar2, address.country, ParameterDirection.Input);
+            sql.Parameters.Add("P_CITY", OracleDbType.Varchar2, address.city, ParameterDirection.Input);
+            sql.Parameters.Add("P_DISTRICT", OracleDbType.Varchar2, address.district, ParameterDirection.Input);
+            sql.Parameters.Add("P_STREET", OracleDbType.Varchar2, address.street, ParameterDirection.Input);
+            sql.Parameters.Add("P_STREET_NUMBER", OracleDbType.Varchar2, address.street_number, ParameterDirection.Input);
+            sql.Parameters.Add("P_BUILDING", OracleDbType.Varchar2, address.building, ParameterDirection.Input);
+            sql.Parameters.Add("P_STAIR", OracleDbType.Varchar2, address.stair, ParameterDirection.Input);
+            sql.Parameters.Add("P_FLOOR", OracleDbType.Varchar2, address.floor, ParameterDirection.Input);
+            sql.Parameters.Add("P_APARTMENT", OracleDbType.Varchar2, address.apartment, ParameterDirection.Input);
+            sql.Parameters.Add("P_SOURCE", OracleDbType.Varchar2, address.source, ParameterDirection.Input);
+            sql.Parameters.Add("P_SUBSCRIBER_ID", OracleDbType.Decimal, subs_id, ParameterDirection.Input);
+            sql.Parameters.Add("P_FINISHED_OK", OracleDbType.Decimal).Direction = ParameterDirection.Output;
+            sql.ExecuteNonQuery();
+            finished_ok = Convert.ToDecimal(((OracleDecimal)sql.Parameters["P_FINISHED_OK"].Value).Value);
+            switch (finished_ok)
+            {
+                case 1:
+                    return RedirectToAction("Case", "Cases", new { case_id = case_id });
+                default:
+                    TempData["ErrorAddAddress"] = "Something went wrong!";
+                    return RedirectToAction("AddAddress", "Cases", new { subs_id = subs_id });
+            }
+        }
+
+        [HttpGet]
+        public ActionResult EditAddress(int address_id)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "SELECT NAME FROM SOURCE_TYPES";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            OracleDataReader reader = sql.ExecuteReader();
+            List<string> sourceTypes = new List<string>();
+            try
+            {
+                while (reader.Read())
+                {
+                    sourceTypes.Add(reader.GetString(0));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            conn.Open();
+            statement = "SELECT NAME FROM ADDRESS_TYPES";
+            sql = new OracleCommand(statement, conn);
+            reader = sql.ExecuteReader();
+            List<string> addressTypes = new List<string>();
+            try
+            {
+                while (reader.Read())
+                {
+                    addressTypes.Add(reader.GetString(0));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            conn.Open();
+            statement = "SELECT * FROM SUBSCRIBER_ADDRESSES_V V WHERE V.SUBSCRIBER_ADDRESS_ID=" + address_id;
+            sql = new OracleCommand(statement, conn);
+            EditAddress address = new EditAddress();
+            reader = sql.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    address.type = reader.GetString(1);
+                    address.main = reader.GetBoolean(2);
+                    address.street = reader.GetString(3);
+                    address.street_number = reader.GetString(4);
+                    if (!reader.IsDBNull(5))
+                    { 
+                        address.building = reader.GetString(5); 
+                    }
+                    if(!reader.IsDBNull(6))
+                    {
+                        address.stair = reader.GetString(6);
+                    }
+                    if (!reader.IsDBNull(7))
+                    {
+                        address.floor = reader.GetString(7);
+                    }
+                    if (!reader.IsDBNull(8))
+                    {
+                        address.apartment = reader.GetString(8);
+                    }
+                    address.city = reader.GetString(9);
+                    address.district = reader.GetString(10);
+                    address.country = reader.GetString(11);
+                    address.source = reader.GetString(12);
+                    address.address_id = reader.GetDecimal(15);
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            ViewBag.AddressTypes = addressTypes;
+            ViewBag.SourceTypes = sourceTypes;
+            ViewBag.EditAddressCase = Session["case_id"];
+            return View(address);
+        }
+
+        [HttpPost]
+        public ActionResult EditAddress(EditAddress address)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            int case_id = (int)Session["case_id"];
+
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "CONTACT_DATA.EDIT_ADDRESS";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            decimal finished_ok = 0;
+            sql.BindByName = true;
+            sql.CommandType = CommandType.StoredProcedure;
+            int v_main = 1;
+            if (!address.main)
+            {
+                v_main = 0;
+            }
+
+            sql.Parameters.Add("P_MAIN", OracleDbType.Decimal, v_main, ParameterDirection.Input);
+            sql.Parameters.Add("P_TYPE", OracleDbType.Varchar2, address.type, ParameterDirection.Input);
+            sql.Parameters.Add("P_COUNTRY", OracleDbType.Varchar2, address.country, ParameterDirection.Input);
+            sql.Parameters.Add("P_CITY", OracleDbType.Varchar2, address.city, ParameterDirection.Input);
+            sql.Parameters.Add("P_DISTRICT", OracleDbType.Varchar2, address.district, ParameterDirection.Input);
+            sql.Parameters.Add("P_STREET", OracleDbType.Varchar2, address.street, ParameterDirection.Input);
+            sql.Parameters.Add("P_STREET_NUMBER", OracleDbType.Varchar2, address.street_number, ParameterDirection.Input);
+            sql.Parameters.Add("P_BUILDING", OracleDbType.Varchar2, address.building, ParameterDirection.Input);
+            sql.Parameters.Add("P_STAIR", OracleDbType.Varchar2, address.stair, ParameterDirection.Input);
+            sql.Parameters.Add("P_FLOOR", OracleDbType.Varchar2, address.floor, ParameterDirection.Input);
+            sql.Parameters.Add("P_APARTMENT", OracleDbType.Varchar2, address.apartment, ParameterDirection.Input);
+            sql.Parameters.Add("P_SOURCE", OracleDbType.Varchar2, address.source, ParameterDirection.Input);
+            sql.Parameters.Add("P_ADDRESS_ID", OracleDbType.Decimal, address.address_id, ParameterDirection.Input);
+            sql.Parameters.Add("P_FINISHED_OK", OracleDbType.Decimal).Direction = ParameterDirection.Output;
+            sql.ExecuteNonQuery();
+            finished_ok = Convert.ToDecimal(((OracleDecimal)sql.Parameters["P_FINISHED_OK"].Value).Value);
+            switch (finished_ok)
+            {
+                case 1:
+                    return RedirectToAction("Case", "Cases", new { case_id = case_id });
+                default:
+                    TempData["ErrorEditAddress"] = "Something went wrong!";
+                    return RedirectToAction("EditAddress", "Cases", new { address_id = address.address_id });
+            }
         }
     }
 }

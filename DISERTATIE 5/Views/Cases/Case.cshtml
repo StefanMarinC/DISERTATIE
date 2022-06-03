@@ -1,4 +1,5 @@
 ﻿@model DISERTATIE_5.Models.CaseInfo
+
 <html>
 <head>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -15,6 +16,38 @@
                     </div>
                     <div class="modal-body">
                         <h4>@TempData["ErrorDeletePerson"].ToString()</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="buttonclose" style="background-color:#9c301a; color:white">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var modal = document.getElementById("modal");
+            var btn = document.getElementById("buttonclose");
+            console.log(btn);
+            btn.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
+    }
+    @if (TempData["ErrorStorno"] != null)
+    {
+        <div class="modal" tabindex="-1" role="dialog" style="display:block" id="modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Error!</h3>
+                    </div>
+                    <div class="modal-body">
+                        <h4>@TempData["ErrorStorno"].ToString()</h4>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="buttonclose" style="background-color:#9c301a; color:white">Close</button>
@@ -237,7 +270,7 @@
                                             <div style="font-weight:bold; font-size:large">
                                                 Addresses
                                             </div>
-                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center">
+                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center"  onclick="@("window.location.href='" + @Url.Action("AddAddress", "Cases", new { subs_id = subs.subscriber_id}) + "'")">
                                                 <img src="~/Resources/Add.png" style="width:15px; height:15px;" />
                                             </button>
                                         </div>
@@ -252,33 +285,28 @@
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
                                                             <div style="display:flex; justify-content:space-between">
                                                                 <div style="padding:5px">
-                                                                    <div style="display:flex">
+                                                                    <div style="display:flex; padding-top:15px">
                                                                         <div style="color:mediumseagreen; font-weight:bold">
                                                                             @subs_add.address_type &nbsp;
                                                                         </div>
                                                                         <div>
-                                                                            - @subs_add.country, @subs_add.city, @subs_add.street, @subs_add.street_number, &nbsp;
+                                                                            - @subs_add.country, @subs_add.city, @subs_add.distrinct, @subs_add.street, @subs_add.street_number, &nbsp;
                                                                         </div>
                                                                         <div style="color:lightslategray; font-size:smaller; margin-top:auto">
                                                                             from @subs_add.source_type
                                                                         </div>
-                                                                    </div>
-                                                                    <div style="margin-bottom:5px">
-                                                                    </div>
-                                                                    <div style="color:lightslategray; font-size:smaller">
-                                                                        Created by @subs_add.created_by on @subs_add.creation_date
                                                                     </div>
                                                                 </div>
                                                                 <div style="display:block; justify-content:end">
                                                                 </div>
                                                             </div>
                                                             <div style="padding-top:2px; padding-bottom:2px; padding-right:5px">
-                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center">
+                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center" onclick="@("window.location.href='" + @Url.Action("EditAddress", "Cases", new { address_id = subs_add.address_id}) + "'")">
                                                                     <img src="~/Resources/Edit.png" style="width:15px; height:15px;" />
                                                                 </button>
                                                                 <div style="margin-bottom:5px">
                                                                 </div>
-                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center">
+                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center" onclick="@("window.location.href='" + @Url.Action("DeleteAddress", "Cases", new { address_id = subs_add.address_id}) + "'")">
                                                                     <img src="~/Resources/Add.png" style="width:15px; height:15px; transform:rotate(45deg)" />
                                                                 </button>
                                                             </div>
@@ -289,30 +317,25 @@
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c;">
                                                             <div style="display:flex; justify-content:space-between">
                                                                 <div style="padding:5px">
-                                                                    <div style="display:flex">
+                                                                    <div style="display:flex; padding-top:15px">
                                                                         <div>
-                                                                            @subs_add.address_type - @subs_add.country, @subs_add.city, @subs_add.street, @subs_add.street_number, &nbsp;
+                                                                            @subs_add.address_type - @subs_add.country, @subs_add.city, @subs_add.distrinct, @subs_add.street, @subs_add.street_number, &nbsp;
                                                                         </div>
                                                                         <div style="color:lightslategray; font-size:smaller; margin-top:auto">
                                                                             from @subs_add.source_type
                                                                         </div>
-                                                                    </div>
-                                                                    <div style="margin-bottom:5px">
-                                                                    </div>
-                                                                    <div style="color:lightslategray; font-size:smaller">
-                                                                        Created by @subs_add.created_by on @subs_add.creation_date
                                                                     </div>
                                                                 </div>
                                                                 <div style="display:block; justify-content:end">
                                                                 </div>
                                                             </div>
                                                             <div style="padding-top:2px; padding-bottom:2px; padding-right:5px">
-                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center">
+                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center" onclick="@("window.location.href='" + @Url.Action("EditAddress", "Cases", new { address_id = subs_add.address_id}) + "'")">
                                                                     <img src="~/Resources/Edit.png" style="width:15px; height:15px;" />
                                                                 </button>
                                                                 <div style="margin-bottom:5px">
                                                                 </div>
-                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center">
+                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center" onclick="@("window.location.href='" + @Url.Action("DeleteAddress", "Cases", new { address_id = subs_add.address_id}) + "'")">
                                                                     <img src="~/Resources/Add.png" style="width:15px; height:15px; transform:rotate(45deg)" />
                                                                 </button>
                                                             </div>
@@ -346,7 +369,7 @@
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
                                                             <div style="display:flex; justify-content:space-between">
                                                                 <div style="padding:5px">
-                                                                    <div style="display:flex">
+                                                                    <div style="display:flex; padding-top:15px">
                                                                         <div style="color:mediumseagreen; font-weight:bold">
                                                                             @subs_phone.phone_type &nbsp;
                                                                         </div>
@@ -356,11 +379,6 @@
                                                                         <div style="color:lightslategray; font-size:smaller; margin-top:auto">
                                                                             from @subs_phone.source_type
                                                                         </div>
-                                                                    </div>
-                                                                    <div style="margin-bottom:5px">
-                                                                    </div>
-                                                                    <div style="color:lightslategray; font-size:smaller">
-                                                                        Created by @subs_phone.created_by on @subs_phone.creation_date
                                                                     </div>
                                                                 </div>
                                                                 <div style="display:block; justify-content:end">
@@ -383,18 +401,13 @@
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
                                                             <div style="display:flex; justify-content:space-between">
                                                                 <div style="padding:5px">
-                                                                    <div style="display:flex">
+                                                                    <div style="display:flex; padding-top:15px">
                                                                         <div>
                                                                             @subs_phone.phone_type - @subs_phone.phone_number, &nbsp;
                                                                         </div>
                                                                         <div style="color:lightslategray; font-size:smaller; margin-top:auto">
                                                                             from @subs_phone.source_type
                                                                         </div>
-                                                                    </div>
-                                                                    <div style="margin-bottom:5px">
-                                                                    </div>
-                                                                    <div style="color:lightslategray; font-size:smaller">
-                                                                        Created by @subs_phone.created_by on @subs_phone.creation_date
                                                                     </div>
                                                                 </div>
                                                                 <div style="display:block; justify-content:end">
@@ -439,7 +452,7 @@
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
                                                             <div style="display:flex; justify-content:space-between">
                                                                 <div style="padding:5px">
-                                                                    <div style="display:flex">
+                                                                    <div style="display:flex; padding-top:15px">
                                                                         <div style="color:mediumseagreen; font-weight:bold">
                                                                             @subs_email.email_type &nbsp;
                                                                         </div>
@@ -449,11 +462,6 @@
                                                                         <div style="color:lightslategray; font-size:smaller; margin-top:auto">
                                                                             from @subs_email.source_type
                                                                         </div>
-                                                                    </div>
-                                                                    <div style="margin-bottom:5px">
-                                                                    </div>
-                                                                    <div style="color:lightslategray; font-size:smaller">
-                                                                        Created by @subs_email.created_by on @subs_email.creation_date
                                                                     </div>
                                                                 </div>
                                                                 <div style="display:block; justify-content:end">
@@ -476,18 +484,13 @@
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
                                                             <div style="display:flex; justify-content:space-between">
                                                                 <div style="padding:5px">
-                                                                    <div style="display:flex">
+                                                                    <div style="display:flex; padding-top:15px">
                                                                         <div>
                                                                             @subs_email.email_type &nbsp; - @subs_email.email, &nbsp;
                                                                         </div>
                                                                         <div style="color:lightslategray; font-size:smaller; margin-top:auto">
                                                                             from @subs_email.source_type
                                                                         </div>
-                                                                    </div>
-                                                                    <div style="margin-bottom:5px">
-                                                                    </div>
-                                                                    <div style="color:lightslategray; font-size:smaller">
-                                                                        Created by @subs_email.created_by on @subs_email.creation_date
                                                                     </div>
                                                                 </div>
                                                                 <div style="display:block; justify-content:end">
@@ -529,7 +532,7 @@
                                                     <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
                                                         <div style="display:flex; justify-content:space-between">
                                                             <div style="padding:5px">
-                                                                <div style="display:flex">
+                                                                <div style="display:flex; padding-top:15px">
                                                                     <div>
                                                                         @subs_contact.contact_type - @subs_contact.first_name @subs_contact.last_name, @subs_contact.city, @subs_contact.address, @subs_contact.postal_code, @subs_contact.phone, @subs_contact.email
                                                                     </div>
@@ -578,7 +581,7 @@
                                                     <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
                                                         <div style="display:flex; justify-content:space-between">
                                                             <div style="padding:5px">
-                                                                <div style="display:flex">
+                                                                <div style="display:flex; padding-top:15px">
                                                                     <div>
                                                                         @subs_employer.employer_name
                                                                     </div>
@@ -654,7 +657,7 @@
                                             <div style="font-weight:bold; font-size:large">
                                                 Addresses
                                             </div>
-                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center">
+                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center" onclick="@("window.location.href='" + @Url.Action("AddAddress", "Cases", new { case_id = Model.caseDetails.case_id, subs_id = subs.subscriber_id}) + "'")">
                                                 <img src="~/Resources/Add.png" style="width:15px; height:15px;" />
                                             </button>
                                         </div>
@@ -669,33 +672,28 @@
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
                                                             <div style="display:flex; justify-content:space-between">
                                                                 <div style="padding:5px">
-                                                                    <div style="display:flex">
+                                                                    <div style="display:flex; padding-top:15px">
                                                                         <div style="color:mediumseagreen; font-weight:bold">
                                                                             @subs_add.address_type &nbsp;
                                                                         </div>
                                                                         <div>
-                                                                            - @subs_add.country, @subs_add.city, @subs_add.street, @subs_add.street_number, &nbsp;
+                                                                            - @subs_add.country, @subs_add.city, @subs_add.distrinct, @subs_add.street, @subs_add.street_number, &nbsp;
                                                                         </div>
                                                                         <div style="color:lightslategray; font-size:smaller; margin-top:auto">
                                                                             from @subs_add.source_type
                                                                         </div>
-                                                                    </div>
-                                                                    <div style="margin-bottom:5px">
-                                                                    </div>
-                                                                    <div style="color:lightslategray; font-size:smaller">
-                                                                        Created by @subs_add.created_by on @subs_add.creation_date
                                                                     </div>
                                                                 </div>
                                                                 <div style="display:block; justify-content:end">
                                                                 </div>
                                                             </div>
                                                             <div style="padding-top:2px; padding-bottom:2px; padding-right:5px">
-                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center">
+                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center" onclick="@("window.location.href='" + @Url.Action("EditAddress", "Cases", new { address_id = subs_add.address_id}) + "'")">
                                                                     <img src="~/Resources/Edit.png" style="width:15px; height:15px;" />
                                                                 </button>
                                                                 <div style="margin-bottom:5px">
                                                                 </div>
-                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center">
+                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center" onclick="@("window.location.href='" + @Url.Action("DeleteAddress", "Cases", new { address_id = subs_add.address_id}) + "'")">
                                                                     <img src="~/Resources/Add.png" style="width:15px; height:15px; transform:rotate(45deg)" />
                                                                 </button>
                                                             </div>
@@ -706,30 +704,25 @@
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c;">
                                                             <div style="display:flex; justify-content:space-between">
                                                                 <div style="padding:5px">
-                                                                    <div style="display:flex">
+                                                                    <div style="display:flex; padding-top:15px">
                                                                         <div>
-                                                                            @subs_add.address_type - @subs_add.country, @subs_add.city, @subs_add.street, @subs_add.street_number, &nbsp;
+                                                                            @subs_add.address_type - @subs_add.country, @subs_add.city, @subs_add.distrinct, @subs_add.street, @subs_add.street_number, &nbsp;
                                                                         </div>
                                                                         <div style="color:lightslategray; font-size:smaller; margin-top:auto">
                                                                             from @subs_add.source_type
                                                                         </div>
-                                                                    </div>
-                                                                    <div style="margin-bottom:5px">
-                                                                    </div>
-                                                                    <div style="color:lightslategray; font-size:smaller">
-                                                                        Created by @subs_add.created_by on @subs_add.creation_date
                                                                     </div>
                                                                 </div>
                                                                 <div style="display:block; justify-content:end">
                                                                 </div>
                                                             </div>
                                                             <div style="padding-top:2px; padding-bottom:2px; padding-right:5px">
-                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center">
+                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center" onclick="@("window.location.href='" + @Url.Action("EditAddress", "Cases", new { address_id = subs_add.address_id}) + "'")">
                                                                     <img src="~/Resources/Edit.png" style="width:15px; height:15px;" />
                                                                 </button>
                                                                 <div style="margin-bottom:5px">
                                                                 </div>
-                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center">
+                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center"onclick="@("window.location.href='" + @Url.Action("DeleteAddress", "Cases", new { address_id = subs_add.address_id}) + "'")">
                                                                     <img src="~/Resources/Add.png" style="width:15px; height:15px; transform:rotate(45deg)" />
                                                                 </button>
                                                             </div>
@@ -763,7 +756,7 @@
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
                                                             <div style="display:flex; justify-content:space-between">
                                                                 <div style="padding:5px">
-                                                                    <div style="display:flex">
+                                                                    <div style="display:flex; padding-top:15px">
                                                                         <div style="color:mediumseagreen; font-weight:bold">
                                                                             @subs_phone.phone_type &nbsp;
                                                                         </div>
@@ -773,11 +766,6 @@
                                                                         <div style="color:lightslategray; font-size:smaller; margin-top:auto">
                                                                             from @subs_phone.source_type
                                                                         </div>
-                                                                    </div>
-                                                                    <div style="margin-bottom:5px">
-                                                                    </div>
-                                                                    <div style="color:lightslategray; font-size:smaller">
-                                                                        Created by @subs_phone.created_by on @subs_phone.creation_date
                                                                     </div>
                                                                 </div>
                                                                 <div style="display:block; justify-content:end">
@@ -800,18 +788,13 @@
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
                                                             <div style="display:flex; justify-content:space-between">
                                                                 <div style="padding:5px">
-                                                                    <div style="display:flex">
+                                                                    <div style="display:flex; padding-top:15px">
                                                                         <div>
                                                                             @subs_phone.phone_type - @subs_phone.phone_number, &nbsp;
                                                                         </div>
                                                                         <div style="color:lightslategray; font-size:smaller; margin-top:auto">
                                                                             from @subs_phone.source_type
                                                                         </div>
-                                                                    </div>
-                                                                    <div style="margin-bottom:5px">
-                                                                    </div>
-                                                                    <div style="color:lightslategray; font-size:smaller">
-                                                                        Created by @subs_phone.created_by on @subs_phone.creation_date
                                                                     </div>
                                                                 </div>
                                                                 <div style="display:block; justify-content:end">
@@ -856,7 +839,7 @@
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
                                                             <div style="display:flex; justify-content:space-between">
                                                                 <div style="padding:5px">
-                                                                    <div style="display:flex">
+                                                                    <div style="display:flex; padding-top:15px">
                                                                         <div style="color:mediumseagreen; font-weight:bold">
                                                                             @subs_email.email_type &nbsp;
                                                                         </div>
@@ -866,12 +849,7 @@
                                                                         <div style="color:lightslategray; font-size:smaller; margin-top:auto">
                                                                             from @subs_email.source_type
                                                                         </div>
-                                                                    </div>
-                                                                    <div style="margin-bottom:5px">
-                                                                    </div>
-                                                                    <div style="color:lightslategray; font-size:smaller">
-                                                                        Created by @subs_email.created_by on @subs_email.creation_date
-                                                                    </div>
+                                                                    </div>]
                                                                 </div>
                                                                 <div style="display:block; justify-content:end">
                                                                 </div>
@@ -893,18 +871,13 @@
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
                                                             <div style="display:flex; justify-content:space-between">
                                                                 <div style="padding:5px">
-                                                                    <div style="display:flex">
+                                                                    <div style="display:flex; padding-top:15px">
                                                                         <div>
                                                                             @subs_email.email_type &nbsp; - @subs_email.email, &nbsp;
                                                                         </div>
                                                                         <div style="color:lightslategray; font-size:smaller; margin-top:auto">
                                                                             from @subs_email.source_type
                                                                         </div>
-                                                                    </div>
-                                                                    <div style="margin-bottom:5px">
-                                                                    </div>
-                                                                    <div style="color:lightslategray; font-size:smaller">
-                                                                        Created by @subs_email.created_by on @subs_email.creation_date
                                                                     </div>
                                                                 </div>
                                                                 <div style="display:block; justify-content:end">
@@ -946,7 +919,7 @@
                                                     <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
                                                         <div style="display:flex; justify-content:space-between">
                                                             <div style="padding:5px">
-                                                                <div style="display:flex">
+                                                                <div style="display:flex; padding-top:15px">
                                                                     <div>
                                                                         @subs_contact.contact_type - @subs_contact.first_name @subs_contact.last_name, @subs_contact.city, @subs_contact.address, @subs_contact.postal_code, @subs_contact.phone, @subs_contact.email
                                                                     </div>
@@ -995,7 +968,7 @@
                                                     <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
                                                         <div style="display:flex; justify-content:space-between">
                                                             <div style="padding:5px">
-                                                                <div style="display:flex">
+                                                                <div style="display:flex; padding-top:15px">
                                                                     <div>
                                                                         @subs_employer.employer_name
                                                                     </div>
@@ -1195,6 +1168,14 @@
                                                         {
                                                             <img src="~/Resources/Overpayment.png" style="width:20px; height:20px" title="Overpayment" />
                                                         }
+                                                        @if (FinItem.before > 0)
+                                                        {
+                                                            <img src="~/Resources/Before.png" style="width:20px; height:20px" title="Before" />
+                                                        }
+                                                        @if (FinItem.storno_id > 0)
+                                                        {
+                                                            <img src="~/Resources/Storned.png" style="width:20px; height:20px" title="Storno" />
+                                                        }
                                                     </td>
                                                     <td style="text-align:center">
                                                         @FinItem.item_date
@@ -1226,21 +1207,35 @@
                                                             + @FinItem.amount_not_booked @FinItem.amount_not_booked_currency
                                                         </td>
                                                     }
-                                                    @if (FinItem.item_name != "Interest")
+                                                    @if (FinItem.item_type != "INTEREST" && FinItem.storno_id == 0)
                                                     {
                                                         <td>
                                                             <div style="display:flex; justify-content:center">
-                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:30px; height:30px; display:flex !important; justify-content:center !important">
-                                                                    <img src="~/Resources/Storno.png" style="width:15px; height:15px;" />
-                                                                </button>
+                                                                <div class="btn-group">
+                                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" style="background-color:#9c301a; border:hidden; width:30px; height:30px; display:flex !important; justify-content:center !important" title="Storno">
+                                                                        <img src="~/Resources/Storno.png" style="width:15px; height:15px;" />
+                                                                    </button>
+                                                                    <div class="dropdown-menu" style="text-align:center">
+                                                                        @foreach (var stornoReason in Model.stornoReasons)
+                                                                        {
+                                                                            <div>
+                                                                                <a class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black" onclick="@("window.location.href='" + @Url.Action("StornoItem", "Cases", new { case_id = Model.FinAccountDetails.case_id, fin_item_id = FinItem.financial_item, fin_item_type= FinItem.item_type, storno_reason=stornoReason}) + "'")">@stornoReason</a>
+                                                                            </div>
+                                                                        }
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div style="margin-bottom:5px">
-                                                            </div>
-                                                            <div style="display:flex; justify-content:center;">
-                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:30px; height:30px; display:flex !important; justify-content:center !important;">
-                                                                    <img src="~/Resources/Info.png" style="width:20px; height:20px;" />
-                                                                </button>
-                                                            </div>
+                                                            @if (FinItem.item_type == "PAYMENT" || FinItem.item_type == "DISCOUNT")
+                                                            {
+                                                                <div style="margin-bottom:5px">
+                                                                </div>
+                                                                <div style="display:flex; justify-content:center;">
+                                                                    <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:30px; height:30px; display:flex !important; justify-content:center !important;" title="Allocations info" onclick="@("window.location.href='" + @Url.Action("AllocationsInfo", "Cases", new { case_id = Model.FinAccountDetails.case_id, fin_item_id = FinItem.financial_item }) + "'")">
+                                                                        <img src="~/Resources/Info.png" style="width:20px; height:20px;" />
+                                                                    </button>
+                                                                </div>
+                                                            }
+
 
                                                         </td>
                                                     }

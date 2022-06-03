@@ -22,5 +22,6 @@ namespace DISERTATIE_5.Models
         public string source_type { get; set; }
         public string created_by { get; set; }
         public DateTime creation_date { get; set; }
+        public decimal address_id { get; set; }
     }
 }

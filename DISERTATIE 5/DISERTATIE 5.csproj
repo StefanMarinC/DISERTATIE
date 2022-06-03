@@ -186,6 +186,7 @@
     <Compile Include="Models\ACC_SUBS_INT.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AddAddress.cs" />
     <Compile Include="Models\AddCost.cs" />
     <Compile Include="Models\AddDebt.cs" />
     <Compile Include="Models\AddDiscount.cs" />
@@ -202,6 +203,7 @@
     <Compile Include="Models\ADMIN_SEC_USERS_V.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AllocationsData.cs" />
     <Compile Include="Models\BANK_ACCOUNTS.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -224,8 +226,11 @@
     <Compile Include="Models\CLIENTS.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EditAddress.cs" />
     <Compile Include="Models\EditSubscriberCase.cs" />
     <Compile Include="Models\FinAccountDetails.cs" />
+    <Compile Include="Models\FinAllocationItem.cs" />
+    <Compile Include="Models\FinAllocationsInfo.cs" />
     <Compile Include="Models\FinancialItem.cs" />
     <Compile Include="Models\JobCurrency.cs" />
     <Compile Include="Models\JobScheduler.cs" />
@@ -403,6 +408,9 @@
     <Content Include="Views\Cases\AddDebt.cshtml" />
     <Content Include="Views\Cases\AddDiscount.cshtml" />
     <Content Include="Views\Cases\AddCost.cshtml" />
+    <Content Include="Views\Cases\AllocationsInfo.cshtml" />
+    <Content Include="Views\Cases\AddAddress.cshtml" />
+    <Content Include="Views\Cases\EditAddress.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
