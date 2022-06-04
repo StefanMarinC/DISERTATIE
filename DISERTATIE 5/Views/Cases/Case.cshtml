@@ -30,7 +30,6 @@
             btn.onclick = function () {
                 modal.style.display = "none";
             }
-
             window.onclick = function (event) {
                 if (event.target == modal) {
                     modal.style.display = "none";
@@ -62,7 +61,6 @@
             btn.onclick = function () {
                 modal.style.display = "none";
             }
-
             window.onclick = function (event) {
                 if (event.target == modal) {
                     modal.style.display = "none";
@@ -178,15 +176,12 @@
             <div class="btn-group" style="padding-left:5px">
                 <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" style="background-color:#9c301a; border:hidden">Email</button>
                 <div class="dropdown-menu" style="text-align:center">
-                    <div>
-                        <a id="email1" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">Email 1</a>
-                    </div>
-                    <div>
-                        <a id="email2" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">Email 2</a>
-                    </div>
-                    <div>
-                        <a id="email3" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">Email 3</a>
-                    </div>
+                    @foreach (var email in Model.emailTemplates)
+                    {
+                        <div>
+                            <a class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black" onclick="@("window.location.href='" + @Url.Action("SendEmail", "Cases", new { case_id = Model.caseDetails.case_id, email_template = email }) + "'")">@email</a>
+                        </div>
+                    }
                 </div>
             </div>
             <div class="btn-group" style="padding-left:5px">
@@ -270,7 +265,7 @@
                                             <div style="font-weight:bold; font-size:large">
                                                 Addresses
                                             </div>
-                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center"  onclick="@("window.location.href='" + @Url.Action("AddAddress", "Cases", new { subs_id = subs.subscriber_id}) + "'")">
+                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center" onclick="@("window.location.href='" + @Url.Action("AddAddress", "Cases", new { subs_id = subs.subscriber_id}) + "'")">
                                                 <img src="~/Resources/Add.png" style="width:15px; height:15px;" />
                                             </button>
                                         </div>
@@ -722,7 +717,7 @@
                                                                 </button>
                                                                 <div style="margin-bottom:5px">
                                                                 </div>
-                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center"onclick="@("window.location.href='" + @Url.Action("DeleteAddress", "Cases", new { address_id = subs_add.address_id}) + "'")">
+                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center" onclick="@("window.location.href='" + @Url.Action("DeleteAddress", "Cases", new { address_id = subs_add.address_id}) + "'")">
                                                                     <img src="~/Resources/Add.png" style="width:15px; height:15px; transform:rotate(45deg)" />
                                                                 </button>
                                                             </div>
@@ -1281,7 +1276,24 @@
                         letters
                     </div>
                     <div id="emails" name="div_info" style="display:none; padding-bottom:5px">
-                        emails
+                        <div style="margin:10px 5px 10px 5px;">
+                            @foreach (var email in Model.emails)
+                            {
+                                <div style="border:1px solid black; padding:10px; margin-top:5px; margin-bottom:5px">
+                                    <div style="font-weight:bold">
+                                        @email.subject
+                                    </div>
+                                    <div>
+                                        CASE ID: @email.case_id, Email address: @email.email_to, Sent date: @email.sent_time
+                                    </div>
+                                    <div style="display:flex; justify-content:end">
+                                        <button onclick="@("window.location.href='" + Url.Action("PreviewEmail", "Cases", new { email_id= email.email_id }) + "'")" style="background-color:#9c301a; border:none; border-radius:5px">
+                                            <img src="~/Resources/Preview.png" title="Preview" style="height:25px; width:20px" />
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
                     </div>
                     <div id="sms" name="div_info" style="display:none; padding-bottom:5px">
                         sms

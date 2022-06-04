@@ -539,6 +539,48 @@ namespace DISERTATIE_5.Controllers
                 reader.Close();
                 conn.Close();
             }
+            conn.Open();
+            List<string> emailTemplates = new List<string>();
+            statement = "SELECT NAME FROM EML_TEMPLATES";
+            sql = new OracleCommand(statement, conn);
+            reader = sql.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    emailTemplates.Add(reader.GetString(0));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            List<Emails> emails = new List<Emails>();
+            conn.Open();
+            statement = "SELECT TL.NAME, EMAIL_TO, SENT_DATE, CASE_ID, EML_SENT_QUEUE_ID FROM EML_SENT_QUEUES SQ JOIN EML_TEMPLATES TL ON TL.EML_TEMPLATE_ID=SQ.EML_TEMPLATE_ID WHERE CASE_ID=" + case_id+ " ORDER BY SENT_DATE DESC";
+            sql = new OracleCommand(statement, conn);
+            reader = sql.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    Emails email = new Emails();
+                    email.subject = reader.GetString(0);
+                    email.email_to = reader.GetString(1);
+                    email.sent_time = reader.GetDateTime(2);
+                    email.case_id = reader.GetDecimal(3);
+                    email.email_id = reader.GetDecimal(4);
+
+                    emails.Add(email);
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+
             caseInfo.subscriberDatas = subs_list;
             caseInfo.subscriberAddresses = subs_address;
             caseInfo.subscriberPhones = subs_phones;
@@ -548,6 +590,8 @@ namespace DISERTATIE_5.Controllers
             caseInfo.FinAccountDetails = finAccountDetails;
             caseInfo.financialItems = financialItems;
             caseInfo.stornoReasons = stornoReason;
+            caseInfo.emailTemplates = emailTemplates;
+            caseInfo.emails = emails;
 
             return View(caseInfo);
         }
@@ -1603,6 +1647,72 @@ namespace DISERTATIE_5.Controllers
                     TempData["ErrorEditAddress"] = "Something went wrong!";
                     return RedirectToAction("EditAddress", "Cases", new { address_id = address.address_id });
             }
+        }
+
+        [HttpGet]
+        public ActionResult SendEmail(int case_id, string email_template)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "ACTIONS.SEND_EMAIL";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            decimal finished_ok = 0;
+            sql.BindByName = true;
+            sql.CommandType = CommandType.StoredProcedure;
+            sql.Parameters.Add("P_CASE_ID", OracleDbType.Decimal, case_id, ParameterDirection.Input);
+            sql.Parameters.Add("P_EML_TEMPLATE", OracleDbType.Varchar2, email_template, ParameterDirection.Input);
+            sql.Parameters.Add("P_FINISHED_OK", OracleDbType.Decimal).Direction = ParameterDirection.Output;
+            sql.ExecuteNonQuery();
+            finished_ok = Convert.ToDecimal(((OracleDecimal)sql.Parameters["P_FINISHED_OK"].Value).Value);
+            switch (finished_ok)
+            {
+                case 2:
+                    TempData["ErrorSendEmail"] = "The main person must have a main email address!";
+                    break;
+                default:
+                    TempData["ErrorSendEmail"] = "Something went wrong!";
+                    break;
+            }
+            return RedirectToAction("Case", "Cases", new { case_id = case_id });
+        }
+
+        [HttpGet]
+        public ActionResult PreviewEmail(int email_id)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+            conn.Open();
+            string statement = "SELECT CONTENT FROM EML_SENT_QUEUES WHERE EML_SENT_QUEUE_ID=" + email_id;
+            OracleCommand sql = new OracleCommand(statement, conn);
+            OracleDataReader reader = sql.ExecuteReader();
+            HtmlString html=new HtmlString("");
+            try
+            {
+                while (reader.Read())
+                {
+                    html = new HtmlString((string)reader.GetOracleClob(0).Value);
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            ViewBag.EmailContent = html;
+            return View();
         }
     }
 }

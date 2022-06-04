@@ -228,6 +228,7 @@
     </Compile>
     <Compile Include="Models\EditAddress.cs" />
     <Compile Include="Models\EditSubscriberCase.cs" />
+    <Compile Include="Models\Emails.cs" />
     <Compile Include="Models\FinAccountDetails.cs" />
     <Compile Include="Models\FinAllocationItem.cs" />
     <Compile Include="Models\FinAllocationsInfo.cs" />
@@ -411,6 +412,7 @@
     <Content Include="Views\Cases\AllocationsInfo.cshtml" />
     <Content Include="Views\Cases\AddAddress.cshtml" />
     <Content Include="Views\Cases\EditAddress.cshtml" />
+    <Content Include="Views\Cases\PreviewEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

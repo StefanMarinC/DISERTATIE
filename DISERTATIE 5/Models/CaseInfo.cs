@@ -18,5 +18,7 @@ namespace DISERTATIE_5.Models
         public List<FinancialItem> financialItems { get; set; }
         public List<string> stornoReasons { get; set; }
         public AllocationsData AllocationsData { get; set; }
+        public List<string> emailTemplates { get; set; }
+        public List<Emails> emails { get; set; }
     }
 }
