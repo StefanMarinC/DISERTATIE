@@ -3,6 +3,7 @@ using DISERTATIE_5.Utils;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Web;

@@ -366,6 +366,7 @@ namespace DISERTATIE_5.Controllers
                             subs_phone.source_type = (string)reader2.GetValue(4);
                             subs_phone.created_by = (string)reader2.GetValue(5);
                             subs_phone.creation_date = (DateTime)reader2.GetValue(6);
+                            subs_phone.subs_phone_id = reader2.GetDecimal(7);
                             subs_phones.Add(subs_phone);
                         }
                     }
@@ -1646,6 +1647,239 @@ namespace DISERTATIE_5.Controllers
                 default:
                     TempData["ErrorEditAddress"] = "Something went wrong!";
                     return RedirectToAction("EditAddress", "Cases", new { address_id = address.address_id });
+            }
+        }
+
+        [HttpGet]
+        public ActionResult DeletePhone(int phone_id)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            int case_id = (int)Session["case_id"];
+
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "DELETE FROM SUBSCRIBER_PHONES SA WHERE SUBSCRIBER_PHONE_ID=" + phone_id;
+            OracleCommand sql = new OracleCommand(statement, conn);
+            sql.ExecuteNonQuery();
+            conn.Close();
+            return RedirectToAction("Case", "Cases", new { case_id = case_id });
+        }
+
+        [HttpGet]
+        public ActionResult AddPhone(int subs_id)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "SELECT NAME FROM SOURCE_TYPES";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            OracleDataReader reader = sql.ExecuteReader();
+            List<string> sourceTypes = new List<string>();
+            try
+            {
+                while (reader.Read())
+                {
+                    sourceTypes.Add(reader.GetString(0));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            conn.Open();
+            statement = "SELECT NAME FROM PHONE_TYPES";
+            sql = new OracleCommand(statement, conn);
+            reader = sql.ExecuteReader();
+            List<string> phoneTypes = new List<string>();
+            try
+            {
+                while (reader.Read())
+                {
+                    phoneTypes.Add(reader.GetString(0));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            ViewBag.PhoneTypes = phoneTypes;
+            ViewBag.SourceTypes = sourceTypes;
+            ViewBag.AddPhoneCase = Session["case_id"];
+            Session["AddPhoneSubsId"] = subs_id;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddPhone(AddPhone phone)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            int case_id = (int)Session["case_id"];
+
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "CONTACT_DATA.ADD_PHONE";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            decimal finished_ok = 0;
+            sql.BindByName = true;
+            sql.CommandType = CommandType.StoredProcedure;
+            int subs_id = (int)Session["AddPhoneSubsId"];
+            Session["AddPhoneSubsId"] = null;
+            int v_main = 1;
+            if (!phone.main)
+            {
+                v_main = 0;
+            }
+
+            sql.Parameters.Add("P_MAIN", OracleDbType.Decimal, v_main, ParameterDirection.Input);
+            sql.Parameters.Add("P_TYPE", OracleDbType.Varchar2, phone.type, ParameterDirection.Input);
+            sql.Parameters.Add("P_SOURCE", OracleDbType.Varchar2, phone.source, ParameterDirection.Input);
+            sql.Parameters.Add("P_PHONE_NUMBER", OracleDbType.Varchar2, phone.phone_number, ParameterDirection.Input);
+            sql.Parameters.Add("P_SUBSCRIBER_ID", OracleDbType.Decimal, subs_id, ParameterDirection.Input);
+            sql.Parameters.Add("P_FINISHED_OK", OracleDbType.Decimal).Direction = ParameterDirection.Output;
+            sql.ExecuteNonQuery();
+            finished_ok = Convert.ToDecimal(((OracleDecimal)sql.Parameters["P_FINISHED_OK"].Value).Value);
+            switch (finished_ok)
+            {
+                case 1:
+                    return RedirectToAction("Case", "Cases", new { case_id = case_id });
+                default:
+                    TempData["ErrorAddPhone"] = "Something went wrong!";
+                    return RedirectToAction("AddPhone", "Cases", new { subs_id = subs_id });
+            }
+        }
+
+        [HttpGet]
+        public ActionResult EditPhone(int phone_id)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "SELECT NAME FROM SOURCE_TYPES";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            OracleDataReader reader = sql.ExecuteReader();
+            List<string> sourceTypes = new List<string>();
+            try
+            {
+                while (reader.Read())
+                {
+                    sourceTypes.Add(reader.GetString(0));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            conn.Open();
+            statement = "SELECT NAME FROM PHONE_TYPES";
+            sql = new OracleCommand(statement, conn);
+            reader = sql.ExecuteReader();
+            List<string> phoneTypes = new List<string>();
+            try
+            {
+                while (reader.Read())
+                {
+                    phoneTypes.Add(reader.GetString(0));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            conn.Open();
+            statement = "SELECT * FROM SUBSCRIBER_PHONES_V V WHERE V.SUBSCRIBER_PHONE_ID=" + phone_id;
+            sql = new OracleCommand(statement, conn);
+            EditPhone phone = new EditPhone();
+            reader = sql.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    phone.type = reader.GetString(1);
+                    phone.main = reader.GetBoolean(2);
+                    phone.phone_number = reader.GetString(3);
+                    phone.source = reader.GetString(4);
+                    phone.phone_id = reader.GetDecimal(7);
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            ViewBag.PhoneTypes = phoneTypes;
+            ViewBag.SourceTypes = sourceTypes;
+            ViewBag.EditPhoneCase = Session["case_id"];
+            return View(phone);
+        }
+
+        [HttpPost]
+        public ActionResult EditPhone(EditPhone phone)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            int case_id = (int)Session["case_id"];
+
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "CONTACT_DATA.EDIT_PHONE";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            decimal finished_ok = 0;
+            sql.BindByName = true;
+            sql.CommandType = CommandType.StoredProcedure;
+            int v_main = 1;
+            if (!phone.main)
+            {
+                v_main = 0;
+            }
+
+            sql.Parameters.Add("P_MAIN", OracleDbType.Decimal, v_main, ParameterDirection.Input);
+            sql.Parameters.Add("P_TYPE", OracleDbType.Varchar2, phone.type, ParameterDirection.Input);
+            sql.Parameters.Add("P_PHONE_NUMBER", OracleDbType.Varchar2, phone.phone_number, ParameterDirection.Input);
+            sql.Parameters.Add("P_SOURCE", OracleDbType.Varchar2, phone.source, ParameterDirection.Input);
+            sql.Parameters.Add("P_PHONE_ID", OracleDbType.Decimal, phone.phone_id, ParameterDirection.Input);
+            sql.Parameters.Add("P_FINISHED_OK", OracleDbType.Decimal).Direction = ParameterDirection.Output;
+            sql.ExecuteNonQuery();
+            finished_ok = Convert.ToDecimal(((OracleDecimal)sql.Parameters["P_FINISHED_OK"].Value).Value);
+            switch (finished_ok)
+            {
+                case 1:
+                    return RedirectToAction("Case", "Cases", new { case_id = case_id });
+                default:
+                    TempData["ErrorEditPhone"] = "Something went wrong!";
+                    return RedirectToAction("EditPhone", "Cases", new { phone_id = phone.phone_id });
             }
         }
 

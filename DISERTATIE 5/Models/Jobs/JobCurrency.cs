@@ -1,18 +1,26 @@
 ﻿using DISERTATIE_5.Utils;
+using FluentScheduler;
 using Oracle.ManagedDataAccess.Client;
-using Quartz;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web;
 
-namespace DISERTATIE_5.Models
+namespace DISERTATIE_5.Models.Jobs
 {
-    public class JobCurrency : IJob
+    public class JobCurrency:Registry
     {
-        public Task Execute(IJobExecutionContext context)
+        public JobCurrency()
+        {
+            Schedule<MyJob>().ToRunEvery(1).Days().At(hours:16, minutes:20);
+        }
+    }
+    public class MyJob : IJob
+    {
+
+        void IJob.Execute()
         {
             string tns = TNS.tns;
             OracleConnection conn = new OracleConnection();
@@ -55,9 +63,8 @@ namespace DISERTATIE_5.Models
                 reader.Close();
                 conn.Close();
             }
-
-            DateTime current_Date = DateTime.Now;
-            for (DateTime dt = last_update_currency; dt < current_Date.AddDays(0); dt = dt.AddDays(1))
+            DateTime current_Date = DateTime.Today;
+            for (DateTime dt = last_update_currency; dt <= current_Date; dt = dt.AddDays(1))
             {
                 HtmlAgilityPack.HtmlWeb website = new HtmlAgilityPack.HtmlWeb();
                 string link = "https://www.cursbnr.ro/arhiva-curs-bnr-" + dt.Year + "-" + dt.Month.ToString("00") + "-" + dt.Day.ToString("00");
@@ -96,7 +103,6 @@ namespace DISERTATIE_5.Models
                     conn.Close();
                 }
             }
-            throw new NotImplementedException();
         }
     }
 }

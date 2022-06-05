@@ -51,6 +51,14 @@
             <img src="~/Resources/Cases Logo.png" style="width:150px; height:auto" />
             <div style="text-align:center; padding-top:20px; font-size:large; color:#9c301a">CASES</div>
         </div>
+        <div class="applications" onclick="@("window.location.href='" + @Url.Action("Loading", "Loading") + "'");">
+            <img src="~/Resources/Loading Logo.png" style="width:150px; height:auto" />
+            <div style="text-align:center; padding-top:20px; font-size:large; color:#9c301a">LOADING</div>
+        </div>
+        <div class="applications" onclick="@("window.location.href='" + @Url.Action("Search", "Assets") + "'");">
+            <img src="~/Resources/Assets Logo.png" style="width:150px; height:auto" />
+            <div style="text-align:center; padding-top:20px; font-size:large; color:#9c301a">ASSETS</div>
+        </div>
         <div class="applications" onclick="@("window.location.href='" + @Url.Action("AdminClients", "Admin") + "'");">
             <img src="~/Resources/Admin Logo.png" style=" width: 150px; height: auto;" />
             <div style="text-align:center; padding-top:20px; font-size:large; color:#9c301a">ADMIN</div>

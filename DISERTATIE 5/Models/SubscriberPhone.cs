@@ -14,5 +14,6 @@ namespace DISERTATIE_5.Models
         public string source_type { get; set; }
         public string created_by { get; set; }
         public DateTime creation_date { get; set; }
+        public decimal subs_phone_id { get; set; }
     }
 }
