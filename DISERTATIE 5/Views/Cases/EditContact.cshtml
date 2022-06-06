@@ -1,4 +1,4 @@
-﻿@model DISERTATIE_5.Models.AddPhone
+﻿@model DISERTATIE_5.Models.EditContact
 
 @{
     Layout = null;
@@ -9,12 +9,12 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>AddPhone</title>
+    <title>EditContact</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body style="padding: 0; background-color:#3a3a3c">
-    @if (TempData["ErrorAddPhone"] != null)
+    @if (TempData["ErrorEditContact"] != null)
     {
         <div class="modal" tabindex="-1" role="dialog" style="display:block" id="modal">
             <div class="modal-dialog" role="document">
@@ -23,7 +23,7 @@
                         <h3 class="modal-title">Error!</h3>
                     </div>
                     <div class="modal-body">
-                        <h4>@TempData["ErrorAddPhone"].ToString()</h4>
+                        <h4>@TempData["ErrorEditContact"].ToString()</h4>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="buttonclose" style="background-color:#9c301a; color:white">Close</button>
@@ -73,29 +73,75 @@
 
             <div class="form-horizontal" style="color:white">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group" style="width:100%">
-                    @Html.LabelFor(model => model.main, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="form-group" style="width:100%; display:none">
+                    @Html.LabelFor(model => model.subs_contact_id, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        <div class="checkbox">
-                            @Html.EditorFor(model => model.main)
-                            @Html.ValidationMessageFor(model => model.main, "", new { @class = "text-danger" })
-                        </div>
+                        @Html.EditorFor(model => model.subs_contact_id, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.subs_contact_id, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group" style="width:100%">
                     @Html.LabelFor(model => model.type, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10" style="padding-top:7px; color:black">
-                        @Html.DropDownListFor(model => model.type, new SelectList(ViewBag.PhoneTypes), new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.DropDownListFor(model => model.type, new SelectList(ViewBag.ContactTypes), new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.type, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group" style="width:100%">
-                    @Html.LabelFor(model => model.phone_number, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.first_name, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.phone_number, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.phone_number, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.first_name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.first_name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" style="width:100%">
+                    @Html.LabelFor(model => model.last_name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.last_name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.last_name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" style="width:100%">
+                    @Html.LabelFor(model => model.city, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.city, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.city, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" style="width:100%">
+                    @Html.LabelFor(model => model.address, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.address, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.address, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" style="width:100%">
+                    @Html.LabelFor(model => model.postal_code, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.postal_code, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.postal_code, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" style="width:100%">
+                    @Html.LabelFor(model => model.phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" style="width:100%">
+                    @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -109,14 +155,15 @@
 
                 <div class="form-group" style="width:100%">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Add" class="btn btn-default" style="background-color:#9c301a; color:white; border:none" />
+                        <input type="submit" value="Modify" class="btn btn-default" style="background-color:#9c301a; color:white; border:none" />
                     </div>
                 </div>
             </div>
         }
+
         <div class="form-group" style="text-align:center; padding:20px 0 0 0">
             <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
-                <input value="Back" class="btn btn-primary" style="background-color:#9c301a; border-color:#9c301a; width:60px" onclick="@("window.location.href='" + @Url.Action("Case", "Cases", new { case_id = ViewBag.AddPhoneCase }) + "'")">
+                <input value="Back" class="btn btn-primary" style="background-color:#9c301a; border-color:#9c301a; width:60px" onclick="@("window.location.href='" + @Url.Action("Case", "Cases", new { case_id = ViewBag.EditContactCase }) + "'")">
             </div>
         </div>
     </div>

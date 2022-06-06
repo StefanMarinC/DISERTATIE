@@ -197,6 +197,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AddAddress.cs" />
+    <Compile Include="Models\AddContact.cs" />
     <Compile Include="Models\AddCost.cs" />
     <Compile Include="Models\AddDebt.cs" />
     <Compile Include="Models\AddDiscount.cs" />
@@ -233,10 +234,13 @@
     <Compile Include="Models\CASE_DETAILS_V.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AddEmail.cs" />
     <Compile Include="Models\CLIENTS.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EditAddress.cs" />
+    <Compile Include="Models\EditContact.cs" />
+    <Compile Include="Models\EditEmail.cs" />
     <Compile Include="Models\EditPhone.cs" />
     <Compile Include="Models\EditSubscriberCase.cs" />
     <Compile Include="Models\Emails.cs" />
@@ -427,6 +431,10 @@
     <Content Include="Views\Loading\Loading.cshtml" />
     <Content Include="Views\Cases\AddPhone.cshtml" />
     <Content Include="Views\Cases\EditPhone.cshtml" />
+    <Content Include="Views\Cases\AddEmail.cshtml" />
+    <Content Include="Views\Cases\EditEmail.cshtml" />
+    <Content Include="Views\Cases\AddContact.cshtml" />
+    <Content Include="Views\Cases\EditContact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

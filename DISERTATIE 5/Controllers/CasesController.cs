@@ -389,6 +389,7 @@ namespace DISERTATIE_5.Controllers
                             subs_email.source_type = (string)reader2.GetValue(4);
                             subs_email.created_by = (string)reader2.GetValue(5);
                             subs_email.creation_date = (DateTime)reader2.GetValue(6);
+                            subs_email.subs_email_id = reader2.GetDecimal(7);
                             subs_emails.Add(subs_email);
                         }
                     }
@@ -414,6 +415,7 @@ namespace DISERTATIE_5.Controllers
                             subs_contact.phone = (string)reader2.GetValue(7);
                             subs_contact.email = (string)reader2.GetValue(8);
                             subs_contact.source_type = (string)reader2.GetValue(9);
+                            subs_contact.subs_contact_id = reader2.GetDecimal(10);
                             subs_contacts.Add(subs_contact);
                         }
                     }
@@ -1883,6 +1885,476 @@ namespace DISERTATIE_5.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult DeleteEmail(int email_id)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            int case_id = (int)Session["case_id"];
+
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "DELETE FROM SUBSCRIBER_EMAILS SA WHERE SUBSCRIBER_EMAIL_ID=" + email_id;
+            OracleCommand sql = new OracleCommand(statement, conn);
+            sql.ExecuteNonQuery();
+            conn.Close();
+            return RedirectToAction("Case", "Cases", new { case_id = case_id });
+        }
+
+        [HttpGet]
+        public ActionResult AddEmail(int subs_id)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "SELECT NAME FROM SOURCE_TYPES";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            OracleDataReader reader = sql.ExecuteReader();
+            List<string> sourceTypes = new List<string>();
+            try
+            {
+                while (reader.Read())
+                {
+                    sourceTypes.Add(reader.GetString(0));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            conn.Open();
+            statement = "SELECT NAME FROM EMAIL_TYPES";
+            sql = new OracleCommand(statement, conn);
+            reader = sql.ExecuteReader();
+            List<string> emailTypes = new List<string>();
+            try
+            {
+                while (reader.Read())
+                {
+                    emailTypes.Add(reader.GetString(0));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            ViewBag.EmailTypes = emailTypes;
+            ViewBag.SourceTypes = sourceTypes;
+            ViewBag.AddEmailCase = Session["case_id"];
+            Session["AddEmailSubsId"] = subs_id;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddEmail(AddEmail email)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            int case_id = (int)Session["case_id"];
+
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "CONTACT_DATA.ADD_EMAIL";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            decimal finished_ok = 0;
+            sql.BindByName = true;
+            sql.CommandType = CommandType.StoredProcedure;
+            int subs_id = (int)Session["AddEmailSubsId"];
+            Session["AddEmailSubsId"] = null;
+            int v_main = 1;
+            if (!email.main)
+            {
+                v_main = 0;
+            }
+
+            sql.Parameters.Add("P_MAIN", OracleDbType.Decimal, v_main, ParameterDirection.Input);
+            sql.Parameters.Add("P_TYPE", OracleDbType.Varchar2, email.type, ParameterDirection.Input);
+            sql.Parameters.Add("P_SOURCE", OracleDbType.Varchar2, email.source, ParameterDirection.Input);
+            sql.Parameters.Add("P_EMAIL", OracleDbType.Varchar2, email.email_address, ParameterDirection.Input);
+            sql.Parameters.Add("P_SUBSCRIBER_ID", OracleDbType.Decimal, subs_id, ParameterDirection.Input);
+            sql.Parameters.Add("P_FINISHED_OK", OracleDbType.Decimal).Direction = ParameterDirection.Output;
+            sql.ExecuteNonQuery();
+            finished_ok = Convert.ToDecimal(((OracleDecimal)sql.Parameters["P_FINISHED_OK"].Value).Value);
+            switch (finished_ok)
+            {
+                case 1:
+                    return RedirectToAction("Case", "Cases", new { case_id = case_id });
+                default:
+                    TempData["ErrorAddEmail"] = "Something went wrong!";
+                    return RedirectToAction("AddEmail", "Cases", new { subs_id = subs_id });
+            }
+        }
+
+        [HttpGet]
+        public ActionResult EditEmail(int email_id)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "SELECT NAME FROM SOURCE_TYPES";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            OracleDataReader reader = sql.ExecuteReader();
+            List<string> sourceTypes = new List<string>();
+            try
+            {
+                while (reader.Read())
+                {
+                    sourceTypes.Add(reader.GetString(0));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            conn.Open();
+            statement = "SELECT NAME FROM EMAIL_TYPES";
+            sql = new OracleCommand(statement, conn);
+            reader = sql.ExecuteReader();
+            List<string> emailTypes = new List<string>();
+            try
+            {
+                while (reader.Read())
+                {
+                    emailTypes.Add(reader.GetString(0));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            conn.Open();
+            statement = "SELECT * FROM SUBSCRIBER_EMAILS_V V WHERE V.SUBSCRIBER_EMAIL_ID=" + email_id;
+            sql = new OracleCommand(statement, conn);
+            EditEmail email = new EditEmail();
+            reader = sql.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    email.type = reader.GetString(1);
+                    email.main = reader.GetBoolean(2);
+                    email.email_address = reader.GetString(3);
+                    email.source = reader.GetString(4);
+                    email.email_id = reader.GetDecimal(7);
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            ViewBag.EmailTypes = emailTypes;
+            ViewBag.SourceTypes = sourceTypes;
+            ViewBag.EditEmailCase = Session["case_id"];
+            return View(email);
+        }
+
+        [HttpPost]
+        public ActionResult EditEmail(EditEmail email)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            int case_id = (int)Session["case_id"];
+
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "CONTACT_DATA.EDIT_EMAIL";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            decimal finished_ok = 0;
+            sql.BindByName = true;
+            sql.CommandType = CommandType.StoredProcedure;
+            int v_main = 1;
+            if (!email.main)
+            {
+                v_main = 0;
+            }
+
+            sql.Parameters.Add("P_MAIN", OracleDbType.Decimal, v_main, ParameterDirection.Input);
+            sql.Parameters.Add("P_TYPE", OracleDbType.Varchar2, email.type, ParameterDirection.Input);
+            sql.Parameters.Add("P_EMAIL", OracleDbType.Varchar2, email.email_address, ParameterDirection.Input);
+            sql.Parameters.Add("P_SOURCE", OracleDbType.Varchar2, email.source, ParameterDirection.Input);
+            sql.Parameters.Add("P_EMAIL_ID", OracleDbType.Decimal, email.email_id, ParameterDirection.Input);
+            sql.Parameters.Add("P_FINISHED_OK", OracleDbType.Decimal).Direction = ParameterDirection.Output;
+            sql.ExecuteNonQuery();
+            finished_ok = Convert.ToDecimal(((OracleDecimal)sql.Parameters["P_FINISHED_OK"].Value).Value);
+            switch (finished_ok)
+            {
+                case 1:
+                    return RedirectToAction("Case", "Cases", new { case_id = case_id });
+                default:
+                    TempData["ErrorEditEmail"] = "Something went wrong!";
+                    return RedirectToAction("EditEmail", "Cases", new { email_id = email.email_id });
+            }
+        }
+
+        [HttpGet]
+        public ActionResult DeleteContact(int contact_id)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            int case_id = (int)Session["case_id"];
+
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "DELETE FROM SUBSCRIBER_CONTACTS SA WHERE SUBSCRIBER_CONTACT_ID=" + contact_id;
+            OracleCommand sql = new OracleCommand(statement, conn);
+            sql.ExecuteNonQuery();
+            conn.Close();
+            return RedirectToAction("Case", "Cases", new { case_id = case_id });
+        }
+
+        [HttpGet]
+        public ActionResult AddContact(int subs_id)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "SELECT NAME FROM SOURCE_TYPES";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            OracleDataReader reader = sql.ExecuteReader();
+            List<string> sourceTypes = new List<string>();
+            try
+            {
+                while (reader.Read())
+                {
+                    sourceTypes.Add(reader.GetString(0));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            conn.Open();
+            statement = "SELECT NAME FROM CONTACT_TYPES";
+            sql = new OracleCommand(statement, conn);
+            reader = sql.ExecuteReader();
+            List<string> contactTypes = new List<string>();
+            try
+            {
+                while (reader.Read())
+                {
+                    contactTypes.Add(reader.GetString(0));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            ViewBag.ContactTypes = contactTypes;
+            ViewBag.SourceTypes = sourceTypes;
+            ViewBag.AddContactCase = Session["case_id"];
+            Session["AddContactSubsId"] = subs_id;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddContact(AddContact contact)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            int case_id = (int)Session["case_id"];
+
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "CONTACT_DATA.ADD_CONTACT";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            decimal finished_ok = 0;
+            sql.BindByName = true;
+            sql.CommandType = CommandType.StoredProcedure;
+            int subs_id = (int)Session["AddContactSubsId"];
+            Session["AddContactSubsId"] = null;
+
+            sql.Parameters.Add("P_TYPE", OracleDbType.Varchar2, contact.type, ParameterDirection.Input);
+            sql.Parameters.Add("P_FIRST_NAME", OracleDbType.Varchar2, contact.first_name, ParameterDirection.Input);
+            sql.Parameters.Add("P_LAST_NAME", OracleDbType.Varchar2, contact.last_name, ParameterDirection.Input);
+            sql.Parameters.Add("P_CITY", OracleDbType.Varchar2, contact.city, ParameterDirection.Input);
+            sql.Parameters.Add("P_ADDRESS", OracleDbType.Varchar2, contact.address, ParameterDirection.Input);
+            sql.Parameters.Add("P_POSTAL_CODE", OracleDbType.Varchar2, contact.postal_code, ParameterDirection.Input);
+            sql.Parameters.Add("P_PHONE", OracleDbType.Varchar2, contact.phone, ParameterDirection.Input);
+            sql.Parameters.Add("P_EMAIL", OracleDbType.Varchar2, contact.email, ParameterDirection.Input);
+            sql.Parameters.Add("P_SOURCE", OracleDbType.Varchar2, contact.source, ParameterDirection.Input);
+            sql.Parameters.Add("P_SUBSCRIBER_ID", OracleDbType.Decimal, subs_id, ParameterDirection.Input);
+            sql.Parameters.Add("P_FINISHED_OK", OracleDbType.Decimal).Direction = ParameterDirection.Output;
+            sql.ExecuteNonQuery();
+            finished_ok = Convert.ToDecimal(((OracleDecimal)sql.Parameters["P_FINISHED_OK"].Value).Value);
+            switch (finished_ok)
+            {
+                case 1:
+                    return RedirectToAction("Case", "Cases", new { case_id = case_id });
+                default:
+                    TempData["ErrorAddContact"] = "Something went wrong!";
+                    return RedirectToAction("AddContact", "Cases", new { subs_id = subs_id });
+            }
+        }
+
+        [HttpGet]
+        public ActionResult EditContact(int contact_id)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "SELECT NAME FROM SOURCE_TYPES";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            OracleDataReader reader = sql.ExecuteReader();
+            List<string> sourceTypes = new List<string>();
+            try
+            {
+                while (reader.Read())
+                {
+                    sourceTypes.Add(reader.GetString(0));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            conn.Open();
+            statement = "SELECT NAME FROM CONTACT_TYPES";
+            sql = new OracleCommand(statement, conn);
+            reader = sql.ExecuteReader();
+            List<string> contactTypes = new List<string>();
+            try
+            {
+                while (reader.Read())
+                {
+                    contactTypes.Add(reader.GetString(0));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            conn.Open();
+            statement = "SELECT * FROM SUBSCRIBER_CONTACTS_V V WHERE V.SUBSCRIBER_CONTACT_ID=" + contact_id;
+            sql = new OracleCommand(statement, conn);
+            EditContact contact = new EditContact();
+            reader = sql.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    contact.type = reader.GetString(1);
+                    contact.first_name = reader.GetString(2);
+                    contact.last_name = reader.GetString(3);
+                    contact.address = reader.GetString(4);
+                    contact.city = reader.GetString(5);
+                    contact.postal_code = reader.GetString(6);
+                    contact.phone = reader.GetString(7);
+                    contact.email = reader.GetString(8);
+                    contact.source = reader.GetString(9);
+                    contact.subs_contact_id = reader.GetDecimal(10);
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            ViewBag.ContactTypes = contactTypes;
+            ViewBag.SourceTypes = sourceTypes;
+            ViewBag.EditContactCase = Session["case_id"];
+            return View(contact);
+        }
+
+        [HttpPost]
+        public ActionResult EditContact(EditContact contact)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            int case_id = (int)Session["case_id"];
+
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "CONTACT_DATA.EDIT_CONTACT";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            decimal finished_ok = 0;
+            sql.BindByName = true;
+            sql.CommandType = CommandType.StoredProcedure;
+
+            sql.Parameters.Add("P_TYPE", OracleDbType.Varchar2, contact.type, ParameterDirection.Input);
+            sql.Parameters.Add("P_FIRST_NAME", OracleDbType.Varchar2, contact.first_name, ParameterDirection.Input);
+            sql.Parameters.Add("P_LAST_NAME", OracleDbType.Varchar2, contact.last_name, ParameterDirection.Input);
+            sql.Parameters.Add("P_CITY", OracleDbType.Varchar2, contact.city, ParameterDirection.Input);
+            sql.Parameters.Add("P_ADDRESS", OracleDbType.Varchar2, contact.address, ParameterDirection.Input);
+            sql.Parameters.Add("P_POSTAL_CODE", OracleDbType.Varchar2, contact.postal_code, ParameterDirection.Input);
+            sql.Parameters.Add("P_PHONE", OracleDbType.Varchar2, contact.phone, ParameterDirection.Input);
+            sql.Parameters.Add("P_EMAIL", OracleDbType.Varchar2, contact.email, ParameterDirection.Input);
+            sql.Parameters.Add("P_SOURCE", OracleDbType.Varchar2, contact.source, ParameterDirection.Input);
+            sql.Parameters.Add("P_CONTACT_ID", OracleDbType.Decimal, contact.subs_contact_id, ParameterDirection.Input);
+            sql.Parameters.Add("P_FINISHED_OK", OracleDbType.Decimal).Direction = ParameterDirection.Output;
+            sql.ExecuteNonQuery();
+            finished_ok = Convert.ToDecimal(((OracleDecimal)sql.Parameters["P_FINISHED_OK"].Value).Value);
+            switch (finished_ok)
+            {
+                case 1:
+                    return RedirectToAction("Case", "Cases", new { case_id = case_id });
+                default:
+                    TempData["ErrorEditContact"] = "Something went wrong!";
+                    return RedirectToAction("EditContact", "Cases", new { contact_id = contact.subs_contact_id });
+            }
+        }
         [HttpGet]
         public ActionResult SendEmail(int case_id, string email_template)
         {

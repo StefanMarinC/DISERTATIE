@@ -17,5 +17,6 @@ namespace DISERTATIE_5.Models
         public string phone { get; set; }
         public string email { get; set; }
         public string source_type { get; set; }
+        public decimal subs_contact_id { get; set; }
     }
 }

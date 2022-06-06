@@ -432,7 +432,7 @@
                                             <div style="font-weight:bold; font-size:large">
                                                 Emails
                                             </div>
-                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center">
+                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center"  onclick="@("window.location.href='" + @Url.Action("AddEmail", "Cases", new { subs_id = subs.subscriber_id}) + "'")">
                                                 <img src="~/Resources/Add.png" style="width:15px; height:15px;" />
                                             </button>
                                         </div>
@@ -463,12 +463,12 @@
                                                                 </div>
                                                             </div>
                                                             <div style="padding-top:2px; padding-bottom:2px; padding-right:5px">
-                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center">
+                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center" onclick="@("window.location.href='" + @Url.Action("EditEmail", "Cases", new { email_id = subs_email.subs_email_id}) + "'")">
                                                                     <img src="~/Resources/Edit.png" style="width:15px; height:15px;" />
                                                                 </button>
                                                                 <div style="margin-bottom:5px">
                                                                 </div>
-                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center">
+                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center" onclick="@("window.location.href='" + @Url.Action("DeleteEmail", "Cases", new { email_id = subs_email.subs_email_id}) + "'")">
                                                                     <img src="~/Resources/Add.png" style="width:15px; height:15px; transform:rotate(45deg)" />
                                                                 </button>
                                                             </div>
@@ -492,12 +492,12 @@
                                                                 </div>
                                                             </div>
                                                             <div style="padding-top:2px; padding-bottom:2px; padding-right:5px">
-                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center">
+                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center" onclick="@("window.location.href='" + @Url.Action("EditEmail", "Cases", new { email_id = subs_email.subs_email_id}) + "'")">
                                                                     <img src="~/Resources/Edit.png" style="width:15px; height:15px;" />
                                                                 </button>
                                                                 <div style="margin-bottom:5px">
                                                                 </div>
-                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center">
+                                                                <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center"  onclick="@("window.location.href='" + @Url.Action("DeleteEmail", "Cases", new { email_id = subs_email.subs_email_id}) + "'")">
                                                                     <img src="~/Resources/Add.png" style="width:15px; height:15px; transform:rotate(45deg)" />
                                                                 </button>
                                                             </div>
@@ -515,7 +515,7 @@
                                             <div style="font-weight:bold; font-size:large">
                                                 Contacts
                                             </div>
-                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center">
+                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center"  onclick="@("window.location.href='" + @Url.Action("AddContact", "Cases", new { subs_id = subs.subscriber_id}) + "'")">
                                                 <img src="~/Resources/Add.png" style="width:15px; height:15px;" />
                                             </button>
                                         </div>
@@ -542,12 +542,12 @@
                                                             </div>
                                                         </div>
                                                         <div style="padding-top:2px; padding-bottom:2px; padding-right:5px">
-                                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center" onclick="@("window.location.href='" + @Url.Action("EditContact", "Cases", new { contact_id = subs_contact.subs_contact_id}) + "'")">
                                                                 <img src="~/Resources/Edit.png" style="width:15px; height:15px;" />
                                                             </button>
                                                             <div style="margin-bottom:5px">
                                                             </div>
-                                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center" onclick="@("window.location.href='" + @Url.Action("DeleteContact", "Cases", new { contact_id = subs_contact.subs_contact_id}) + "'")">
                                                                 <img src="~/Resources/Add.png" style="width:15px; height:15px; transform:rotate(45deg)" />
                                                             </button>
                                                         </div>
@@ -819,7 +819,7 @@
                                             <div style="font-weight:bold; font-size:large">
                                                 Emails
                                             </div>
-                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center">
+                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center"  onclick="@("window.location.href='" + @Url.Action("AddEmail", "Cases", new { subs_id = subs.subscriber_id}) + "'")">
                                                 <img src="~/Resources/Add.png" style="width:15px; height:15px;" />
                                             </button>
                                         </div>
@@ -902,7 +902,7 @@
                                             <div style="font-weight:bold; font-size:large">
                                                 Contacts
                                             </div>
-                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center">
+                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center"  onclick="@("window.location.href='" + @Url.Action("AddContact", "Cases", new { subs_id = subs.subscriber_id}) + "'")">
                                                 <img src="~/Resources/Add.png" style="width:15px; height:15px;" />
                                             </button>
                                         </div>
@@ -929,12 +929,12 @@
                                                             </div>
                                                         </div>
                                                         <div style="padding-top:2px; padding-bottom:2px; padding-right:5px">
-                                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center" onclick="@("window.location.href='" + @Url.Action("EditContact", "Cases", new { contact_id = subs_contact.subs_contact_id}) + "'")">
                                                                 <img src="~/Resources/Edit.png" style="width:15px; height:15px;" />
                                                             </button>
                                                             <div style="margin-bottom:5px">
                                                             </div>
-                                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center" onclick="@("window.location.href='" + @Url.Action("DeleteContact", "Cases", new { contact_id = subs_contact.subs_contact_id}) + "'")">
                                                                 <img src="~/Resources/Add.png" style="width:15px; height:15px; transform:rotate(45deg)" />
                                                             </button>
                                                         </div>
