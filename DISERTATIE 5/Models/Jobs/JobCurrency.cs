@@ -14,7 +14,7 @@ namespace DISERTATIE_5.Models.Jobs
     {
         public JobCurrency()
         {
-            Schedule<MyJob>().ToRunEvery(1).Days().At(hours:16, minutes:20);
+            Schedule<MyJob>().ToRunEvery(1).Days().At(hours:14, minutes:05);
         }
     }
     public class MyJob : IJob

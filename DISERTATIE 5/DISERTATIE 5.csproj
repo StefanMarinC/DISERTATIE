@@ -201,6 +201,8 @@
     <Compile Include="Models\AddCost.cs" />
     <Compile Include="Models\AddDebt.cs" />
     <Compile Include="Models\AddDiscount.cs" />
+    <Compile Include="Models\AddPA.cs" />
+    <Compile Include="Models\AddPAsummary.cs" />
     <Compile Include="Models\AddPayment.cs" />
     <Compile Include="Models\ADDRESS_TYPES.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -265,6 +267,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\PAdetails.cs" />
+    <Compile Include="Models\PAinstallDetails.cs" />
     <Compile Include="Models\SEC_USERS.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -294,6 +298,7 @@
     </Compile>
     <Compile Include="Models\UserLogin.cs" />
     <Compile Include="Models\UserSecurity.cs" />
+    <Compile Include="Models\ViewPA.cs" />
     <Compile Include="Models\ZONE_TYPES.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -435,6 +440,9 @@
     <Content Include="Views\Cases\EditEmail.cshtml" />
     <Content Include="Views\Cases\AddContact.cshtml" />
     <Content Include="Views\Cases\EditContact.cshtml" />
+    <Content Include="Views\Cases\AddPA.cshtml" />
+    <Content Include="Views\Cases\AddPAsummary.cshtml" />
+    <Content Include="Views\Cases\ViewPA.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

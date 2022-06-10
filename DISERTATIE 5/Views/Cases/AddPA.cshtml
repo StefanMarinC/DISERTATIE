@@ -1,0 +1,137 @@
+﻿@model DISERTATIE_5.Models.AddPA
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddPA</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body style="padding: 0; background-color:#3a3a3c">
+    @if (TempData["ErrorAddPA"] != null)
+    {
+        <div class="modal" tabindex="-1" role="dialog" style="display:block" id="modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Error!</h3>
+                    </div>
+                    <div class="modal-body">
+                        <h4>@TempData["ErrorAddPA"].ToString()</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="buttonclose" style="background-color:#9c301a; color:white">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var modal = document.getElementById("modal");
+            var btn = document.getElementById("buttonclose");
+
+            btn.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
+    }
+    <div style="background-color:#9c301a; height:75px;">
+        <div style="display:flex; padding-left:20px;">
+            <img src="~/Resources/Logo.png" style="height:75px; width:180px; cursor:pointer" onclick="@("window.location.href='" + @Url.Action("Home", "Home") + "'")" />
+            <div style="width:75%; text-align:center; height:75px">
+                <div style="font-size:large; font-family:Arial sans-serif; font-weight:bold; color:white; padding-top:20px">
+                    CASES
+                </div>
+            </div>
+            <div style="width:220px; height:75px; display:flex; justify-content:space-around">
+                <div style="font-size:large; font-family:Arial sans-serif; color:white; padding-top:20px;">
+                    @Session["Username"].ToString()
+                </div>
+                <div class="form-group" style="text-align:center; padding:20px 0 0 0">
+                    <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
+                        <input value="Logout" class="btn btn-primary" style="background-color:lightslategray; border-color:lightslategray; width:100px" onclick="@("window.location.href='" + @Url.Action("Logout", "Login") + "'")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="padding-top:50px;">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal" style="color:white">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group" style="width:100%">
+                    @Html.LabelFor(model => model.person, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.person, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = ViewBag.Person } })
+                        @Html.ValidationMessageFor(model => model.person, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" style="width:100%">
+                    @Html.LabelFor(model => model.amount, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.amount, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)" } })
+                        @Html.ValidationMessageFor(model => model.amount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" style="width:100%">
+                    @Html.LabelFor(model => model.periods, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.periods, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return event.charCode >= 48 && event.charCode <= 57" } })
+                        @Html.ValidationMessageFor(model => model.periods, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" style="width:100%">
+                    @Html.LabelFor(model => model.installment_type, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10" style="padding-top:7px; color:black">
+                        @Html.DropDownListFor(model => model.installment_type, new SelectList(ViewBag.InstallmentTypes), new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.installment_type, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" style="width:100%">
+                    @Html.LabelFor(model => model.start_date, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.start_date, new { htmlAttributes = new { @class = "form-control", @type = "date", @min = DateTime.Today.ToString("yyyy-MM-dd") } })
+                        @Html.ValidationMessageFor(model => model.start_date, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" style="width:100%">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Calculate" class="btn btn-default" style="background-color:#9c301a; color:white; border:none" />
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="form-group" style="text-align:center; padding:20px 0 0 0">
+            <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
+                <input value="Back" class="btn btn-primary" style="background-color:#9c301a; border-color:#9c301a; width:100px" onclick="@("window.location.href='" + @Url.Action("Case", "Cases", new { case_id = Session["case_id"] }) + "'")">
+            </div>
+        </div>
+
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+</body>
+</html>

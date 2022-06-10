@@ -561,7 +561,7 @@ namespace DISERTATIE_5.Controllers
             }
             List<Emails> emails = new List<Emails>();
             conn.Open();
-            statement = "SELECT TL.NAME, EMAIL_TO, SENT_DATE, CASE_ID, EML_SENT_QUEUE_ID FROM EML_SENT_QUEUES SQ JOIN EML_TEMPLATES TL ON TL.EML_TEMPLATE_ID=SQ.EML_TEMPLATE_ID WHERE CASE_ID=" + case_id+ " ORDER BY SENT_DATE DESC";
+            statement = "SELECT TL.NAME, EMAIL_TO, SENT_DATE, CASE_ID, EML_SENT_QUEUE_ID, STATUS FROM EML_SENT_QUEUES SQ JOIN EML_TEMPLATES TL ON TL.EML_TEMPLATE_ID=SQ.EML_TEMPLATE_ID WHERE CASE_ID=" + case_id + " ORDER BY SENT_DATE DESC";
             sql = new OracleCommand(statement, conn);
             reader = sql.ExecuteReader();
             try
@@ -574,6 +574,7 @@ namespace DISERTATIE_5.Controllers
                     email.sent_time = reader.GetDateTime(2);
                     email.case_id = reader.GetDecimal(3);
                     email.email_id = reader.GetDecimal(4);
+                    email.status = reader.GetString(5);
 
                     emails.Add(email);
                 }
@@ -1568,10 +1569,10 @@ namespace DISERTATIE_5.Controllers
                     address.street = reader.GetString(3);
                     address.street_number = reader.GetString(4);
                     if (!reader.IsDBNull(5))
-                    { 
-                        address.building = reader.GetString(5); 
+                    {
+                        address.building = reader.GetString(5);
                     }
-                    if(!reader.IsDBNull(6))
+                    if (!reader.IsDBNull(6))
                     {
                         address.stair = reader.GetString(6);
                     }
@@ -2404,7 +2405,7 @@ namespace DISERTATIE_5.Controllers
             string statement = "SELECT CONTENT FROM EML_SENT_QUEUES WHERE EML_SENT_QUEUE_ID=" + email_id;
             OracleCommand sql = new OracleCommand(statement, conn);
             OracleDataReader reader = sql.ExecuteReader();
-            HtmlString html=new HtmlString("");
+            HtmlString html = new HtmlString("");
             try
             {
                 while (reader.Read())
@@ -2419,6 +2420,277 @@ namespace DISERTATIE_5.Controllers
             }
             ViewBag.EmailContent = html;
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult AddPA(int case_id)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "SELECT NAME FROM INSTALLMENT_TYPES";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            OracleDataReader reader = sql.ExecuteReader();
+            List<string> installmentTypes = new List<string>();
+            try
+            {
+                while (reader.Read())
+                {
+                    installmentTypes.Add(reader.GetString(0));
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            conn.Open();
+            statement = "SELECT FIRST_NAME||' '||LAST_NAME FROM ACCOUNTS A JOIN ACC_SUBS_INT ASI ON ASI.ACCOUNT_ID=A.ACCOUNT_ID JOIN SUBSCRIBERS S ON S.SUBSCRIBER_ID=ASI.SUBSCRIBER_ID WHERE A.CASE_ID=" + case_id + " AND ASI.MAIN=1";
+            sql = new OracleCommand(statement, conn);
+            reader = sql.ExecuteReader();
+            string person = null;
+            try
+            {
+                while (reader.Read())
+                {
+                    person = reader.GetString(0);
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            conn.Open();
+            statement = "SELECT AMOUNT_TO_PAY FROM FIN_ACCOUNT_DETAILS_V WHERE CASE_ID=" + case_id;
+            sql = new OracleCommand(statement, conn);
+            reader = sql.ExecuteReader();
+            float balance = 0;
+            try
+            {
+                while (reader.Read())
+                {
+                    balance = reader.GetFloat(0);
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            ViewBag.InstallmentTypes = installmentTypes;
+            ViewBag.Person = person;
+            ViewBag.Balance = balance;
+            Session["Balance"] = balance;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddPA(AddPA pa)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            if (pa.amount> (float)Session["Balance"])
+            {
+                TempData["ErrorAddPA"] = "The amount can't be greater then balance "+ Session["Balance"].ToString() + "!";
+                return RedirectToAction("AddPA", "Cases", new { case_id = Session["case_id"] }) ;
+            }
+
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "ACTIONS.CALCULATE_PA";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            sql.BindByName = true;
+            sql.CommandType = CommandType.StoredProcedure;
+
+            sql.Parameters.Add("P_AMOUNT", OracleDbType.Double, pa.amount, ParameterDirection.Input);
+            sql.Parameters.Add("P_PERIODS", OracleDbType.Decimal, pa.periods, ParameterDirection.Input);
+            sql.Parameters.Add("P_INSTALLMENT_TYPE", OracleDbType.Varchar2, pa.installment_type, ParameterDirection.Input);
+            sql.Parameters.Add("P_START_DATE", OracleDbType.Date, pa.start_date, ParameterDirection.Input);
+            sql.Parameters.Add("P_END_DATE", OracleDbType.Date).Direction = ParameterDirection.Output;
+            sql.Parameters.Add("P_INSTALLMENT_AMOUNT", OracleDbType.Double).Direction = ParameterDirection.Output;
+            sql.ExecuteNonQuery();
+
+            AddPAsummary summary = new AddPAsummary();
+            summary.person = pa.person;
+            summary.amount = pa.amount;
+            summary.amount_to_be_paid = (float)Session["Balance"];
+            summary.periods = pa.periods;
+            summary.start_date = pa.start_date;
+            summary.total_balance = (float)Session["Balance"];
+            summary.installment_type = pa.installment_type;
+            summary.end_date = Convert.ToDateTime(((OracleDate)sql.Parameters["P_END_DATE"].Value).Value);
+            summary.installment = (float) Convert.ToDouble(((OracleDecimal)sql.Parameters["P_INSTALLMENT_AMOUNT"].Value).Value);
+            TempData["pa_summary"] = summary;
+
+            return RedirectToAction("AddPAsummary", "Cases");
+        }
+
+        [HttpGet]
+        public ActionResult AddPAsummary()
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+
+            return View((AddPAsummary)TempData["pa_summary"]);
+        }
+
+        [HttpPost]
+        public ActionResult AddPAsummary(AddPAsummary pa)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "ACTIONS.ADD_PA";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            sql.BindByName = true;
+            sql.CommandType = CommandType.StoredProcedure;
+
+            sql.Parameters.Add("P_CASE_ID", OracleDbType.Decimal, Session["case_id"], ParameterDirection.Input);
+            sql.Parameters.Add("P_AMOUNT", OracleDbType.Double, pa.amount, ParameterDirection.Input);
+            sql.Parameters.Add("P_PERIODS", OracleDbType.Decimal, pa.periods, ParameterDirection.Input);
+            sql.Parameters.Add("P_START_DATE", OracleDbType.Date, pa.start_date, ParameterDirection.Input);
+            sql.Parameters.Add("P_END_DATE", OracleDbType.Date, pa.end_date, ParameterDirection.Input);
+            sql.Parameters.Add("P_INSTALLMENT_TYPE", OracleDbType.Varchar2, pa.installment_type, ParameterDirection.Input);
+            sql.Parameters.Add("P_INSTALLMENT_AMOUNT", OracleDbType.Single, pa.installment, ParameterDirection.Input);
+            sql.Parameters.Add("P_FINISHED_OK", OracleDbType.Decimal).Direction = ParameterDirection.Output;
+            sql.ExecuteNonQuery();
+            decimal finished_ok = Convert.ToDecimal(((OracleDecimal)sql.Parameters["P_FINISHED_OK"].Value).Value);
+            switch (finished_ok)
+            {
+                case 1:
+                    return RedirectToAction("Case", "Cases", new { case_id = Session["case_id"] });
+                default:
+                    TempData["ErrorAddPA"] = "Something went wrong!";
+                    return RedirectToAction("AddPA", "Cases", new { case_id = Session["case_id"] });
+            }
+        }
+
+        [HttpGet]
+        public ActionResult ViewPA(int case_id)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+
+            conn.Open();
+            string statement = "SELECT * FROM CURRENT_PA_DETAILS WHERE CASE_ID="+case_id;
+            OracleCommand sql = new OracleCommand(statement, conn);
+            OracleDataReader reader = sql.ExecuteReader();
+            PAdetails pAdetails = new PAdetails();
+            List<PAinstallDetails> PAinstallDetails = new List<PAinstallDetails>();
+            try
+            {
+                while (reader.Read())
+                {
+                    pAdetails.id = reader.GetDecimal(0);
+                    pAdetails.amount = reader.GetFloat(2);
+                    pAdetails.sold_amount = reader.GetFloat(3);
+                    pAdetails.amount_paid = reader.GetFloat(14);
+                    pAdetails.begin_date = reader.GetDateTime(4);
+                    pAdetails.due_date = reader.GetDateTime(5);
+                    switch (reader.GetString(6)) 
+                    {
+                        case "P":
+                            pAdetails.status = "Pending";
+                            break;
+                        case "C":
+                            pAdetails.status = "Cancelled";
+                            break;
+                        case "B":
+                            pAdetails.status = "Broken";
+                            break;
+                        case "K":
+                            pAdetails.status = "Kept";
+                            break;
+                        default:
+                            pAdetails.status = "";
+                            break;
+                    }
+                    pAdetails.creation_date = reader.GetDateTime(7);
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            if(pAdetails.status == null)
+            {
+                TempData["ErrorViewPA"] = "There is no payment agrement!";
+                return RedirectToAction("Case", "Cases", new { case_id = case_id });
+            }
+
+            conn.Open();
+            statement = "SELECT * FROM CURRENT_PA_INSTALL_DETAILS WHERE PA_INSTANCE_ID=" + pAdetails.id;
+            sql = new OracleCommand(statement, conn);
+            reader = sql.ExecuteReader();
+            try
+            {
+                int i = 1;
+                while (reader.Read())
+                {
+                    PAinstallDetails pAinstalls = new PAinstallDetails();
+                    pAinstalls.number = i;
+                    pAinstalls.due_date = reader.GetDateTime(4);
+                    pAinstalls.sold = reader.GetFloat(3);
+                    pAinstalls.paid = reader.GetFloat(2) - reader.GetFloat(3);
+                    switch (reader.GetString(5))
+                    {
+                        case "P":
+                            pAinstalls.status = "Pending";
+                            break;
+                        case "C":
+                            pAinstalls.status = "Cancelled";
+                            break;
+                        case "B":
+                            pAinstalls.status = "Broken";
+                            break;
+                        case "K":
+                            pAinstalls.status = "Kept";
+                            break;
+                        default:
+                            pAinstalls.status = "";
+                            break;
+                    }
+                    PAinstallDetails.Add(pAinstalls);
+                    i += 1;
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            ViewPA paData = new ViewPA();
+            paData.PAdetails = new PAdetails();
+            paData.PAinstallDetails = new List<PAinstallDetails>();
+            paData.PAdetails = pAdetails;
+            paData.PAinstallDetails = PAinstallDetails;
+            return View(paData);
         }
     }
 }

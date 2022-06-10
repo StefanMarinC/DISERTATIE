@@ -1,0 +1,128 @@
+﻿@model DISERTATIE_5.Models.ViewPA
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ViewPA</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body style="padding: 0; background-color:#3a3a3c">
+    <div style="background-color:#9c301a; height:75px;">
+        <div style="display:flex; padding-left:20px;">
+            <img src="~/Resources/Logo.png" style="height:75px; width:180px; cursor:pointer" onclick="@("window.location.href='" + @Url.Action("Home", "Home") + "'")" />
+            <div style="width:75%; text-align:center; height:75px">
+                <div style="font-size:large; font-family:Arial sans-serif; font-weight:bold; color:white; padding-top:20px">
+                    CASES
+                </div>
+            </div>
+            <div style="width:220px; height:75px; display:flex; justify-content:space-around">
+                <div style="font-size:large; font-family:Arial sans-serif; color:white; padding-top:20px;">
+                    @Session["Username"].ToString()
+                </div>
+                <div class="form-group" style="text-align:center; padding:20px 0 0 0">
+                    <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
+                        <input value="Logout" class="btn btn-primary" style="background-color:lightslategray; border-color:lightslategray; width:100px" onclick="@("window.location.href='" + @Url.Action("Logout", "Login") + "'")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display:flex; justify-content:center; padding-top:50px">
+        <div>
+            <div style="background-color: white; width:60vw; padding-left:20px; padding-right:20px">
+                <div style="text-align:center; padding-top:15px; font-weight:bold; font-size:larger">
+                    PA Details
+                </div>
+                <hr style="border:1px solid #9c301a" />
+
+                <table width=100%>
+                    <thead style="border-bottom:1px solid black; font-weight:bold">
+                        <tr style="text-align:center">
+                            <td>Status</td>
+
+                            <td>Creation date</td>
+
+                            <td>Amount</td>
+
+                            <td>Sold</td>
+
+                            <td>Paid</td>
+
+                            <td>Begin date</td>
+
+                            <td>Due date</td>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align:center">
+                        <tr>
+                            <td>@Model.PAdetails.status</td>
+                            <td>@Model.PAdetails.creation_date.ToString("dd/MM/yyyy")</td>
+
+                            <td>@Model.PAdetails.amount</td>
+
+                            <td>@Model.PAdetails.sold_amount</td>
+
+                            <td>@Model.PAdetails.amount_paid</td>
+
+                            <td>@Model.PAdetails.begin_date.ToString("dd/MM/yyyy")</td>
+
+                            <td>@Model.PAdetails.due_date.ToString("dd/MM/yyyy")</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr style="border:1px solid #9c301a" />
+                <div style="text-align:center; font-weight:bold; font-size:larger">
+                    PA installments
+                </div>
+                <hr style="border:1px solid #9c301a" />
+                <div style="background-color: white; padding-bottom:20px">
+                    <table width=100%>
+                        <thead style="border-bottom:1px solid black; font-weight:bold">
+                            <tr style="text-align:center">
+                                <td>No.</td>
+
+                                <td>Due date</td>
+
+                                <td>Sold</td>
+
+                                <td>Paid</td>
+
+                                <td>Status</td>
+                            </tr>
+                        </thead>
+                        <tbody style="text-align:center">
+
+                            @foreach (var install in Model.PAinstallDetails)
+                            {
+                                <tr>
+                                    <td>@install.number</td>
+                                    <td>@install.due_date.ToString("dd/MM/yyyy")</td>
+                                    <td>@install.sold</td>
+                                    <td>@install.paid</td>
+                                    <td>@install.status</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="form-group" style="text-align:center; padding:20px 0 0 0; justify-content:center; display:flex">
+                <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
+                    <input value="Back" class="btn btn-primary" style="background-color:#9c301a; border-color:#9c301a; width:60px" onclick="@("window.location.href='" + @Url.Action("Case", "Cases", new { case_id = (int)Session["case_id"] }) + "'")">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+</body>
+</html>
