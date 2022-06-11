@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Search</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <script type="text/javascript">
+        function loadCategory() {
+            $.ajax({
+                type: 'POST',
+                dataType:'json',
+                url: "@Url.Action("GetAsset_Categories")",
+                success:
+                    function (response) {
+                        console.log(response);
+                        $.each(response, function (i, member) {
+                            $("#assetCategory").append('<option value="' + member.Value + '">' + member.Text + '</option>');
+                        });
+                    },
+                error:
+                    function (response) {
+                        alert("Error: " + response)
+                    }
+            });
+        }
+    </script>
+</head>
+<body style="padding: 0 0 0 0; background-color:#3a3a3c; height:100vh" onload="loadCategory()">
+    <div style="background-color:#9c301a; height:75px;">
+        <div style="display:flex; padding-left:20px;">
+            <img src="~/Resources/Logo.png" style="height:75px; width:180px; cursor:pointer" onclick="@("window.location.href='" + @Url.Action("Home", "Home") + "'")" />
+            <div style="width:75%; text-align:center; height:75px">
+                <div style="font-size:large; font-family:Arial sans-serif; font-weight:bold; color:white; padding-top:20px">
+                    ASSETS
+                </div>
+            </div>
+            <div style="width:220px; height:75px; display:flex; justify-content:space-around">
+                <div style="font-size:large; font-family:Arial sans-serif; color:white; padding-top:20px;">
+                    @Session["Username"].ToString()
+                </div>
+                <div class="form-group" style="text-align:center; padding:20px 0 0 0">
+                    <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
+                        <input value="Logout" class="btn btn-primary" style="background-color:lightslategray; border-color:lightslategray; width:100px" onclick="@("window.location.href='" + @Url.Action("Logout", "Login") + "'")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="margin:2vh 3vw 1vh 1vw; background-color:#3a3a3c; height:20vh">
+        <div style="display:flex; justify-content:flex-start; flex-wrap:wrap; color:white">
+            <div class="form-group" style="padding:20px">
+                <div>
+                    <label class="control-label" for="assetID">Asset ID</label>
+                    <div>
+                        <input class="form-control" id="assetID" style="width:150px">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" style="padding:20px">
+                <div>
+                    <label class="control-label" for="assetOwnerName">Owner name</label>
+                    <div>
+                        <input class="form-control" id="assetOwnerName" style="width:150px">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" style="padding:20px">
+                <div>
+                    <label class="control-label" for="assetOwnerSSN">Owner SSN</label>
+                    <div>
+                        <input class="form-control" id="assetOwnerSSN" style="width:150px">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" style="padding:20px">
+                <div>
+                    <label class="control-label" for="assetCategory">Asset category</label>
+                    <div>
+                        <select class="form-control" id="assetCategory" style="width:200px"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" style="padding:20px">
+                <div>
+                    <label class="control-label" for="assetType">Asset type</label>
+                    <div>
+                        <select class="form-control" id="assetType" style="width:200px"></select>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group" style="padding:20px">
+                <div>
+                    <label class="control-label" for="assetSubtype">Asset subtype</label>
+                    <div>
+                        <select class="form-control" id="assetSubtype" style="width:200px"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="display:flex; justify-content:flex-end; margin:0px 20px 0px 20px; background-color:#3a3a3c;">
+            <div class="form-group" style="text-align:center; padding:20px 0 0 0">
+                <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
+                    <input value="Reset" class="btn btn-primary" style="background-color:#9c301a; border-color:lightslategray; width:100px; border:hidden" onclick="@("window.location.href='" + @Url.Action("Search", "Assets") + "'")" />
+                </div>
+            </div>
+            <div style="padding-top:22px;">
+                <div class="form-group" style="text-align:center; padding:0 0 0 0; margin-right:0;">
+                    <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0; width:100%; margin-right:0;">
+                        <button class="btn btn-primary" style="background-color:#9c301a; width:100px; border:hidden" id="search" type="submit">
+                            Search
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="margin: 0vh 3vw 1vh 1vw; color:#9c301a; font-weight:bold; font-size:larger; height:3.5vh; display:flex; justify-content:space-between">
+        @if (TempData["Assets_nr"] != null)
+        {
+            <div>
+                RESULTS: @TempData["Assets_nr"].ToString()
+            </div>
+
+        }
+        else
+        {
+            <div>
+                RESULTS: 0
+            </div>
+        }
+        <div>
+            <div>
+                <div class="form-group" style="text-align:center; padding:0 0 0 0; margin:0;">
+                    <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0; width:100%; margin-right:0;">
+                        <button class="btn btn-primary" style="background-color:#9c301a; width:100px; border:hidden" id="search" type="submit" onclick="@("window.location.href='" + @Url.Action("AddAsset", "Assets") + "'")">
+                            Add asset
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div style="overflow-y:scroll; height:62.5vh; margin:0vh 2vw 2vh 1vw; background-color:#3a3a3c;">
+    </div>
+    @Scripts.Render("~/Scripts/jquery-3.4.1.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.13.1.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#assetCategory").change(function () {
+            var selectedCategory = $("#assetCategory").val();
+            $("#assetType").empty();
+            $("#assetSubtype").empty();
+            $.ajax({
+                type: 'POST',
+                dataType:'json',
+                url: "@Url.Action("GetAsset_Category_Types_by_categ")",
+                data: { categ_id: selectedCategory },
+                success:
+                    function (response) {
+                        console.log(response);
+                        $.each(response, function (i, member) {
+                            $("#assetType").append('<option value="' + member.Value + '">' + member.Text + '</option>');
+                        });
+                    },
+                error:
+                    function (response) {
+                        alert("Error: " + response)
+                    }
+            });
+        })
+
+        $("#assetType").change(function () {
+            var selectedCategory = $("#assetType").val();
+            $("#assetSubtype").empty();
+            $.ajax({
+                type: 'POST',
+                dataType:'json',
+                url: "@Url.Action("GetAsset_Categ_Type_Subtypes_by_type")",
+                data: { type_id: selectedCategory },
+                success:
+                    function (response) {
+                        console.log(response);
+                        $.each(response, function (i, member) {
+                            $("#assetSubtype").append('<option value="' + member.Value + '">' + member.Text + '</option>');
+                        });
+                    },
+                error:
+                    function (response) {
+                        alert("Error: " + response)
+                    }
+            });
+        })
+    })
+    </script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>

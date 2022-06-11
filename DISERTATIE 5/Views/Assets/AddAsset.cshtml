@@ -1,0 +1,259 @@
+﻿@model DISERTATIE_5.Models.AddAsset
+
+<!DOCTYPE html>
+@{
+    Layout = null;
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddAsset</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script type="text/javascript">
+        function loadCategory() {
+            $.ajax({
+                type: 'POST',
+                dataType:'json',
+                url: "@Url.Action("GetAsset_Categories")",
+                success:
+                    function (response) {
+                        console.log(response);
+                        $.each(response, function (i, member) {
+                            $("#assetCategory").append('<option value="' + member.Value + '">' + member.Text + '</option>');
+                        });
+                    },
+                error:
+                    function (response) {
+                        alert("Error: " + response)
+                    }
+            });
+        }
+    </script>
+</head>
+<body style="padding: 0; background-color:#3a3a3c" onload="loadCategory()">
+    <div style="background-color:#9c301a; height:75px;">
+        <div style="display:flex; padding-left:20px;">
+            <img src="~/Resources/Logo.png" style="height:75px; width:180px; cursor:pointer" onclick="@("window.location.href='" + @Url.Action("Home", "Home") + "'")" />
+            <div style="width:75%; text-align:center; height:75px">
+                <div style="font-size:large; font-family:Arial sans-serif; font-weight:bold; color:white; padding-top:20px">
+                    ASSETS
+                </div>
+            </div>
+            <div style="width:220px; height:75px; display:flex; justify-content:space-around">
+                <div style="font-size:large; font-family:Arial sans-serif; color:white; padding-top:20px;">
+                    @Session["Username"].ToString()
+                </div>
+                <div class="form-group" style="text-align:center; padding:20px 0 0 0">
+                    <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
+                        <input value="Logout" class="btn btn-primary" style="background-color:lightslategray; border-color:lightslategray; width:100px" onclick="@("window.location.href='" + @Url.Action("Logout", "Login") + "'")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="padding-top:50px; padding-left:15vh; padding-right:15vh">
+        <div>
+
+            @using (Html.BeginForm("AddAsset", "Assets", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <div style="display:flex; justify-content:flex-start; flex-wrap:wrap; color:white">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group" style="display:flex; flex-direction:column">
+                        @Html.LabelFor(model => model.asset_category, htmlAttributes: new { @class = "control-label", @style = "padding-left:15px" })
+                        <div class="col-md-10">
+                            <select class="form-control" id="assetCategory" style="width:200px" name="category"></select>
+                            @Html.ValidationMessageFor(model => model.asset_category, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display:flex; flex-direction:column">
+                        @Html.LabelFor(model => model.asset_type, htmlAttributes: new { @class = "control-label", @style = "padding-left:15px" })
+                        <div class="col-md-10">
+                            <select class="form-control" id="assetType" style="width:200px" name="type"></select>
+                            @Html.ValidationMessageFor(model => model.asset_type, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display:flex; flex-direction:column">
+                        @Html.LabelFor(model => model.asset_subtype, htmlAttributes: new { @class = "control-label", @style = "padding-left:15px" })
+                        <div class="col-md-10">
+                            <select class="form-control" id="assetSubtype" style="width:200px" name="subtype"></select>
+                            @Html.ValidationMessageFor(model => model.asset_subtype, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display:flex; flex-direction:column">
+                        @Html.LabelFor(model => model.asset_status, htmlAttributes: new { @class = "control-label", @style = "padding-left:15px" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.asset_status, new { htmlAttributes = new { @class = "form-control", @name = "assset_status" } })
+                            @Html.ValidationMessageFor(model => model.asset_status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display:flex; flex-direction:column">
+                        @Html.LabelFor(model => model.building_status, htmlAttributes: new { @class = "control-label", @style = "padding-left:15px" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.building_status, new { htmlAttributes = new { @class = "form-control", @name = "building_status" } })
+                            @Html.ValidationMessageFor(model => model.building_status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display:flex; flex-direction:column">
+                        @Html.LabelFor(model => model.city, htmlAttributes: new { @class = "control-label", @style = "padding-left:15px" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.city, new { htmlAttributes = new { @class = "form-control", @name = "city" } })
+                            @Html.ValidationMessageFor(model => model.city, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display:flex; flex-direction:column">
+                        @Html.LabelFor(model => model.construction_year, htmlAttributes: new { @class = "control-label", @style = "padding-left:15px" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.construction_year, new { htmlAttributes = new { @class = "form-control", @name = "construction_year" } })
+                            @Html.ValidationMessageFor(model => model.construction_year, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display:flex; flex-direction:column">
+                        @Html.LabelFor(model => model.thermal_rehabilitation, htmlAttributes: new { @class = "control-label", @style = "padding-left:15px" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.thermal_rehabilitation, new { htmlAttributes = new { @class = "form-control", @name = "thermal_rehabilitation" } })
+                            @Html.ValidationMessageFor(model => model.thermal_rehabilitation, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display:flex; flex-direction:column">
+                        @Html.LabelFor(model => model.year_of_last_rehabilitation, htmlAttributes: new { @class = "control-label", @style = "padding-left:15px" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.year_of_last_rehabilitation, new { htmlAttributes = new { @class = "form-control", @name = "year_of_last_rehabilitation" } })
+                            @Html.ValidationMessageFor(model => model.year_of_last_rehabilitation, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display:flex; flex-direction:column">
+                        @Html.LabelFor(model => model.company_status, htmlAttributes: new { @class = "control-label", @style = "padding-left:15px" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.company_status, new { htmlAttributes = new { @class = "form-control", @name = "company_status" } })
+                            @Html.ValidationMessageFor(model => model.company_status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display:flex; flex-direction:column">
+                        @Html.LabelFor(model => model.colour, htmlAttributes: new { @class = "control-label", @style = "padding-left:15px" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.colour, new { htmlAttributes = new { @class = "form-control", @name = "colour" } })
+                            @Html.ValidationMessageFor(model => model.colour, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display:flex; flex-direction:column">
+                        @Html.LabelFor(model => model.value, htmlAttributes: new { @class = "control-label", @style = "padding-left:15px" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.value, new { htmlAttributes = new { @class = "form-control", @name = "value" } })
+                            @Html.ValidationMessageFor(model => model.value, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display:flex; flex-direction:column">
+                        @Html.LabelFor(model => model.license_plate, htmlAttributes: new { @class = "control-label", @style = "padding-left:15px" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.license_plate, new { htmlAttributes = new { @class = "form-control", @name = "license_plate" } })
+                            @Html.ValidationMessageFor(model => model.license_plate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display:flex; flex-direction:column">
+                        @Html.LabelFor(model => model.manufacturing_year, htmlAttributes: new { @class = "control-label", @style = "padding-left:15px" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.manufacturing_year, new { htmlAttributes = new { @class = "form-control", @name = "manufacturing_year" } })
+                            @Html.ValidationMessageFor(model => model.manufacturing_year, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display:flex; flex-direction:column">
+                        @Html.LabelFor(model => model.model_type, htmlAttributes: new { @class = "control-label", @style = "padding-left:15px" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.model_type, new { htmlAttributes = new { @class = "form-control", @name = "model_type" } })
+                            @Html.ValidationMessageFor(model => model.model_type, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display:flex; flex-direction:column">
+                        @Html.LabelFor(model => model.cilindrical_capacity, htmlAttributes: new { @class = "control-label", @style = "padding-left:15px" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cilindrical_capacity, new { htmlAttributes = new { @class = "form-control", @name = "cilindrical_capacity" } })
+                            @Html.ValidationMessageFor(model => model.cilindrical_capacity, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div style="width:100%; padding-top:20px; width:100%">
+                    <div style=" display: flex; justify-content: end;">
+                        <input type="submit" value="Add" class="btn btn-default" style="background-color:#9c301a; color:white; border:none" />
+                    </div>
+                </div>
+            }
+        </div>
+        <div style="text-align:center;padding-top:15px">
+            <div style="margin-left:0; margin-right:0; display:flex; justify-content:end">
+                <input value="Back" class="btn btn-primary" style="background-color:#9c301a; border-color:#9c301a; width:60px;" onclick="@("window.location.href='" + @Url.Action("Search", "Assets") + "'")" />
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("~/Scripts/jquery-3.4.1.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.13.1.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#assetCategory").change(function () {
+            var selectedCategory = $("#assetCategory").val();
+            $("#assetType").empty();
+            $("#assetSubtype").empty();
+            $.ajax({
+                type: 'POST',
+                dataType:'json',
+                url: "@Url.Action("GetAsset_Category_Types_by_categ")",
+                data: { categ_id: selectedCategory },
+                success:
+                    function (response) {
+                        console.log(response);
+                        $.each(response, function (i, member) {
+                            $("#assetType").append('<option value="' + member.Value + '">' + member.Text + '</option>');
+                        });
+                    },
+                error:
+                    function (response) {
+                        alert("Error: " + response)
+                    }
+            });
+        })
+
+        $("#assetType").change(function () {
+            var selectedCategory = $("#assetType").val();
+            $("#assetSubtype").empty();
+            $.ajax({
+                type: 'POST',
+                dataType:'json',
+                url: "@Url.Action("GetAsset_Categ_Type_Subtypes_by_type")",
+                data: { type_id: selectedCategory },
+                success:
+                    function (response) {
+                        console.log(response);
+                        $.each(response, function (i, member) {
+                            $("#assetSubtype").append('<option value="' + member.Value + '">' + member.Text + '</option>');
+                        });
+                    },
+                error:
+                    function (response) {
+                        alert("Error: " + response)
+                    }
+            });
+        })
+    })
+    </script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>
