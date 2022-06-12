@@ -20,5 +20,6 @@ namespace DISERTATIE_5.Models
         public AllocationsData AllocationsData { get; set; }
         public List<string> emailTemplates { get; set; }
         public List<Emails> emails { get; set; }
+        public List<SubscriberAssets> SubscriberAssets { get; set; }
     }
 }

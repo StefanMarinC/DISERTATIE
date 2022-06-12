@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model IEnumerable<DISERTATIE_5.Models.AddAsset>
+@using DISERTATIE_5.Models;
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -50,78 +52,82 @@
         </div>
     </div>
     <div style="margin:2vh 3vw 1vh 1vw; background-color:#3a3a3c; height:20vh">
-        <div style="display:flex; justify-content:flex-start; flex-wrap:wrap; color:white">
-            <div class="form-group" style="padding:20px">
-                <div>
-                    <label class="control-label" for="assetID">Asset ID</label>
+        @using (Html.BeginForm("Search", "Assets", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <div style="display:flex; justify-content:flex-start; flex-wrap:wrap; color:white">
+                <div class="form-group" style="padding:20px">
                     <div>
-                        <input class="form-control" id="assetID" style="width:150px">
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group" style="padding:20px">
-                <div>
-                    <label class="control-label" for="assetOwnerName">Owner name</label>
-                    <div>
-                        <input class="form-control" id="assetOwnerName" style="width:150px">
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group" style="padding:20px">
-                <div>
-                    <label class="control-label" for="assetOwnerSSN">Owner SSN</label>
-                    <div>
-                        <input class="form-control" id="assetOwnerSSN" style="width:150px">
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group" style="padding:20px">
-                <div>
-                    <label class="control-label" for="assetCategory">Asset category</label>
-                    <div>
-                        <select class="form-control" id="assetCategory" style="width:200px"></select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group" style="padding:20px">
-                <div>
-                    <label class="control-label" for="assetType">Asset type</label>
-                    <div>
-                        <select class="form-control" id="assetType" style="width:200px"></select>
+                        <label class="control-label" for="assetID">Asset ID</label>
+                        <div>
+                            <input class="form-control" id="assetID" style="width:150px" name="asset_id">
+                        </div>
                     </div>
                 </div>
 
-            </div>
-
-            <div class="form-group" style="padding:20px">
-                <div>
-                    <label class="control-label" for="assetSubtype">Asset subtype</label>
+                <div class="form-group" style="padding:20px">
                     <div>
-                        <select class="form-control" id="assetSubtype" style="width:200px"></select>
+                        <label class="control-label" for="assetOwnerName">Owner name</label>
+                        <div>
+                            <input class="form-control" id="assetOwnerName" style="width:150px" name="owner_name">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="padding:20px">
+                    <div>
+                        <label class="control-label" for="assetOwnerSSN">Owner SSN</label>
+                        <div>
+                            <input class="form-control" id="assetOwnerSSN" style="width:150px" name="owner_ssn">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="padding:20px">
+                    <div>
+                        <label class="control-label" for="assetCategory">Asset category</label>
+                        <div>
+                            <select class="form-control" id="assetCategory" style="width:200px" name="category"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="padding:20px">
+                    <div>
+                        <label class="control-label" for="assetType">Asset type</label>
+                        <div>
+                            <select class="form-control" id="assetType" style="width:200px" name="type"></select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group" style="padding:20px">
+                    <div>
+                        <label class="control-label" for="assetSubtype">Asset subtype</label>
+                        <div>
+                            <select class="form-control" id="assetSubtype" style="width:200px" name="subtype"></select>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div style="display:flex; justify-content:flex-end; margin:0px 20px 0px 20px; background-color:#3a3a3c;">
-            <div class="form-group" style="text-align:center; padding:20px 0 0 0">
-                <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
-                    <input value="Reset" class="btn btn-primary" style="background-color:#9c301a; border-color:lightslategray; width:100px; border:hidden" onclick="@("window.location.href='" + @Url.Action("Search", "Assets") + "'")" />
+            <div style="display:flex; justify-content:flex-end; margin:0px 20px 0px 20px; background-color:#3a3a3c;">
+                <div class="form-group" style="text-align:center; padding:20px 0 0 0">
+                    <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
+                        <input value="Reset" class="btn btn-primary" style="background-color:#9c301a; border-color:lightslategray; width:100px; border:hidden" onclick="@("window.location.href='" + @Url.Action("Search", "Assets") + "'")" />
+                    </div>
                 </div>
-            </div>
-            <div style="padding-top:22px;">
-                <div class="form-group" style="text-align:center; padding:0 0 0 0; margin-right:0;">
-                    <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0; width:100%; margin-right:0;">
-                        <button class="btn btn-primary" style="background-color:#9c301a; width:100px; border:hidden" id="search" type="submit">
-                            Search
-                        </button>
+                <div style="padding-top:22px;">
+                    <div class="form-group" style="text-align:center; padding:0 0 0 0; margin-right:0;">
+                        <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0; width:100%; margin-right:0;">
+                            <button class="btn btn-primary" style="background-color:#9c301a; width:100px; border:hidden" id="search" type="submit">
+                                Search
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        }
     </div>
     <div style="margin: 0vh 3vw 1vh 1vw; color:#9c301a; font-weight:bold; font-size:larger; height:3.5vh; display:flex; justify-content:space-between">
         @if (TempData["Assets_nr"] != null)
@@ -151,6 +157,52 @@
 
     </div>
     <div style="overflow-y:scroll; height:62.5vh; margin:0vh 2vw 2vh 1vw; background-color:#3a3a3c;">
+        <table style="border: 1px solid #dee2e6; width: 99%; margin-bottom: 1rem; color: #212529; border-collapse: collapse; box-sizing: border-box; display: table; text-indent: initial; border-spacing: 2px; background-color:white; margin-left:0.5%; margin-right:0.5%">
+            <thead>
+                <tr style="border: solid; border-width: 3px 0;">
+                    <th>
+                        Asset ID
+                    </th>
+                    <th>
+                        Category
+                    </th>
+                    <th>
+                        Type
+                    </th>
+                    <th>
+                        Subtype
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (TempData["ASSETS"] != null)
+                {
+                    foreach (AssetSearch asset in (IEnumerable<AssetSearch>)TempData["ASSETS"])
+                    {
+                        <tr style="height:30px">
+                            <td style="cursor:pointer; color:darkred" onclick="@("window.location.href='" + @Url.Action("Asset", "Assets", new { asset_id = asset.asset_id}) + "'")">
+                                @asset.asset_id
+                            </td>
+                            <td>
+                                @asset.category
+                            </td>
+                            <td>
+                                @asset.type
+                            </td>
+                            <td>
+                                @asset.subtype
+                            </td>
+                            <td>
+                                @asset.description
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
     </div>
     @Scripts.Render("~/Scripts/jquery-3.4.1.min.js")
     @Scripts.Render("~/Scripts/jquery-ui-1.13.1.min.js")

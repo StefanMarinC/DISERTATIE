@@ -1,0 +1,206 @@
+﻿@model DISERTATIE_5.Controllers.AssetData
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Asset</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body style="padding: 0; background-color:#3a3a3c">
+    @if (TempData["ErrorAddOwner"] != null)
+    {
+        <div class="modal" tabindex="-1" role="dialog" style="display:block" id="modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Error!</h3>
+                    </div>
+                    <div class="modal-body">
+                        <h4>@TempData["ErrorAddOwner"].ToString()</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="buttonclose" style="background-color:#9c301a; color:white">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var modal1 = document.getElementById("modal");
+            var btn1 = document.getElementById("buttonclose");
+
+            btn1.onclick = function () {
+                modal1.style.display = "none";
+            }
+
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal1.style.display = "none";
+                }
+            }
+        </script>
+    }
+    <div class="modal" tabindex="-1" role="dialog" style="display:none" id="modal1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Add owner</h3>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <label class="control-label" for="SSN">The SSN of person</label>
+                        <input id="SSNaddOwner" class="form-control" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal1" id="buttonAdd" style="background-color:#9c301a; color:white">Add</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal1" id="buttonclose1" style="background-color:#9c301a; color:white">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="background-color:#9c301a; height:75px;">
+        <div style="display:flex; padding-left:20px;">
+            <img src="~/Resources/Logo.png" style="height:75px; width:180px; cursor:pointer" onclick="@("window.location.href='" + @Url.Action("Home", "Home") + "'")" />
+            <div style="width:75%; text-align:center; height:75px">
+                <div style="font-size:large; font-family:Arial sans-serif; font-weight:bold; color:white; padding-top:20px">
+                    ASSETS
+                </div>
+            </div>
+            <div style="width:220px; height:75px; display:flex; justify-content:space-around">
+                <div style="font-size:large; font-family:Arial sans-serif; color:white; padding-top:20px;">
+                    @Session["Username"].ToString()
+                </div>
+                <div class="form-group" style="text-align:center; padding:20px 0 0 0">
+                    <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
+                        <input value="Logout" class="btn btn-primary" style="background-color:lightslategray; border-color:lightslategray; width:100px" onclick="@("window.location.href='" + @Url.Action("Logout", "Login") + "'")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display:flex; margin-left:10vw; margin-right:10vw; justify-content:space-between; margin-top:50px">
+        <div style="width:30vw;background-color:white">
+            <div style="text-align:center; color:#9c301a; font-weight:bold; padding-top:10px">
+                PROPERTIES
+            </div>
+            <div style="padding:20px; text-align:center">
+                <div style="display:flex; justify-content:space-between">
+                    <div style="font-weight:bold; width:16vw; display:flex; justify-content:flex-end">
+                        Asset ID: @Model.asset_id
+                    </div>
+                    <div style="width:10vw; display:flex; justify-content:space-around; background-color:#9c301a; color:white; border:none;  width:25px; height:25px" type="submit" class="btn btn-default" onclick="@("window.location.href='" + @Url.Action("EditProperties", "Assets", new {asset_id=Model.asset_id }) + "'")">
+                        <img src="~/Resources/Edit.png" style="width:15px; height:15px;" />
+                    </div>
+                </div>
+            </div>
+            <hr style="border-bottom:2px solid black; margin:10px" />
+            <div style="overflow-y:scroll; height:60vh">
+                @foreach (var prop in Model.props)
+                {
+                    <div style="padding:20px">
+                        <div style="font-weight:bold">
+                            @prop.property_name
+                        </div>
+                        <div>
+                            @prop.property_value
+                        </div>
+                    </div>
+                    <hr style="border-bottom:1px solid black; margin:10px" />
+                }
+            </div>
+        </div>
+        <div style="width:30vw;background-color:white">
+            <div style="text-align:center; color:#9c301a; font-weight:bold; padding-top:10px">
+                OWNERS
+            </div>
+            <div style="padding:20px; text-align:center">
+                <div style="display:flex; justify-content:space-between">
+                    <div style="font-weight:bold; width:16vw; display:flex; justify-content:flex-end">
+                        Asset ID: @Model.asset_id
+                    </div>
+                    <div style="width:10vw; display:flex; justify-content:space-around; background-color:#9c301a; color:white; border:none;  width:25px; height:25px" type="submit" class="btn btn-default"  id="addOwner">
+                        <img src="~/Resources/Add.png" style="width:15px; height:15px;" />
+                    </div>
+                </div>
+            </div>
+            <hr style="border-bottom:2px solid black; margin:10px" />
+            <div style="overflow-y:scroll; height:60vh">
+                @foreach (var owner in Model.owners)
+                {
+                    <div style="display:flex; justify-content:space-between">
+                        <div style="padding:20px">
+                            <div style="font-weight:bold">
+                                Owner Name
+                            </div>
+                            <div style="padding-bottom:10px">
+                                @owner.owner_name
+                            </div>
+                            <div style="font-weight:bold">
+                                Person SSN
+                            </div>
+                            <div style="padding-bottom:10px">
+                                @owner.person_ssn
+                            </div>
+                            <div style="font-weight:bold">
+                                Person ID
+                            </div>
+                            <div>
+                                @owner.person_id
+                            </div>
+                        </div>
+                        <div style="display:flex; align-items:center; margin-right:10px">
+                            <button type="button" class="btn btn-primary dropdown-toggle" style="background-color:#9c301a; border:hidden; width:25px; height:25px; display:flex; justify-content:center;" onclick="@("window.location.href='" + @Url.Action("DeleteOwner", "Assets", new { asset_id = Model.asset_id, owner_id = owner.person_id}) + "'")">
+                                <img src="~/Resources/Add.png" style="width:15px; height:15px; transform:rotate(45deg)" />
+                            </button>
+                        </div>
+                    </div>
+                    <hr style="border-bottom:1px solid black; margin:10px" />
+                }
+            </div>
+        </div>
+    </div>
+    <div class="form-group" style="text-align:center; padding:20px 0 0 0">
+        <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0; width:100%">
+            <input value="Back" class="btn btn-primary" style="background-color:#9c301a; border-color:#9c301a; width:60px" onclick="@("window.location.href='" + @Url.Action("Search", "Assets") + "'")">
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script type="text/javascript">
+        var modal = document.getElementById("modal1");
+        var btn = document.getElementById("buttonclose1");
+        var btnAdd = document.getElementById("buttonAdd");
+        var btnOwner = document.getElementById("addOwner");
+
+        btnOwner.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        btn.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        btnAdd.onclick = function () {
+            modal.style.display = "none";
+            var ssn = document.getElementById("SSNaddOwner").value;
+            $.ajax({
+                type: "POST",
+                data: { asset_id: @Model.asset_id, ssn: ssn },
+                url: '@Url.Action("AddOwner", "Assets")',
+                success:
+                    function (response) {
+                        console.log(response);
+                        location.reload();
+                    },
+            });
+        }
+    </script>
+</body>
+</html>

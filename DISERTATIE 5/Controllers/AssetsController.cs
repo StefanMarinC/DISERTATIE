@@ -208,6 +208,201 @@ namespace DISERTATIE_5.Controllers
                     return RedirectToAction("AddAsset", "Assets");
             }
         }
+
+        [HttpPost]
+        public ActionResult Search(int? asset_id, string owner_name, string owner_ssn, int? category, int? type, int? subtype)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+            conn.Open();
+            List<AssetSearch> AssetSearch = new List<AssetSearch>();
+            string statement = "SELECT * FROM ASSETS_SEARCH A WHERE 1=1";
+            if (asset_id != null)
+            {
+                statement += " AND A.ASSET_ID=" + asset_id;
+            }
+            if (owner_name != null && owner_name != "")
+            {
+                statement += " AND A.OWNER_NAME LIKE '%" + owner_name + "%'";
+            }
+            if (owner_ssn != null && owner_name != "")
+            {
+                statement += " AND A.OWNER_SSN LIKE '%" + owner_ssn + "%'";
+            }
+            if (category != null && category > 0)
+            {
+                statement += " AND A.ASSET_CATEGORY_ID=" + category;
+            }
+            if (type != null && type > 0)
+            {
+                statement += " AND A.ASSET_TYPE_ID=" + type;
+            }
+            if (subtype != null && subtype > 0)
+            {
+                statement += " AND A.ASSET_SUB_TYPE_ID=" + subtype;
+            }
+            statement += " ORDER BY 1";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            OracleDataReader reader = sql.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    AssetSearch asset = new AssetSearch();
+                    asset.asset_id = reader.GetDecimal(0);
+                    asset.category = reader.GetString(1);
+                    if (!reader.IsDBNull(3))
+                    {
+                        asset.type = reader.GetString(3);
+                    }
+                    if (!reader.IsDBNull(5))
+                    {
+                        asset.subtype = reader.GetString(5);
+                    }
+                    if (!reader.IsDBNull(7))
+                    {
+                        asset.description = reader.GetString(7);
+                    }
+                    AssetSearch.Add(asset);
+                }
+
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            TempData["ASSETS"] = AssetSearch;
+            TempData["Assets_nr"] = AssetSearch.Count();
+            return RedirectToAction("Search", "Assets");
+        }
+
+        [HttpGet]
+        public ActionResult Asset(int asset_id)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+            conn.Open();
+            List<Asset_prop> assetProps = new List<Asset_prop>();
+            string statement = "SELECT AP.NAME, API.PROPERTY_VALUE FROM ASSET_PROPERTIES AP JOIN ASSET_PROPERTIES_INT API ON API.PROPERTY_ID = AP.PROPERTY_ID WHERE API.ASSET_ID = " + asset_id;
+            OracleCommand sql = new OracleCommand(statement, conn);
+            OracleDataReader reader = sql.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    Asset_prop asset_Prop = new Asset_prop();
+                    asset_Prop.property_name = reader.GetString(0);
+                    asset_Prop.property_value = reader.GetString(1);
+                    assetProps.Add(asset_Prop);
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            conn.Open();
+            List<Asset_owners> assetOwners = new List<Asset_owners>();
+            statement = "SELECT S.FIRST_NAME || ' ' || S.LAST_NAME AS OWNER_NAME, S.SSN AS PERSON_SSN, S.SUBSCRIBER_ID AS PERSON_ID FROM ASSET_OWNERS AO JOIN SUBSCRIBERS S"
+                         + " ON S.SUBSCRIBER_ID = AO.SUBSCRIBER_ID WHERE AO.ASSET_ID = " + asset_id;
+            sql = new OracleCommand(statement, conn);
+            reader = sql.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    Asset_owners asset_Owner = new Asset_owners();
+                    asset_Owner.owner_name = reader.GetString(0);
+                    asset_Owner.person_ssn = reader.GetString(1);
+                    asset_Owner.person_id = reader.GetDecimal(2);
+                    assetOwners.Add(asset_Owner);
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
+            AssetData assetData = new AssetData();
+            assetData.props = new List<Asset_prop>();
+            assetData.owners = new List<Asset_owners>();
+            assetData.props = assetProps;
+            assetData.owners = assetOwners;
+            assetData.asset_id = asset_id;
+            return View(assetData);
+        }
+
+        [HttpPost]
+        public JsonResult AddOwner(int asset_id, string ssn)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                RedirectToAction("LoginPage", "Login");
+            }
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+            conn.Open();
+            string statement = "ASSETS_PKG.ASSOCIATE_OWNER";
+            OracleCommand sql = new OracleCommand(statement, conn);
+            decimal finished_ok = 0;
+            sql.BindByName = true;
+            sql.CommandType = CommandType.StoredProcedure;
+
+            sql.Parameters.Add("P_ASSET_ID", OracleDbType.Decimal, asset_id, ParameterDirection.Input);
+            sql.Parameters.Add("P_SSN", OracleDbType.Varchar2, ssn, ParameterDirection.Input);
+            sql.Parameters.Add("P_FINISHED_OK", OracleDbType.Decimal).Direction = ParameterDirection.Output;
+            sql.ExecuteNonQuery();
+            finished_ok = Convert.ToDecimal(((OracleDecimal)sql.Parameters["P_FINISHED_OK"].Value).Value);
+            switch (finished_ok)
+            {
+                case 1:
+                    return Json(finished_ok);
+                case 2:
+                    TempData["ErrorAddOwner"] = "A person with this SSN doesn't exist!";
+                    return Json(finished_ok);
+                case 3:
+                    TempData["ErrorAddOwner"] = "The person is already associated on this asset!";
+                    return Json(finished_ok);
+                default:
+                    TempData["ErrorAddOwner"] = "Something went wrong!";
+                    return Json(finished_ok);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult DeleteOwner(int asset_id, int owner_id)
+        {
+            if (Session["Sec_user_id"] == null)
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            string tns = TNS.tns;
+            OracleConnection conn = new OracleConnection();
+            conn.ConnectionString = tns;
+            conn.Open();
+            string statement = "DELETE FROM ASSET_OWNERS WHERE ASSET_ID=" + asset_id + " AND SUBSCRIBER_ID=" + owner_id ;
+            OracleCommand sql = new OracleCommand(statement, conn);
+            sql.ExecuteNonQuery();
+            return RedirectToAction("Asset", "Assets", new { asset_id= asset_id });
+        }
+
+        [HttpGet]
+        public ActionResult EditProperties(int asset_id)
+        {
+            return RedirectToAction("Asset", "Assets", new { asset_id = asset_id}) ;
+        }
     }
 
     public class Asset_category
@@ -226,5 +421,26 @@ namespace DISERTATIE_5.Controllers
     {
         public int subtype_id { get; set; }
         public string subtype_name { get; set; }
+    }
+
+    public class Asset_prop
+    {
+        public string property_name { get; set; }
+        public string property_value { get; set; }
+    }
+
+    public class Asset_owners
+    {
+        public string owner_name { get; set; }
+        public string person_ssn { get; set; }
+        public decimal person_id { get; set; }
+    }
+
+    public class AssetData
+    {
+        public List<Asset_prop> props { get; set; }
+        public List<Asset_owners> owners { get; set; }
+        public decimal asset_id { get; set; }
+
     }
 }

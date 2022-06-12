@@ -657,9 +657,37 @@
                                         <hr style="border-top:2px solid #9c301a; margin:0" />
                                     </div>
                                     <div style="padding-top:10px; padding-left:10px; padding-bottom:10px">
-                                        <div style="font-weight:bold; font-size:large">
-                                            Assets
+                                        <div style="display:flex; justify-content:space-between;  margin-right:10px; margin-bottom:10px">
+                                            <div style="font-weight:bold; font-size:large">
+                                                Assets
+                                            </div>
                                         </div>
+                                        @foreach (var subs_asset in Model.SubscriberAssets)
+                                        {
+                                            if (subs_asset.subscriber_id == subs.subscriber_id)
+                                            {
+                                                <div style="padding-bottom:5px; margin-right:5px">
+                                                    <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
+                                                        <div style="display:flex; justify-content:space-between; align-items:center">
+                                                            <div style="padding:5px">
+                                                                <div style="display:flex;">
+                                                                    <div style="font-weight:bold; color:#9c301a">
+                                                                        Asset ID: @subs_asset.asset_id
+                                                                    </div>
+                                                                </div>
+                                                                <div style="margin-bottom:5px">
+                                                                </div>
+                                                                <div style="color:black; font-size:smaller">
+                                                                    @subs_asset.details@subs_asset.description
+                                                                </div>
+                                                            </div>
+                                                            <div style="display:block; justify-content:end">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
                                     </div>
                                 </div>
                             }
@@ -1044,10 +1072,37 @@
                                         <hr style="border-top:2px solid #9c301a; margin:0" />
                                     </div>
                                     <div style="padding-top:10px; padding-left:10px; padding-bottom:10px">
-                                        <div style="font-weight:bold; font-size:large">
-                                            Assets
+                                        <div style="display:flex; justify-content:space-between;  margin-right:10px; margin-bottom:10px">
+                                            <div style="font-weight:bold; font-size:large">
+                                                Assets
+                                            </div>
                                         </div>
-
+                                        @foreach (var subs_asset in Model.SubscriberAssets)
+                                        {
+                                            if (subs_asset.subscriber_id == subs.subscriber_id)
+                                            {
+                                                <div style="padding-bottom:5px; margin-right:5px">
+                                                    <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
+                                                        <div style="display:flex; justify-content:space-between; align-items:center">
+                                                            <div style="padding:5px">
+                                                                <div style="display:flex;">
+                                                                    <div style="font-weight:bold; color:#9c301a">
+                                                                        Asset ID: @subs_asset.asset_id
+                                                                    </div>
+                                                                </div>
+                                                                <div style="margin-bottom:5px">
+                                                                </div>
+                                                                <div style="color:black; font-size:smaller">
+                                                                    @subs_asset.details@subs_asset.description
+                                                                </div>
+                                                            </div>
+                                                            <div style="display:block; justify-content:end">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
                                     </div>
                                 </div>
                             }

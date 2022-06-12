@@ -290,6 +290,7 @@ namespace DISERTATIE_5.Controllers
             List<FinancialItem> financialItems = new List<FinancialItem>();
             FinancialItem interest = new FinancialItem();
             List<string> stornoReason = new List<string>();
+            List<SubscriberAssets> subscriberAssets = new List<SubscriberAssets>();
             reader = sql.ExecuteReader();
             try
             {
@@ -437,6 +438,26 @@ namespace DISERTATIE_5.Controllers
                             subs_employer.main_employer = (string)reader2.GetValue(3);
                             subs_employer.source_type = (string)reader2.GetValue(4);
                             subs_employers.Add(subs_employer);
+                        }
+                    }
+                    finally
+                    {
+                        reader2.Close();
+                    }
+
+                    statement2 = "SELECT * FROM SUBSCRIBER_ASSETS_V SA WHERE SA.SUBSCRIBER_ID=" + subs.subscriber_id + " ORDER BY SA.ASSET_ID";
+                    sql2 = new OracleCommand(statement2, conn);
+                    reader2 = sql2.ExecuteReader();
+                    try
+                    {
+                        while (reader2.Read())
+                        {
+                            SubscriberAssets subscriber_asset = new SubscriberAssets();
+                            subscriber_asset.asset_id = reader2.GetDecimal(0);
+                            subscriber_asset.subscriber_id = reader2.GetDecimal(1);
+                            subscriber_asset.details = reader2.GetString(2);
+                            subscriber_asset.description = reader2.GetString(3);
+                            subscriberAssets.Add(subscriber_asset);
                         }
                     }
                     finally
@@ -596,6 +617,7 @@ namespace DISERTATIE_5.Controllers
             caseInfo.stornoReasons = stornoReason;
             caseInfo.emailTemplates = emailTemplates;
             caseInfo.emails = emails;
+            caseInfo.SubscriberAssets = subscriberAssets;
 
             return View(caseInfo);
         }

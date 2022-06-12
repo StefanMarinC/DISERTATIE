@@ -279,6 +279,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SubscriberAddress.cs" />
+    <Compile Include="Models\SubscriberAssets.cs" />
     <Compile Include="Models\SubscriberContact.cs" />
     <Compile Include="Models\SubscriberData.cs" />
     <Compile Include="Models\SubscriberEmail.cs" />
@@ -448,6 +449,7 @@
     <Content Include="Views\Cases\ViewPA.cshtml" />
     <Content Include="Views\Assets\Search.cshtml" />
     <Content Include="Views\Assets\AddAsset.cshtml" />
+    <Content Include="Views\Assets\Asset.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
