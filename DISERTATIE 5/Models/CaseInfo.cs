@@ -21,5 +21,6 @@ namespace DISERTATIE_5.Models
         public List<string> emailTemplates { get; set; }
         public List<Emails> emails { get; set; }
         public List<SubscriberAssets> SubscriberAssets { get; set; }
+        public LegalFile legalFile { get; set; }
     }
 }

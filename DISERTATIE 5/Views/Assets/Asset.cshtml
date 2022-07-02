@@ -102,6 +102,44 @@
             </div>
             <hr style="border-bottom:2px solid black; margin:10px" />
             <div style="overflow-y:scroll; height:60vh">
+                <div style="padding:20px">
+                    <div style="display:flex; justify-content:space-between">
+                        @if (Model.category != null)
+                        {
+                            <div>
+                                <div style="font-weight:bold">
+                                    Category
+                                </div>
+                                <div>
+                                    @Model.category
+                                </div>
+                            </div>
+                        }
+                        @if (Model.type != null)
+                        {
+                            <div>
+                                <div style="font-weight:bold">
+                                    Type
+                                </div>
+                                <div>
+                                    @Model.type
+                                </div>
+                            </div>
+                        }
+                        @if (Model.subtype != null)
+                        {
+                            <div>
+                                <div style="font-weight:bold">
+                                    Subtype
+                                </div>
+                                <div>
+                                    @Model.subtype
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <hr style="border-bottom:1px solid black; margin:10px" />
                 @foreach (var prop in Model.props)
                 {
                     <div style="padding:20px">
@@ -125,7 +163,7 @@
                     <div style="font-weight:bold; width:16vw; display:flex; justify-content:flex-end">
                         Asset ID: @Model.asset_id
                     </div>
-                    <div style="width:10vw; display:flex; justify-content:space-around; background-color:#9c301a; color:white; border:none;  width:25px; height:25px" type="submit" class="btn btn-default"  id="addOwner">
+                    <div style="width:10vw; display:flex; justify-content:space-around; background-color:#9c301a; color:white; border:none;  width:25px; height:25px" type="submit" class="btn btn-default" id="addOwner">
                         <img src="~/Resources/Add.png" style="width:15px; height:15px;" />
                     </div>
                 </div>

@@ -334,7 +334,34 @@ namespace DISERTATIE_5.Controllers
                 reader.Close();
                 conn.Close();
             }
+            conn.Open();
+            statement = " SELECT DISTINCT CATEGORY, TYPE, SUBTYPE FROM ASSETS_SEARCH A WHERE ASSET_ID=" + asset_id;
+            sql = new OracleCommand(statement, conn);
+            reader = sql.ExecuteReader();
             AssetData assetData = new AssetData();
+            try
+            {
+                while (reader.Read())
+                {
+                    if (!reader.IsDBNull(0))
+                    {
+                        assetData.category = reader.GetString(0);
+                    }
+                    if (!reader.IsDBNull(1))
+                    {
+                        assetData.type = reader.GetString(1);
+                    }
+                    if (!reader.IsDBNull(2))
+                    {
+                        assetData.subtype = reader.GetString(2);
+                    }
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
             assetData.props = new List<Asset_prop>();
             assetData.owners = new List<Asset_owners>();
             assetData.props = assetProps;
@@ -441,6 +468,9 @@ namespace DISERTATIE_5.Controllers
         public List<Asset_prop> props { get; set; }
         public List<Asset_owners> owners { get; set; }
         public decimal asset_id { get; set; }
+        public string category { get; set; }
+        public string type { get; set; }
+        public string subtype { get; set; }
 
     }
 }

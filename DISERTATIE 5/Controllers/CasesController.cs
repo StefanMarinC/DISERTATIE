@@ -264,7 +264,10 @@ namespace DISERTATIE_5.Controllers
                     cl.client_name = (string)reader.GetValue(2);
                     cl.balance = (float)reader.GetFloat(3);
                     cl.balance_currency = (string)reader.GetString(4);
-                    cl.pa_status = (string)reader.GetValue(5);
+                    if (!DBNull.Value.Equals(reader.GetValue(5)))
+                    {
+                        cl.pa_status = (string)reader.GetValue(5);
+                    }
                     cl.pa_made = (decimal)reader.GetValue(6);
                     cl.pa_broken = (decimal)reader.GetValue(7);
                     cl.pa_kept = (decimal)reader.GetValue(8);
@@ -605,6 +608,31 @@ namespace DISERTATIE_5.Controllers
                 reader.Close();
                 conn.Close();
             }
+            LegalFile legalFile = null;
+            conn.Open();
+            statement = "SELECT * FROM LEGAL_FILE_DATA WHERE CASE_ID=" + case_id;
+            sql = new OracleCommand(statement, conn);
+            reader = sql.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    legalFile = new LegalFile();
+                    legalFile.legalFileID = reader.GetInt32(1);
+                    legalFile.fileNumber = reader.GetString(2);
+                    legalFile.startDate = reader.GetDateTime(3);
+                    legalFile.court = reader.GetString(4);
+                    legalFile.bailiff = reader.GetString(5);
+                    legalFile.lawyer = reader.GetString(6);
+                    legalFile.notary = reader.GetString(7);
+                    legalFile.status = reader.GetString(8);
+                }
+            }
+            finally
+            {
+                reader.Close();
+                conn.Close();
+            }
 
             caseInfo.subscriberDatas = subs_list;
             caseInfo.subscriberAddresses = subs_address;
@@ -618,6 +646,7 @@ namespace DISERTATIE_5.Controllers
             caseInfo.emailTemplates = emailTemplates;
             caseInfo.emails = emails;
             caseInfo.SubscriberAssets = subscriberAssets;
+            caseInfo.legalFile = legalFile;
 
             return View(caseInfo);
         }
@@ -659,7 +688,11 @@ namespace DISERTATIE_5.Controllers
                         {
                             editSubscriberCase.gender = reader.GetString(5);
                         }
-                        editSubscriberCase.birth_date = reader.GetDateTime(6);
+                        if (!reader.IsDBNull(6))
+                        {
+                            editSubscriberCase.birth_date = reader.GetDateTime(6);
+                        }
+                        
                         if (!reader.IsDBNull(7))
                         {
                             editSubscriberCase.birth_place = reader.GetString(7);
@@ -2404,6 +2437,8 @@ namespace DISERTATIE_5.Controllers
             {
                 case 2:
                     TempData["ErrorSendEmail"] = "The main person must have a main email address!";
+                    break;
+                case 1:
                     break;
                 default:
                     TempData["ErrorSendEmail"] = "Something went wrong!";

@@ -99,6 +99,37 @@
             }
         </script>
     }
+    @if (TempData["ErrorSendEmail"] != null)
+    {
+        <div class="modal" tabindex="-1" role="dialog" style="display:block" id="modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Warning!</h3>
+                    </div>
+                    <div class="modal-body">
+                        <h4>@TempData["ErrorSendEmail"].ToString()</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="buttonclose" style="background-color:#9c301a; color:white">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var modal = document.getElementById("modal");
+            var btn = document.getElementById("buttonclose");
+            console.log(btn);
+            btn.onclick = function () {
+                modal.style.display = "none";
+            }
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
+    }
 
     <div style="background-color:#9c301a; height:75px;">
         <div style="display:flex; padding-left:20px;">
@@ -1211,7 +1242,7 @@
                                 </div>
 
                                 <div>
-                                    <table style="border: 1px solid gray; width: 100%; margin-bottom: 1rem; color: #212529; border-collapse: separate; box-sizing: border-box; display: table; text-indent: initial; border-spacing: 0 10px; background-color:white; font-size:16px">
+                                    <table style="border: 1px solid gray; width: 100%; color: #212529; border-collapse: separate; box-sizing: border-box; display: table; text-indent: initial; border-spacing: 0 10px; background-color:white; font-size:16px">
                                         <thead>
                                             <tr style="border: solid; border-width: 3px 0; ">
                                                 <th style="text-align:center">
@@ -1334,34 +1365,114 @@
                         </div>
                     </div>
                 </div>
-                <div id="legal" name="div_fin" style="display:block; padding-bottom:5px">
-
+                <div id="legal" name="div_fin" style="display:none; padding-bottom:5px">
+                    <div style="display:flex; justify-content:space-between; margin:10px">
+                        <div style="font-size:large; font-weight:bold">Legal Process</div>
+                        @if (Model.legalFile == null)
+                        {
+                            <div>
+                                <button type="button" class="btn btn-primary" style="background-color:#9c301a; border:hidden" onclick="@("window.location.href='" + Url.Action("AddLegalFile", "Legal", new { case_id = Model.caseDetails.case_id }) + "'")">Add Legal file</button>
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <button type="button" class="btn btn-primary" style="background-color:#9c301a; border:hidden" onclick="@("window.location.href='" + Url.Action("EditLegalFile", "Legal", new { legal_file_id = Model.caseDetails.case_id }) + "'")">Edit Legal file</button>
+                            </div>
+                        }
+                    </div>
+                    <div style="margin:10px">
+                        @if (Model.legalFile != null)
+                        {
+                            <table style="border: 2px solid lightgrey; width: 100%; border-bottom:none; color: #212529; border-collapse: separate; box-sizing: border-box; display: table; text-indent: initial; border-spacing: 0 10px; background-color:white; font-size:16px;">
+                                <thead>
+                                    <tr style="border: solid; border-width: 3px 0; ">
+                                        <th style="text-align:center; width:25%">
+                                            Legal File ID
+                                        </th>
+                                        <th style="text-align:center; width:25%">
+                                            File number
+                                        </th>
+                                        <th style="text-align:center; width:25%">
+                                            Status
+                                        </th>
+                                        <th style="text-align:center; width:25%">
+                                            Start date
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1px solid #000;">
+                                        <td style="text-align:center">
+                                            @Model.legalFile.legalFileID
+                                        </td>
+                                        <td style="text-align:center">
+                                            @Model.legalFile.fileNumber
+                                        </td>
+                                        <td style="text-align:center">
+                                            @Model.legalFile.status
+                                        </td>
+                                        <td style="text-align:center">
+                                            @Model.legalFile.startDate.ToString("dd/MM/yyyy")
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table style="border: 2px solid lightgrey; width: 100%; border-top:none; color: #212529; border-collapse: separate; box-sizing: border-box; display: table; text-indent: initial; border-spacing: 0 10px; background-color:white; font-size:16px">
+                                <thead>
+                                    <tr style="border: solid; border-width: 3px 0; ">
+                                        <th style="text-align:center; width:25%">
+                                            Court
+                                        </th>
+                                        <th style="text-align:center; width:25%">
+                                            Bailiff
+                                        </th>
+                                        <th style="text-align:center; width:25%">
+                                            Lawyer
+                                        </th>
+                                        <th style="text-align:center; width:25%">
+                                            Notary
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1px solid #000;">
+                                        <td style="text-align:center">
+                                            @Model.legalFile.court
+                                        </td>
+                                        <td style="text-align:center">
+                                            @Model.legalFile.bailiff
+                                        </td>
+                                        <td style="text-align:center">
+                                            @Model.legalFile.lawyer
+                                        </td>
+                                        <td style="text-align:center">
+                                            @Model.legalFile.notary
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        }
+                    </div>
                 </div>
 
             </div>
             <div style="width:30%; background-color:white">
                 <div style="display:flex; justify-content:flex-start; background-color:gray">
-                    <button id="select_comments" name="button_info" style=" background-color: #9c301a ; color:white; height:30px; border:hidden" onclick="change_info('comments')">
-                        Comments
+
+                    <button id="select_emails" name="button_info" style=" background-color: #9c301a ; color:white; height:30px; border:hidden" onclick="change_info('emails')">
+                        Emails
                     </button>
                     <button id="select_letters" name="button_info" style=" background-color: gray ; color:white; height:30px; border:hidden" onclick="change_info('letters')">
                         Letters
-                    </button>
-                    <button id="select_emails" name="button_info" style=" background-color: gray ; color:white; height:30px; border:hidden" onclick="change_info('emails')">
-                        Emails
                     </button>
                     <button id="select_sms" name="button_info" style=" background-color: gray ; color:white; height:30px; border:hidden" onclick="change_info('sms')">
                         SMS
                     </button>
                 </div>
                 <div>
-                    <div id="comments" name="div_info" style="display:block; padding-bottom:5px">
-                        comments
-                    </div>
-                    <div id="letters" name="div_info" style="display:none; padding-bottom:5px">
-                        letters
-                    </div>
-                    <div id="emails" name="div_info" style="display:none; padding-bottom:5px">
+
+                    <div id="emails" name="div_info" style="display:block; padding-bottom:5px">
                         <div style="margin:10px 5px 10px 5px;">
                             @foreach (var email in Model.emails)
                             {
@@ -1395,8 +1506,11 @@
                             }
                         </div>
                     </div>
+                    <div id="letters" name="div_info" style="display:none; padding-bottom:5px">
+
+                    </div>
                     <div id="sms" name="div_info" style="display:none; padding-bottom:5px">
-                        sms
+
                     </div>
                 </div>
             </div>

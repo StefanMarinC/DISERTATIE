@@ -51,6 +51,12 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.3.6.0\lib\net45\ExcelDataReader.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader.DataSet, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.DataSet.3.6.0\lib\net35\ExcelDataReader.DataSet.dll</HintPath>
+    </Reference>
     <Reference Include="FluentScheduler, Version=5.5.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentScheduler.5.5.1\lib\netstandard2.0\FluentScheduler.dll</HintPath>
     </Reference>
@@ -85,6 +91,7 @@
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.7.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
     </Reference>
@@ -185,6 +192,7 @@
     <Compile Include="Controllers\AssetsController.cs" />
     <Compile Include="Controllers\CasesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LegalController.cs" />
     <Compile Include="Controllers\LoadingController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
@@ -203,6 +211,7 @@
     <Compile Include="Models\AddCost.cs" />
     <Compile Include="Models\AddDebt.cs" />
     <Compile Include="Models\AddDiscount.cs" />
+    <Compile Include="Models\AddLegalFile.cs" />
     <Compile Include="Models\AddPA.cs" />
     <Compile Include="Models\AddPAsummary.cs" />
     <Compile Include="Models\AddPayment.cs" />
@@ -255,6 +264,7 @@
     <Compile Include="Models\FinancialItem.cs" />
     <Compile Include="Models\AddPhone.cs" />
     <Compile Include="Models\Jobs\JobCurrency.cs" />
+    <Compile Include="Models\LegalFile.cs" />
     <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -450,6 +460,7 @@
     <Content Include="Views\Assets\Search.cshtml" />
     <Content Include="Views\Assets\AddAsset.cshtml" />
     <Content Include="Views\Assets\Asset.cshtml" />
+    <Content Include="Views\Legal\AddLegalFile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

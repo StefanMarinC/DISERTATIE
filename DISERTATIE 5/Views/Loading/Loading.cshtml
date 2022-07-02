@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 
@@ -13,6 +12,38 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body style="padding: 0 0 0 0; background-color:white; height:100vh;">
+    @if (TempData["Import_error"] != null)
+    {
+        <div class="modal" tabindex="-1" role="dialog" style="display:block" id="modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Error!</h3>
+                    </div>
+                    <div class="modal-body">
+                        <h4>@TempData["Import_error"].ToString()</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="buttonclose" style="background-color:#9c301a; color:white">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var modal = document.getElementById("modal");
+            var btn = document.getElementById("buttonclose");
+
+            btn.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
+    }
     <div style="background-color:#9c301a; height:7.5vh;">
         <div style="display:flex; padding-left:20px;">
             <img src="~/Resources/Logo.png" style="height:75px; width:180px; cursor:pointer" onclick="@("window.location.href='" + @Url.Action("Home", "Home") + "'")" />
@@ -33,7 +64,7 @@
             </div>
         </div>
     </div>
-    <div style="padding-top:50px; padding-left:50px">
+    <div style="padding-top:50px; padding-left:50px; width:35vw">
 
         <div class="col-md-12">
             Please upload an <strong>
@@ -44,16 +75,23 @@
             <div class="d-flex flex-column justify-content-start mr-2">
                 <label class="col-form-label justify-content-start">Excel file</label>
                 <div style="display:flex; justify-content:flex-start">
-                    <input id="fileUpload" name="file" accept=".xlsx" type="file" class="form-control" style="height: auto;">
-                    <button type="submit" class="btn btn-primary" disabled="" style="margin-left:10px; background-color:#9c301a; border:none;" id="upload">
-                        Upload
-                    </button>
+                    @using (Html.BeginForm("LoadData", "Loading", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <input id="fileUpload" name="fileUpload" accept=".xlsx" type="file" class="form-control" style="height: auto;">
+                        <button type="submit" class="btn btn-primary" disabled="" style="background-color:#9c301a; border:none; margin-top:10px" id="upload">
+                            Upload
+                        </button>
+                    }
                 </div>
             </div>
         </div>
-
-        <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
-            <input value="Back" class="btn btn-primary" style="background-color:#9c301a; border-color:#9c301a; width:60px" onclick="@("window.location.href='" + @Url.Action("Home", "Home") + "'")">
+        <div>
+            <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0; display:flex; justify-content:space-between; align-items:center; width:100%">
+                <input value="Back" class="btn btn-primary" style="background-color:#9c301a; border-color:#9c301a; width:60px" onclick="@("window.location.href='" + @Url.Action("Home", "Home") + "'")">
+                <a style="cursor:pointer" onclick="@("window.location.href='" + @Url.Action("DownloadTemplate", "Loading") + "'")">
+                    Download template
+                </a>
+            </div>
         </div>
 
     </div>
