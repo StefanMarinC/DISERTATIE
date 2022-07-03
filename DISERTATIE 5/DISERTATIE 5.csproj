@@ -255,6 +255,7 @@
     <Compile Include="Models\EditAddress.cs" />
     <Compile Include="Models\EditContact.cs" />
     <Compile Include="Models\EditEmail.cs" />
+    <Compile Include="Models\EditLegalFile.cs" />
     <Compile Include="Models\EditPhone.cs" />
     <Compile Include="Models\EditSubscriberCase.cs" />
     <Compile Include="Models\Emails.cs" />
@@ -461,6 +462,7 @@
     <Content Include="Views\Assets\AddAsset.cshtml" />
     <Content Include="Views\Assets\Asset.cshtml" />
     <Content Include="Views\Legal\AddLegalFile.cshtml" />
+    <Content Include="Views\Legal\EditLegalFile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

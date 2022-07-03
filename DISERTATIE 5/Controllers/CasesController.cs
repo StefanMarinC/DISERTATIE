@@ -500,7 +500,7 @@ namespace DISERTATIE_5.Controllers
                 conn.Close();
             }
             conn.Open();
-            statement = "SELECT * FROM FIN_FINANCIAL_ITEMS_V V WHERE V.CASE_ID=" + case_id;
+            statement = "SELECT * FROM FIN_FINANCIAL_ITEMS_V V WHERE V.CASE_ID=" + case_id+" ORDER BY ITEM_DATE";
             sql = new OracleCommand(statement, conn);
             reader = sql.ExecuteReader();
             try
@@ -528,6 +528,8 @@ namespace DISERTATIE_5.Controllers
                         {
                             interest.amount += financialItem.amount;
                             interest.amount_not_booked += financialItem.amount_not_booked;
+                            interest.item_date = financialItem.item_date;
+                            interest.booking_date = financialItem.booking_date;
                         }
                         else
                         {

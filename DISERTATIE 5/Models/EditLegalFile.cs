@@ -6,7 +6,7 @@ using System.Web;
 
 namespace DISERTATIE_5.Models
 {
-    public class LegalFile
+    public class EditLegalFile
     {
         public int legalFileID { get; set; }
         [Display(Name = "File number")]
@@ -16,7 +16,8 @@ namespace DISERTATIE_5.Models
         [Required]
         public string status { get; set; }
         [Display(Name = "Start date")]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         [Required]
         public DateTime startDate { get; set; }
         [Display(Name = "Court")]

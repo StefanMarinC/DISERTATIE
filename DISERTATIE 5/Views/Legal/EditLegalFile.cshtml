@@ -1,11 +1,11 @@
-﻿@model DISERTATIE_5.Models.AddLegalFile
+﻿@model DISERTATIE_5.Models.EditLegalFile
 
 <!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>AddLegalFile</title>
+    <title>EditLegalFile</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -69,6 +69,8 @@
 
             <div class="form-horizontal">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.legalFileID)
+
                 <div class="form-group" style="max-width:100%">
                     @Html.LabelFor(model => model.fileNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -79,7 +81,7 @@
 
                 <div class="form-group" style="max-width:100%">
                     @Html.LabelFor(model => model.court, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10" style="color:black">
+                    <div class="col-md-10">
                         @Html.DropDownListFor(model => model.court, new SelectList(ViewBag.Courts), null, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.court, "", new { @class = "text-danger" })
                     </div>
@@ -87,7 +89,7 @@
 
                 <div class="form-group" style="max-width:100%">
                     @Html.LabelFor(model => model.bailiff, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10" style="color:black">
+                    <div class="col-md-10">
                         @Html.DropDownListFor(model => model.bailiff, new SelectList(ViewBag.Bailiffs), null, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.bailiff, "", new { @class = "text-danger" })
                     </div>
@@ -95,7 +97,7 @@
 
                 <div class="form-group" style="max-width:100%">
                     @Html.LabelFor(model => model.lawyer, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10" style=" color:black">
+                    <div class="col-md-10">
                         @Html.DropDownListFor(model => model.lawyer, new SelectList(ViewBag.Lawyers), null, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.lawyer, "", new { @class = "text-danger" })
                     </div>
@@ -103,23 +105,23 @@
 
                 <div class="form-group" style="max-width:100%">
                     @Html.LabelFor(model => model.notary, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10" style="color:black">
+                    <div class="col-md-10">
                         @Html.DropDownListFor(model => model.notary, new SelectList(ViewBag.Notaries), null, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.notary, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
-                <div class="form-group" style="width:100%">
-                    @Html.LabelFor(model => model.start_date, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="form-group" style="max-width:100%">
+                    @Html.LabelFor(model => model.startDate, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.start_date, new { htmlAttributes = new { @class = "form-control", @type = "date", @max = DateTime.Today.ToString("yyyy-MM-dd"), @min = "2000-01-01" } })
-                        @Html.ValidationMessageFor(model => model.start_date, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.startDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @max = DateTime.Today.ToString("yyyy-MM-dd"), @min = "2000-01-01" } })
+                        @Html.ValidationMessageFor(model => model.startDate, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group" style="max-width:100%">
                     @Html.LabelFor(model => model.status, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10" style=" color:black">
+                    <div class="col-md-10">
                         @Html.DropDownListFor(model => model.status, new SelectList(ViewBag.Statuses), null, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
                     </div>
@@ -127,18 +129,18 @@
 
                 <div class="form-group" style="width:100%">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Add" class="btn btn-default" style="background-color:#9c301a; color:white; border:none" />
+                        <input type="submit" value="Save" class="btn btn-default" style="background-color:#9c301a; color:white; border:none; width:100px" />
                     </div>
                 </div>
             </div>
         }
+
         <div class="form-group" style="text-align:center; padding:20px 0 0 0">
             <div class="col-md-offset-2 col-md-10" style="margin-left:0; margin-right:0;">
                 <input value="Back" class="btn btn-primary" style="background-color:#9c301a; border-color:#9c301a; width:100px" onclick="@("window.location.href='" + @Url.Action("Case", "Cases", new { case_id = ViewBag.CaseID }) + "'")">
             </div>
         </div>
     </div>
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jqueryval")

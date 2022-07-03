@@ -101,8 +101,8 @@
 
                 <div class="form-group" style="width:100%">
                     @Html.LabelFor(model => model.currency, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10" style="padding-top:7px; color:black">
-                        @Html.DropDownListFor(model => model.currency, new SelectList(ViewBag.CurrencyList), new { htmlAttributes = new { @class = "form-control", @name = "currency" } })
+                    <div class="col-md-10" style=" color:black">
+                        @Html.DropDownListFor(model => model.currency, new SelectList(ViewBag.CurrencyList), null, new { @class = "form-control", @name = "currency" })
                         @Html.ValidationMessageFor(model => model.currency, "", new { @class = "text-danger" })
                     </div>
                 </div>

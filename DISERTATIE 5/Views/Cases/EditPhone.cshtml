@@ -93,8 +93,8 @@
 
                 <div class="form-group" style="width:100%">
                     @Html.LabelFor(model => model.type, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10" style="padding-top:7px; color:black">
-                        @Html.DropDownListFor(model => model.type, new SelectList(ViewBag.PhoneTypes), new { htmlAttributes = new { @class = "form-control" } })
+                    <div class="col-md-10" style=" color:black">
+                        @Html.DropDownListFor(model => model.type, new SelectList(ViewBag.PhoneTypes), null, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.type, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -109,8 +109,8 @@
 
                 <div class="form-group" style="width:100%">
                     @Html.LabelFor(model => model.source, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10" style="padding-top:7px; color:black">
-                        @Html.DropDownListFor(model => model.source, new SelectList(ViewBag.SourceTypes), new { htmlAttributes = new { @class = "form-control" } })
+                    <div class="col-md-10" style="color:black">
+                        @Html.DropDownListFor(model => model.source, new SelectList(ViewBag.SourceTypes), null, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.source, "", new { @class = "text-danger" })
                     </div>
                 </div>

@@ -94,8 +94,8 @@
 
                     <div class="form-group" style="max-width:100%">
                         @Html.LabelFor(model => model.customer_type, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10" style="padding-top:7px; color:black">
-                            @Html.DropDownListFor(model => model.customer_type, new SelectList(ViewBag.PersonTypeList), new { htmlAttributes = new { @class = "form-control", @name = "customer_type" } })
+                        <div class="col-md-10" style="color:black">
+                            @Html.DropDownListFor(model => model.customer_type, new SelectList(ViewBag.PersonTypeList), null, new { @class = "form-control", @name = "customer_type" })
                             @Html.ValidationMessageFor(model => model.customer_type, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -125,8 +125,8 @@
 
                     <div class="form-group" style="max-width:100%">
                         @Html.LabelFor(model => model.gender, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10" style="padding-top:7px; color:black">
-                            @Html.DropDownListFor(model => model.gender, new SelectList(ViewBag.PersonGender), new { htmlAttributes = new { @class = "form-control", @name = "gender" } })
+                        <div class="col-md-10" style=" color:black">
+                            @Html.DropDownListFor(model => model.gender, new SelectList(ViewBag.PersonGender), null, new { @class = "form-control", @name = "gender" })
                             @Html.ValidationMessageFor(model => model.gender, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -149,8 +149,8 @@
 
                     <div class="form-group" style="max-width:100%">
                         @Html.LabelFor(model => model.subscriber_type, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10" style="padding-top:7px; color:black">
-                            @Html.DropDownListFor(model => model.subscriber_type, new SelectList(ViewBag.SubscriberType), new { htmlAttributes = new { @class = "form-control", @name = "subscriber_type" } })
+                        <div class="col-md-10" style="color:black">
+                            @Html.DropDownListFor(model => model.subscriber_type, new SelectList(ViewBag.SubscriberType), null, new { @class = "form-control", @name = "subscriber_type" })
                             @Html.ValidationMessageFor(model => model.subscriber_type, "", new { @class = "text-danger" })
                         </div>
                     </div>

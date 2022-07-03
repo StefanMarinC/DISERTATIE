@@ -1377,7 +1377,7 @@
                         else
                         {
                             <div>
-                                <button type="button" class="btn btn-primary" style="background-color:#9c301a; border:hidden" onclick="@("window.location.href='" + Url.Action("EditLegalFile", "Legal", new { legal_file_id = Model.caseDetails.case_id }) + "'")">Edit Legal file</button>
+                                <button type="button" class="btn btn-primary" style="background-color:#9c301a; border:hidden" onclick="@("window.location.href='" + Url.Action("EditLegalFile", "Legal", new { legal_file_id = Model.legalFile.legalFileID }) + "'")">Edit Legal file</button>
                             </div>
                         }
                     </div>
