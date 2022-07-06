@@ -225,13 +225,7 @@
                 <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" style="background-color:#9c301a; border:hidden">Letter</button>
                 <div class="dropdown-menu" style="text-align:center">
                     <div>
-                        <a id="letter1" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">Letter 1</a>
-                    </div>
-                    <div>
-                        <a id="letter2" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">Letter 2</a>
-                    </div>
-                    <div>
-                        <a id="letter3" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">Letter 3</a>
+                        <a id="letter1" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">Payment warning</a>
                     </div>
                 </div>
             </div>
@@ -250,13 +244,7 @@
                 <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" style="background-color:#9c301a ; border:hidden">SMS</button>
                 <div class="dropdown-menu" style="text-align:center">
                     <div>
-                        <a id="sms1" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">SMS 1</a>
-                    </div>
-                    <div>
-                        <a id="sms2" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">SMS 2</a>
-                    </div>
-                    <div>
-                        <a id="sms3" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">SMS 3</a>
+                        <a id="sms1" class="dropdown-item" style="text-decoration:none; cursor:pointer; color:black">Payment warning</a>
                     </div>
                 </div>
             </div>
@@ -340,9 +328,9 @@
                                                     @if (subs_add.main_address == 1)
                                                     {
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
-                                                            <div style="display:flex; justify-content:space-between">
-                                                                <div style="padding:5px">
-                                                                    <div style="display:flex; padding-top:15px">
+                                                            <div style="display:flex; justify-content:space-between; align-items:center">
+                                                                <div style="padding:5px;">
+                                                                    <div style="display:flex">
                                                                         <div style="color:mediumseagreen; font-weight:bold">
                                                                             @subs_add.address_type &nbsp;
                                                                         </div>
@@ -372,9 +360,9 @@
                                                     else
                                                     {
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c;">
-                                                            <div style="display:flex; justify-content:space-between">
+                                                            <div style="display:flex; justify-content:space-between; align-items:center">
                                                                 <div style="padding:5px">
-                                                                    <div style="display:flex; padding-top:15px">
+                                                                    <div style="display:flex">
                                                                         <div>
                                                                             @subs_add.address_type - @subs_add.country, @subs_add.city, @subs_add.distrinct, @subs_add.street, @subs_add.street_number, &nbsp;
                                                                         </div>
@@ -424,9 +412,9 @@
                                                     @if (subs_phone.main_phone == 1)
                                                     {
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
-                                                            <div style="display:flex; justify-content:space-between">
+                                                            <div style="display:flex; justify-content:space-between; align-items:center">
                                                                 <div style="padding:5px">
-                                                                    <div style="display:flex; padding-top:15px">
+                                                                    <div style="display:flex">
                                                                         <div style="color:mediumseagreen; font-weight:bold">
                                                                             @subs_phone.phone_type &nbsp;
                                                                         </div>
@@ -456,9 +444,9 @@
                                                     else
                                                     {
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
-                                                            <div style="display:flex; justify-content:space-between">
+                                                            <div style="display:flex; justify-content:space-between; align-items:center">
                                                                 <div style="padding:5px">
-                                                                    <div style="display:flex; padding-top:15px">
+                                                                    <div style="display:flex">
                                                                         <div>
                                                                             @subs_phone.phone_type - @subs_phone.phone_number, &nbsp;
                                                                         </div>
@@ -507,9 +495,9 @@
                                                     @if (subs_email.main_email == 1)
                                                     {
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
-                                                            <div style="display:flex; justify-content:space-between">
+                                                            <div style="display:flex; justify-content:space-between; align-items:center">
                                                                 <div style="padding:5px">
-                                                                    <div style="display:flex; padding-top:15px">
+                                                                    <div style="display:flex">
                                                                         <div style="color:mediumseagreen; font-weight:bold">
                                                                             @subs_email.email_type &nbsp;
                                                                         </div>
@@ -539,9 +527,9 @@
                                                     else
                                                     {
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
-                                                            <div style="display:flex; justify-content:space-between">
+                                                            <div style="display:flex; justify-content:space-between; align-items:center">
                                                                 <div style="padding:5px">
-                                                                    <div style="display:flex; padding-top:15px">
+                                                                    <div style="display:flex">
                                                                         <div>
                                                                             @subs_email.email_type &nbsp; - @subs_email.email, &nbsp;
                                                                         </div>
@@ -587,9 +575,9 @@
                                             {
                                                 <div style="padding-bottom:5px; margin-right:5px">
                                                     <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
-                                                        <div style="display:flex; justify-content:space-between">
+                                                        <div style="display:flex; justify-content:space-between; align-items:center">
                                                             <div style="padding:5px">
-                                                                <div style="display:flex; padding-top:15px">
+                                                                <div style="display:flex">
                                                                     <div>
                                                                         @subs_contact.contact_type - @subs_contact.first_name @subs_contact.last_name, @subs_contact.city, @subs_contact.address, @subs_contact.postal_code, @subs_contact.phone, @subs_contact.email
                                                                     </div>
@@ -636,9 +624,9 @@
                                             {
                                                 <div style="padding-bottom:5px; margin-right:5px">
                                                     <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
-                                                        <div style="display:flex; justify-content:space-between">
+                                                        <div style="display:flex; justify-content:space-between; align-items:center">
                                                             <div style="padding:5px">
-                                                                <div style="display:flex; padding-top:15px">
+                                                                <div style="display:flex">
                                                                     <div>
                                                                         @subs_employer.employer_name
                                                                     </div>
@@ -757,7 +745,7 @@
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
                                                             <div style="display:flex; justify-content:space-between">
                                                                 <div style="padding:5px">
-                                                                    <div style="display:flex; padding-top:15px">
+                                                                    <div style="display:flex;">
                                                                         <div style="color:mediumseagreen; font-weight:bold">
                                                                             @subs_add.address_type &nbsp;
                                                                         </div>
@@ -789,7 +777,7 @@
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c;">
                                                             <div style="display:flex; justify-content:space-between">
                                                                 <div style="padding:5px">
-                                                                    <div style="display:flex; padding-top:15px">
+                                                                    <div style="display:flex;">
                                                                         <div>
                                                                             @subs_add.address_type - @subs_add.country, @subs_add.city, @subs_add.distrinct, @subs_add.street, @subs_add.street_number, &nbsp;
                                                                         </div>
@@ -841,7 +829,7 @@
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
                                                             <div style="display:flex; justify-content:space-between">
                                                                 <div style="padding:5px">
-                                                                    <div style="display:flex; padding-top:15px">
+                                                                    <div style="display:flex;">
                                                                         <div style="color:mediumseagreen; font-weight:bold">
                                                                             @subs_phone.phone_type &nbsp;
                                                                         </div>
@@ -873,7 +861,7 @@
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
                                                             <div style="display:flex; justify-content:space-between">
                                                                 <div style="padding:5px">
-                                                                    <div style="display:flex; padding-top:15px">
+                                                                    <div style="display:flex;">
                                                                         <div>
                                                                             @subs_phone.phone_type - @subs_phone.phone_number, &nbsp;
                                                                         </div>
@@ -924,7 +912,7 @@
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
                                                             <div style="display:flex; justify-content:space-between">
                                                                 <div style="padding:5px">
-                                                                    <div style="display:flex; padding-top:15px">
+                                                                    <div style="display:flex;">
                                                                         <div style="color:mediumseagreen; font-weight:bold">
                                                                             @subs_email.email_type &nbsp;
                                                                         </div>
@@ -956,7 +944,7 @@
                                                         <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
                                                             <div style="display:flex; justify-content:space-between">
                                                                 <div style="padding:5px">
-                                                                    <div style="display:flex; padding-top:15px">
+                                                                    <div style="display:flex;">
                                                                         <div>
                                                                             @subs_email.email_type &nbsp; - @subs_email.email, &nbsp;
                                                                         </div>
@@ -1004,7 +992,7 @@
                                                     <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
                                                         <div style="display:flex; justify-content:space-between">
                                                             <div style="padding:5px">
-                                                                <div style="display:flex; padding-top:15px">
+                                                                <div style="display:flex;">
                                                                     <div>
                                                                         @subs_contact.contact_type - @subs_contact.first_name @subs_contact.last_name, @subs_contact.city, @subs_contact.address, @subs_contact.postal_code, @subs_contact.phone, @subs_contact.email
                                                                     </div>
@@ -1053,7 +1041,7 @@
                                                     <div style="display:flex; justify-content:space-between; border:1px solid #483c3c; ">
                                                         <div style="display:flex; justify-content:space-between">
                                                             <div style="padding:5px">
-                                                                <div style="display:flex; padding-top:15px">
+                                                                <div style="display:flex;">
                                                                     <div>
                                                                         @subs_employer.employer_name
                                                                     </div>

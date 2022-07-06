@@ -415,9 +415,15 @@ namespace DISERTATIE_5.Controllers
                             subs_contact.last_name = (string)reader2.GetValue(3);
                             subs_contact.address = (string)reader2.GetValue(4);
                             subs_contact.city = (string)reader2.GetValue(5);
-                            subs_contact.postal_code = (string)reader2.GetValue(6);
+                            if (DBNull.Value != reader2.GetValue(6))
+                            {
+                                subs_contact.postal_code = (string)reader2.GetValue(6);
+                            }
                             subs_contact.phone = (string)reader2.GetValue(7);
-                            subs_contact.email = (string)reader2.GetValue(8);
+                            if (DBNull.Value != reader2.GetValue(8))
+                            {
+                                subs_contact.email = (string)reader2.GetValue(8);
+                            }
                             subs_contact.source_type = (string)reader2.GetValue(9);
                             subs_contact.subs_contact_id = reader2.GetDecimal(10);
                             subs_contacts.Add(subs_contact);
@@ -2353,9 +2359,15 @@ namespace DISERTATIE_5.Controllers
                     contact.last_name = reader.GetString(3);
                     contact.address = reader.GetString(4);
                     contact.city = reader.GetString(5);
-                    contact.postal_code = reader.GetString(6);
+                    if (!DBNull.Value.Equals(reader.GetValue(6)))
+                    {
+                        contact.postal_code = reader.GetString(6);
+                    }
                     contact.phone = reader.GetString(7);
-                    contact.email = reader.GetString(8);
+                    if (!DBNull.Value.Equals(reader.GetValue(8)))
+                    {
+                        contact.email = reader.GetString(8);
+                    }
                     contact.source = reader.GetString(9);
                     contact.subs_contact_id = reader.GetDecimal(10);
                 }

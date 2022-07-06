@@ -1,5 +1,9 @@
 ﻿@model DISERTATIE_5.Models.AddLegalFile
 
+@{
+    Layout = null;
+}
+
 <!DOCTYPE html>
 
 <html>
@@ -67,7 +71,7 @@
         {
             @Html.AntiForgeryToken()
 
-            <div class="form-horizontal">
+            <div class="form-horizontal"  style="color:white">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group" style="max-width:100%">
                     @Html.LabelFor(model => model.fileNumber, htmlAttributes: new { @class = "control-label col-md-2" })
